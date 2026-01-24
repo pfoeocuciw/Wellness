@@ -1,0 +1,162 @@
+.page {
+    min-height: 100vh;
+    background: #1e1e1e;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* верхняя панель */
+.topbar {
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 26px;
+}
+
+.tabs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tab {
+    font-size: 20px;
+    color: #bfc3c7;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    padding: 6px 0;
+    cursor: pointer;
+}
+
+.tabActive {
+    color: #1e1e1e;
+    background: #fff3b0;
+    padding: 2px 8px;
+    border-radius: 2px;
+}
+
+.tabDivider {
+    width: 10px;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #cfd3d6;
+}
+
+/* основная зона */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 26px 20px;
+}
+
+.hero {
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: 1.25;
+    font-size: 40px;
+    margin: 0 0 90px;
+}
+
+/* быстрые кнопки */
+.quickRow {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.quickBtn {
+    width: 320px;
+    min-height: 62px;
+    border-radius: 999px;
+    border: none;
+    background: #f2f2f2;
+    color: #5a5a5a;
+    font-size: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+}
+
+/* чат после первых сообщений */
+.chatArea {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 120px;
+}
+
+.bubble {
+    max-width: 80%;
+    padding: 14px 16px;
+    border-radius: 18px;
+    font-size: 16px;
+    line-height: 1.35;
+}
+
+.bubbleUser {
+    align-self: flex-end;
+    background: #2a2a2a;
+    color: #ffffff;
+}
+
+.bubbleAssistant {
+    align-self: flex-start;
+    background: #f2f2f2;
+    color: #1e1e1e;
+}
+
+/* нижняя панель ввода */
+.bottom {
+    padding: 16px 26px 28px;
+}
+
+.inputBar {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.input {
+    width: 100%;
+    height: 58px;
+    border-radius: 999px;
+    border: none;
+    outline: none;
+    background: #6b6f73;
+    color: #e9ecef;
+    font-size: 20px;
+    padding: 0 26px;
+}
+
+.input::placeholder {
+    color: #cfd3d6;
+}
+
+/* адаптив */
+@media (max-width: 768px) {
+    .hero {
+        font-size: 30px;
+        margin-bottom: 50px;
+    }
+
+    .quickBtn {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .input {
+        font-size: 18px;
+    }
+}
