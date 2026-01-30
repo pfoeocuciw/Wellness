@@ -1,5 +1,10 @@
 # macOS
 .DS_Store
+.next
+node_modules
+.env
+.env.local
+.idea
 
 # IDE
 .idea/

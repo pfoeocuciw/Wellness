@@ -9,6 +9,7 @@ const ibmPlexSans = localFont({
         { path: "../fonts/IBMPlexSans-Italic.otf", weight: "400", style: "italic" },
     ],
     display: "swap",
+    variable: "--font-ibm",
 });
 
 export const metadata: Metadata = {
