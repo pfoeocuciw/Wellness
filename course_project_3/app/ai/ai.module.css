@@ -32,9 +32,10 @@
     color: #111;
     background-image: linear-gradient(#efe2a0, #efe2a0);
     background-repeat: no-repeat;
-    background-size: 100% 0.75em;
-    background-position: 0 70%;
-    padding: 0 4px;
+    display: inline-block;
+    background-size: calc(100% + 6px) 1em;
+    background-position: center 90%;
+    padding: 0 5px
 }
 
 /* layout */
@@ -45,7 +46,7 @@
 .floatingToggle {
     position: absolute;
     left: -10px;
-    top: 10px; /* под Feed/Chat */
+    top: 10px;
     width: 44px;
     height: 44px;
     border-radius: 12px;

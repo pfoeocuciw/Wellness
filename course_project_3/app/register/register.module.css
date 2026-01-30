@@ -19,10 +19,25 @@
 .title {
     margin: 0 0 64px;
     font-size: 32px;
-    font-weight: 400;
+    font-weight: 300;
     color: #1e1e1e;
     text-align: left;
     letter-spacing: 1px;
+}
+
+/* toast */
+.toastWrap {
+    margin: 0 0 18px;
+}
+
+.toast {
+    display: inline-block;
+    background: rgba(112, 114, 119, 1);
+    color: #fff;
+    border-radius: 16px;
+    padding: 12px 18px;
+    font-size: 14px;
+    max-width: 360px;
 }
 
 .form {
@@ -46,7 +61,7 @@
     font-size: 18px;
     padding: 6px 0;
 
-    color: #4B4B4B;
+    color: rgba(112, 114, 119, 1);
 }
 
 /* label-текст */
@@ -62,82 +77,70 @@
     transition: opacity 0.2s ease;
 }
 
-/* 🔥 КЛЮЧЕВАЯ СТРОКА */
+/* как у тебя на логине: лейбл исчезает когда есть текст */
 .input:not(:placeholder-shown) + .label {
     opacity: 0;
 }
 
-/* optional: фокус */
 .input:focus {
     border-bottom-color: rgba(112, 114, 119, 1);
 }
 
-.error {
-    margin: 8px 0 0;
-    color: #b00020;
-    font-size: 14px;
-}
-
-.primaryButton {
+.button {
     width: 100%;
-    max-width: 250px;
+    max-width: 330px;
     height: 55px;
 
     margin: 64px auto 0;
 
     border: none;
-    border-radius: 9999px;
+    border-radius: 9999px; /* 🔥 полностью овальная */
     background: #E3E5E8;
 
-    font-family: inherit;   /* 🔥 обязательно */
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
+    font-family: inherit;
     letter-spacing: 0.2px;
-
     color: #2A2A2A;
+
     cursor: pointer;
     transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.primaryButton:hover {
+.button:hover {
     background: #DBDDE0;
 }
 
-.primaryButton:active {
+.button:active {
     transform: translateY(1px);
 }
 
-.primaryButton:disabled {
+.button:disabled {
     opacity: 0.6;
     cursor: default;
 }
 
-.secondaryButton {
-    margin-top: 32px;
 
-    background: none;
-    border: none;
-    padding: 0;
-
-    font-family: inherit;
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 0.2px;
-
-    color: #B8BDC6;
-    cursor: pointer;
+.link {
+    margin-top: 28px;
+    display: block;
+    text-align: center;
+    color: rgba(75, 75, 75, 0.35);
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: 0.5px;
 }
 
-.secondaryButton:hover {
+.link:hover {
     text-decoration: underline;
 }
-
 
 /* адаптив */
 @media (max-width: 520px) {
     .content {
         max-width: 100%;
     }
+
     .title {
         margin-bottom: 40px;
         font-size: 28px;

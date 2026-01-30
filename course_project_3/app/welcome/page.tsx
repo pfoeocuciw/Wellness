@@ -42,11 +42,11 @@ export default function WelcomePage() {
             <div className={`${styles.buttons} ${showButtons ? styles.visible : ''}`}>
                 <Link href="/login" className={styles.primary}>
                     <div className={regularfont.className}>
-                        ВОЙТИ
+                        войти
                     </div>
                 </Link>
                 <Link href="/register" className={styles.secondary}>
-                    ЗАРЕГЕСТРИРОВАТЬСЯ
+                    зарегистрироваться
                 </Link>
             </div>
         </main>

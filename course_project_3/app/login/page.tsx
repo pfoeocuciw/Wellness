@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import styles from './login.module.css';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -9,6 +10,8 @@ export default function LoginPage() {
 
     // задел под ошибки (позже подключишь реальный API)
     const [error, setError] = useState<string | null>(null);
+
+    const router = useRouter();
 
     function onSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -27,7 +30,7 @@ export default function LoginPage() {
     return (
         <main className={styles.container}>
             <section className={styles.content}>
-                    <h1 className={styles.title}>ВХОД</h1>
+                    <h1 className={styles.title}>Вход</h1>
 
                 <form className={styles.form} onSubmit={onSubmit}>
                     <label className={styles.field}>
@@ -50,8 +53,15 @@ export default function LoginPage() {
 
                     {error && <p className={styles.error}>{error}</p>}
 
-                    <button className={styles.button} type="submit">
-                        ВОЙТИ
+                    <button className={styles.primaryButton} type="submit">
+                        Войти
+                    </button>
+                    <button
+                        type="button"
+                        className={styles.secondaryButton}
+                        onClick={() => router.push('/register')}
+                    >
+                        Зарегистрироваться
                     </button>
                 </form>
             </section>

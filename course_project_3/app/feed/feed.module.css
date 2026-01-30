@@ -32,9 +32,9 @@
     /* ✅ надежный “хайлайтер” */
     background-image: linear-gradient(#efe2a0, #efe2a0);
     background-repeat: no-repeat;
-    background-size: 100% 0.65em;
-    background-position: 0 70%;
-    padding: 0 4px;
+    background-size: calc(100% + 6px) 1em;
+    background-position: center 90%;
+    padding: 0 5px
 }
 
 .profileDot {
