@@ -125,8 +125,8 @@ class ChatIn(BaseModel):
 
 
 def ask_groq_structured(history: List[ChatMessage]) -> dict:
-    # Чтобы не раздувать контекст — последние 16 сообщений
-    history = history[-16:]
+    # Чтобы не раздувать контекст — последние 5 сообщений
+    history = history[-5:]
 
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     messages += [{"role": m.role, "content": m.content} for m in history]
@@ -178,9 +178,10 @@ def generate_title(body: TitleIn):
     )
 
     title = (resp.choices[0].message.content or "").strip()
+    title = title.strip('*"“”«» ')
 
     # маленькая защита от слишком длинных заголовков
-    if len(title) > 80:
-        title = title[:80].rstrip()
+    if len(title) > 20:
+        title = title[:20].rstrip()
 
     return {"title": title}

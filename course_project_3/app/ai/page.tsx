@@ -184,6 +184,24 @@ export default function AiPage() {
         setMenuForChatId(null);
     };
 
+    const API = process.env.NEXT_PUBLIC_API_URL;
+
+    const generateTitle = async (text: string) => {
+        if (!API) return null;
+
+        const r = await fetch(`${API}/generate-title`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text }),
+        });
+
+        if (!r.ok) return null;
+
+        const data: { title?: string } = await r.json();
+        return data.title?.trim() || null;
+    };
+
+
 
 
     const send = async (text: string) => {
@@ -194,9 +212,35 @@ export default function AiPage() {
 
         const chatId = ensureChatExists();
 
+        const current = chats.find((c) => c.id === activeChatId);
+        const isFirstMessage = !current || current.messages.length === 0;
+
         setChats((prev) =>
             prev.map((c) => (c.id === chatId ? { ...c, messages: [...c.messages, userMsg] } : c))
         );
+
+        // если это первое сообщение — попросим бек сгенерировать нормальное название
+        if (isFirstMessage) {
+            // можно сразу поставить временный заголовок, чтобы не было "Новый чат"
+            setChats((prev) =>
+                prev.map((c) =>
+                    c.id === activeChatId ? { ...c, title: trimmed.slice(0, 24) } : c
+                )
+            );
+
+            // затем заменим на красивый заголовок от Groq
+            generateTitle(trimmed)
+                .then((title) => {
+                    if (!title) return;
+                    setChats((prev) =>
+                        prev.map((c) =>
+                            c.id === activeChatId ? { ...c, title } : c
+                        )
+                    );
+                })
+                .catch(() => {});
+        }
+
 
 // если первое сообщение — ставим заголовок
         setChats((prev) =>
@@ -214,10 +258,35 @@ export default function AiPage() {
         requestAnimationFrame(() => scrollToBottom(true));
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/chat", {
+
+            // const res = await fetch("http://127.0.0.1:8000/chat", {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify({ messages: apiMessages }),
+            // });
+
+            const history = (activeChat?.messages ?? []).slice(-5); // последние 12
+
+            const payload = {
+                messages: [
+                    ...history.map((m) => ({
+                        role: m.role,          // "user" | "assistant"
+                        content: m.text,
+                    })),
+                    { role: "user", content: trimmed },
+                ],
+            };
+
+            // const apiMessages = history.map((m) => ({
+            //     role: m.role,
+            //     content: m.text,
+            // }));
+
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: trimmed }),
+                body: JSON.stringify(payload),
             });
 
             if (!res.ok) throw new Error(`Backend error: ${res.status}`);
@@ -245,6 +314,37 @@ export default function AiPage() {
             setChats((prev) =>
                 prev.map((c) => (c.id === chatId ? { ...c, messages: [...c.messages, assistantMsg] } : c))
             );
+
+            // Если это первое сообщение в чате — генерируем название
+            const currentChat = chats.find((c) => c.id === activeChatId);
+
+            if (currentChat && currentChat.messages.length === 0) {
+                try {
+                    const titleRes = await fetch(
+                        `${process.env.NEXT_PUBLIC_API_URL}/generate-title`,
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ text: trimmed }),
+                        }
+                    );
+
+                    if (titleRes.ok) {
+                        const data = await titleRes.json();
+
+                        setChats((prev) =>
+                            prev.map((c) =>
+                                c.id === activeChatId
+                                    ? { ...c, title: data.title }
+                                    : c
+                            )
+                        );
+                    }
+                } catch (e) {
+                    console.log("Ошибка генерации названия");
+                }
+            }
+
 
             requestAnimationFrame(() => scrollToBottom(true));
         } finally {
