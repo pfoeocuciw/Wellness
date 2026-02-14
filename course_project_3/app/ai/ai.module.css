@@ -3,7 +3,10 @@
 }
 
 .page {
-    min-height: 100vh;
+    height: 100vh;   /* fallback */
+    height: 100dvh;  /* ✅ iOS fix */
+    display: flex;
+    flex-direction: column;
     background: #1f1f1f;
     color: #fff;
 }
@@ -45,7 +48,7 @@
 
 .floatingToggle {
     position: absolute;
-    left: -10px;
+    left: -10px;   /* ✅ было -10px, из-за overflow:hidden она обрезалась */
     top: 10px;
     width: 44px;
     height: 44px;
@@ -199,6 +202,7 @@
     height: 100%;
     display: grid;
     place-items: center;
+    overflow: hidden;
 }
 
 .hero {
@@ -247,11 +251,21 @@
     display: grid;
     gap: 14px;
     align-content: start;
-    padding-top: 20px;
+    /*padding-top: 20px;*/
+    overflow-y: auto;
+    /*padding-bottom: 50px;*/
+    flex: 1;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 16px 140px;
+
+
 }
 
 .bubble {
-    max-width: 520px;
+    max-width: 100%;
+    min-width: 0;
+    overflow: visible;
     padding: 14px 18px;
     border-radius: 18px;
     font-size: 13.5px;
@@ -289,8 +303,10 @@
     display: flex;
     justify-content: center;
 
-    padding: 0 28px; /* чтобы по краям было как у тебя в main */
+    /*padding: 0 28px; !* чтобы по краям было как у тебя в main *!*/
     z-index: 5;
+
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
 
 .inputWrap {
@@ -394,6 +410,155 @@
         display: none;
     }
 }
+
+.typing {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    width: fit-content;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: #bdbdbd;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+/* задержка для каждой точки */
+.dot:nth-child(1) {
+    animation-delay: 0s;
+}
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: translateY(0);
+        opacity: 0.6;
+    }
+    40% {
+        transform: translateY(-6px);
+        opacity: 1;
+    }
+}
+
+.plainText {
+    font-family: inherit;
+    white-space: pre-wrap;
+}
+
+.md {
+    font-family: inherit;
+    white-space: pre-wrap;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.md p,
+.md li,
+.md td,
+.md th {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.tableWrap {
+    max-width: 100%;
+    overflow-x: auto;                 /* ✅ таблица будет прокручиваться */
+    -webkit-overflow-scrolling: touch;
+    margin: 10px 0;
+}
+.tableWrap table {
+    border-collapse: collapse;
+    width: max-content;               /* ✅ не сжимается до невозможности */
+    min-width: 100%;                  /* ✅ но и на ширину блока тянется */
+    font-family: inherit;
+    font-size: 14px;                  /* на мобилках полезно */
+}
+
+.tableWrap th,
+.tableWrap td {
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;              /* ✅ таблица не ломается переносами */
+}
+
+.chatRow {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chatMenuBtn {
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: transparent;
+    color: #d7d7d7;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    border-radius: 10px;
+    flex: 0 0 auto;
+}
+
+.chatMenuBtn:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.chatMenu {
+    position: absolute;
+    right: 6px;
+    top: 44px;
+    z-index: 100;
+    width: 170px;
+    background: #2b2b2b;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.chatMenuItem,
+.chatMenuItemDanger {
+    width: 100%;
+    text-align: left;
+    padding: 12px 14px;
+    border: none;
+    background: transparent;
+    color: #eaeaea;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.chatMenuItem:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+.chatMenuItemDanger {
+    color: #ffb4b4;
+}
+
+.chatMenuItemDanger:hover {
+    background: rgba(255, 80, 80, 0.12);
+}
+
+.emptyChats {
+    color: rgba(255,255,255,0.55);
+    font-size: 14px;
+    padding: 12px 10px;
+}
+
 
 @media (max-width: 820px) {
     .shell {
