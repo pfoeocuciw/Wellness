@@ -1,0 +1,195 @@
+﻿Название
+Роль современных средств ухода за кожей в лечении и профилактике атопического дерматита
+
+
+Автор
+Н.Б. Мигачева
+Мигачёва Наталья Бегиевна  - кандидат медицинских наук
+
+
+Категория
+Кожа и уход
+
+
+Аннотация
+Атопический дерматит (АтД) — распространенное хроническое аллергическое заболевание у детей, являющееся серьезной проблемой из-за тяжести симптомов и отсутствия радикального лечения. В связи с этим, помимо совершенствования терапии, ключевой задачей является поиск эффективных подходов к его профилактике. Современные знания о патогенезе АтД подчеркивают критическую роль нарушения кожного барьера в развитии и поддержании воспаления. Это делает топические средства, способные восстанавливать функции рогового слоя, основой базисной терапии и открывает перспективы для их использования в первичной профилактике заболевания. Данный обзор посвящен роли дисфункции эпидермального барьера в иммунопатогенезе АтД, а также месту современных средств ухода за кожей в его лечении и профилактике.
+
+
+Текст
+Заголовок
+Актуальность проблемы и атопический марш
+Атопический дерматит (АтД) является наиболее распространенным аллергическим заболеванием в педиатрии и серьезной проблемой современной медицины. Он характеризуется хроническим рецидивирующим течением, разнообразием клинических проявлений и значительным негативным влиянием на качество жизни пациентов.
+АтД часто является первым проявлением так называемого атопического марша — естественного хода развития аллергии, при котором заболевание кожи предшествует или сочетается с респираторной аллергией (аллергический ринит, бронхиальная астма). В связи с этим, помимо лечения АтД, ключевой задачей становится поиск эффективных подходов к его профилактике.
+Современные знания о патогенезе АтД подтверждают, что дисфункция эпидермального барьера играет решающую роль как в формировании самого заболевания, так и в поддержании хронического воспалительного процесса. Это делает топические средства, способные восстанавливать функции рогового слоя, основой базисной терапии.
+Заголовок
+Дисфункция эпидермального барьера и иммунопатогенез АтД
+Нарушение кожного барьера при АтД — это системный дефект, который приводит к повышению проницаемости кожи для внешних агентов и нарушению ее целостности.
+Подзаголовок
+Нарушения физического барьера
+1. Генетический дефект филаггрина
+Ключевым фактором является дефицит структурного белка филаггрина, который формируется из про-филаггрина в процессе дифференцировки кератиноцитов. Функции филаггрина:
+* Участие в агрегации кератиновых филаментов, обеспечивая механическую прочность.
+* Его продукты распада являются компонентами натурального увлажняющего фактора (НУФ), который обеспечивает гидратацию рогового слоя.
+Мутации в гене филаггрина (FLG) являются наиболее известными генетическими факторами риска АтД, особенно при раннем начале заболевания. Дефицит филаггрина напрямую ведет к:
+* Увеличению трансэпидермальной потери влаги (TEWL).
+* Нарушению кислотно-щелочного баланса (повышение рН кожи).
+2. Нарушение липидного состава рогового слоя
+Роговой слой состоит из корнеоцитов, скрепленных межклеточным липидным матриксом. При АтД наблюдается селективное снижение уровня церамидов (особенно церамидов с ультрадлинными цепями) и дисбаланс в соотношении липидов. Это напрямую влияет на структуру липидного матрикса, ослабляя его «цементирующую» функцию и увеличивая проницаемость.
+3. Нарушение плотных межклеточных контактов
+Плотные контакты (Tight junctions) в эпидермисе регулируют парацеллюлярный транспорт. При АтД наблюдается снижение экспрессии белков, формирующих эти контакты (например, клаудинов и окклюдина), что еще больше усугубляет барьерную проницаемость.
+Подзаголовок
+Нарушения биохимического и микробиологического барьеров
+1. Изменение pH кожи
+В здоровой коже рН составляет 4,5–5,5 (так называемая «кислотная мантия»). При АтД, из-за недостатка продуктов распада филаггрина, рН кожи сдвигается в щелочную сторону. Щелочная среда:
+* Активирует протеазы (ферменты, разрушающие белки рогового слоя).
+* Ингибирует ферменты, ответственные за синтез липидов, усугубляя их дефицит.
+* Способствует росту патогенной микрофлоры.
+2. Дисбиоз кожи
+Нарушение кожного барьера и повышение рН способствуют росту и колонизации кожи патогенными микроорганизмами, в первую очередь Staphylococcus aureus (S. aureus). Колонизация S. aureus обнаруживается более чем у 90% пациентов с АтД. Бактерии выделяют токсины и суперантигены, которые:
+* Разрушают кожный барьер.
+* Вызывают локальный воспалительный процесс.
+* Поддерживают зуд и воспаление.
+3. Дефицит антимикробных пептидов (АМРs)
+AMPs (например, кателицидин, $\beta$-дефензины) — это молекулы, вырабатываемые кератиноцитами для защиты от микробов. При АтД их продукция снижена или нарушена, что делает кожу более уязвимой к инфекциям и колонизации S. aureus.
+Подзаголовок
+Взаимосвязь барьерной дисфункции и иммунной системы
+Дефекты барьера приводят к постоянному проникновению аллергенов и токсинов в глубокие слои кожи. Это активирует клетки иммунной системы (дендритные клетки, кератиноциты) и запускает Тh2-иммунный ответ, который характеризуется выработкой воспалительных цитокинов (IL-4, IL-13). Этот ответ, в свою очередь:
+* Подавляет синтез белков барьера (например, филаггрина).
+* Усиливает зуд и воспаление.
+Таким образом, формируется порочный круг: дефект барьера - воспаление - усиление дефекта барьера.
+Заголовок
+Роль современных средств ухода (Эмолентов) в терапии и профилактике АтД
+Топические средства, направленные на восстановление барьерной функции, являются неотъемлемой и основной частью базисной терапии АтД, независимо от стадии заболевания и его тяжести.
+Подзаголовок
+Классификация средств ухода
+Средства ухода, или медицинская косметика, включают:
+* Эмоленты: Смягчают, сглаживают и увлажняют кожу за счет липидов и масел, заполняя дефекты рогового слоя.
+* Хумектанты (увлажнители): Притягивают и удерживают воду в роговом слое (например, глицерин, мочевина, гиалуроновая кислота).
+* Окклюзивные средства: Создают гидрофобную пленку на поверхности кожи, физически блокируя TEWL (вазелин, ланолин, минеральные масла).
+Современные средства, предназначенные для атопичной кожи, как правило, сочетают в себе компоненты всех трех групп, а также содержат комплексы, восстанавливающие естественный липидный состав и НУФ.
+Подзаголовок
+Терапевтическая эффективность
+Регулярное использование эмолентов в лечении АтД приводит к доказанным клиническим эффектам:
+* Восстановление барьера: Снижение TEWL, повышение гидратации кожи и нормализация ее рН.
+* Противовоспалительное действие: Уменьшение сухости, лихенификации и зуда.
+* Экономия ТКС: Использование эмолентов позволяет снизить частоту и дозу применения топических глюкокортикостероидов (ТКС), что уменьшает риск побочных эффектов.
+* Улучшение микробиоты: Устранение сухости и нормализация рН способствуют уменьшению колонизации S. aureus.
+Подзаголовок
+Применение в профилактике
+Исследования, проведенные в последние годы, подтвердили эффективность эмолентов в первичной профилактике АтД.
+Применение специальных увлажняющих и смягчающих средств с первых недель жизни у детей из группы высокого риска (если АтД есть у родителей или старших детей) снижает частоту развития АтД на 50%. Этот подход признан безопасным и эффективным.
+Подзаголовок
+Основные правила применения
+Успех базисной терапии АтД зависит не только от выбора средства, но и от соблюдения правильного режима его использования:
+1. Нанесение на влажную кожу: Эмолент максимально эффективен при нанесении сразу после водных процедур (купания или душа), пока кожа еще влажная. Принцип: «намочить – намазать».
+2. Достаточный объем: Для достижения терапевтического эффекта необходим большой объем средства. Рекомендуемые дозировки составляют до 250 г/неделю для ребенка и до 600 г/неделю для взрослого с распространенным поражением.
+3. Регулярность: Средства должны применяться постоянно (даже в период ремиссии) и многократно (минимум 2 раза в день) для поддержания барьерной функции.
+4. Сочетание с ТКС: При одновременном использовании с топическими противовоспалительными препаратами (ТКС или ингибиторами кальциневрина) необходимо соблюдать интервал: эмолент (в форме крема) наносится за 15 минут до ТКС, а если эмолент более жирный (мазь) — через 15 минут после ТКС.
+Заголовок
+Заключение
+Дисфункция эпидермального барьера является фундаментальным патогенетическим звеном АтД. Современные средства ухода (эмоленты) не просто увлажняют кожу, но и активно восстанавливают ее защитные функции на структурном и биохимическом уровнях. Их регулярное и правильное использование является краеугольным камнем как в лечении АтД, позволяя уменьшить потребность в гормональных препаратах, так и в эффективной первичной профилактике заболевания.
+Источники
+Prescott S.L. Early-life environmental determinants of allergic diseases and the wider pandemic of inflammatory noncommunicable diseases // J Allergy Clin Immunol. 2013. Vol. 131. P. 23–30.
+Platts-Mills T. The allergy epidemics: 1870-2010 // J Allergy Clin Immunol. 2015. Vol. 136. P. 3–13.
+Wollenberg A., Oranje A., Deleuran M. et al.; ETFAD/EADV Eczema task force 2015 position paper on diagnosis and treatment of atopic dermatitis in adult and pediatric patients // J Eur Acad Dermatol Venerol. 2016. Vol. 30(5). P. 729–747.
+Аллергия у детей: от теории – к практике / под ред. Л.С. Намазовой-Барановой. М.: Союз педиатров России, 2010–2011. 668 с. [Allergija u detej: ot teorii – k praktike / pod red. L.S. Namazovoj-Baranovoj. M.: Sojuz pediatrov Rossii, 2010–2011. 668 s. (in Russian)].
+Drucker A.M., Wang A.R., Li W.Q et al. The Burden of Atopic Dermatitis: Summary of a Report for the National Eczema Association // J Invest Dermatol. 2017. Vol. 137(1). P. 26–30.
+Dharmage S.C., Lowe A.J., Matheson M.C. et al Atopic dermatitis and the atopic march revisited // Allergy. 2014. Vol. 69. P. 17–27.
+Kezic S., Novak N., Jakasa I. et al. Skin barrier in atopic dermatitis // Front Biosci. 2014. Vol. 1(19). P. 542–556.
+Nomura T., Kabashima K. Advances in atopic dermatitis in 2015 // J Allergy Clin Immunol. 2016. Vol. 138(6). P. 1548–1555.
+Kubo A., Nagao K., Amagai M. Epidermal barrier dysfunction and cutaneous sensitization in atopic diseases // J Clin Invest. 2012. Vol. 122. P. 440–447.
+Bouwstra J.A., Pilgrim K., Ponec M. Structure of the skin barrier, in Skin barrier, edited by PM Elias, KR Feingold. New York, Naylor and Francis. 2006. P. 65.
+Zaniboni M.C., Samorano L.P., Orfali R.L., Aoki V. Skin barrier in atopic dermatitis: beyond filaggrin // An Bras Dermatol. 2016. Vol. 91(4). P. 472–478.
+Ring J., Mohrenschlager M., Weidinger S. Molecular genetics of atopic eczema // Chem Immunol Allergy. 2012. Vol. 96. P. 24–29.
+Lee S.H., Jeong S.K., Ahn S.K. An update of the defensive barrier function of skin // Yonsei Med J. 2006. Vol. 47. P. 293–306.
+Kezic S., Kemperman P.M., Koster E.S. et al. Loss-of-function mutations in the filaggrin gene lead to reduced level of natural moisturizing factor in the stratum corneum // J Invest Dermatol. 2008. Vol. 128. P. 2117–2119.
+Flohr C., Perkin M., Logan K. et al. Atopic dermatitis and disease severity are the main risk factors for food sensitization in exclusively breastfed infants // J Invest Dermatol. 2014. Vol. 134(2). P. 345–350.
+Bin L., Leung D.Y.M. Genetic and epigenetic studies of atopic dermatitis // Allergy Asthma Clin Immunol. 2016. Vol. 12. P. 52–66.
+Mauro T., Holleran W.M., Grayson S. et al. Barrier recovery is impaded at neutral pH, independent of ionic effects: implications for extracellular lipid processing // Arch Dermatol Res. 1998. Vol. 290. P. 215–222.
+Jungersted J.M., Scheer H., Mempel F. et al. Stratum corneum lipids, skin barrier function and fillagrin mutations in patients with atopic eczema // Allergy. 2010. Vol. 65. P. 911–918.
+Hachem J.P., Man M.Q., Crumrine D. et al. Sustained serine proteases activity by prolonged increase in pH leads to degradation lipid processing enzimes and profound alterations of barrier function and stratum corneum integrity // J Invest Dermatol. 2005. Vol. 125. P. 510–520.
+Hatano Y., Man M.Q., Uchida Y. et al. Maintenance of an acidic stratum corneum prevents emergence of murine atopic dermatitis // J Invest Dermatol. 2009. Vol. 129. P. 1824–1835.
+Bäsler K., Bergmann S., Heisig M. et al. The role of tight junctions in skin barrier function and dermal absorption // J Control Release. 2016. Vol. 242. P. 105–118.
+De Benedetto A., Rafaels N.M., McGirt L.Y. et al. Tight junction defects in patients with atopic dermatitis // J Allergy Clin Immunol. 2011. Vol. 127. P. 773–786.
+Hae-Jin L., Seung-Hun L. Epidermal permeability barrier defects and barrier repair therapy in atopicdermatitis // Allergy Asthma Immunology Res. 2014. Vol. 6(4). P. 276–287.
+Sugavara T., Iwamoto N., Akashi M. et al. Tight junction dysfunction in the stratum granulosum leads to aberrant stratum corneum barrier function in claudin-1-deficient mice // J Dermatol Sci. 2013. Vol. 70. P. 12–18.
+Kuo I.H., Carpenter-Mendini A., Yoshida T. et al. Activation of epidermal tall-like receptor 2 enhances tight junction function: implications for atopic dermatitis and skin barrier repair // J Invest Dermatol. 2013. Vol. 133. P. 988–998.
+Ahmad-Nejad P., Mrabet-Dahbi S., Breuer K. et al. The toll like receptor 2 R753Q polymorphism defines a subgroup of patients with atopic dermatitis having severe phenotype // J Allergy Clin Immunol. 2004. Vol. 113(3). P. 565–567.
+Lai Y., Gallo R.L. AMPed in immunity: how antimicrobial peptides have multiple roles in immune defense // Trends Immunol. 2009. Vol. 30. P. 131–141.
+Ong P.Y., Ohtake T., Brandt C. et al. Endogenous antimicrobial peptides and skin infections in atopic dermatitis // N Engl J Med. 2002. Vol. 347. P. 1151–1160.
+Aberg K.M., Man M.Q., Gallo R.L. et al. Co-regulation and interdependence of the mammalian epidermal permeability and antimicrobial barriers // J Invest Dermatol. 2008. Vol. 128. P. 917–925.
+Neuber K., Steinrucke K., Ring J. Staphylococcal enterotoxin B affects in vitro IgE synthesis, interferon-gamma, interleukin-4 and interleukin-5 production in atopic eczema // Int Arch Allergy Immunol. 1995. Vol. 107. P. 179–182.
+Valdman-Grinshpoun Y., Ben-Amitai D., Zvulunov A. Barrier-restoring therapies in atopic dermatitis: current approaches and future perspectives // Dermatol Res Pract. 2012. Vol. 92. P. 31–34.
+Elias P.M. Lipid abnormalities and lipid-based repair strategies in atopic dermatitis // Biochim Biophys Acta. 2014. Vol. 1841. P. 323–330.
+Zhao L.P., Di Z., Zhang L. et al. Association of SPINK5 gene polymorphisms with atopic dermatitis in Northeast China // J Eur Acad Dermatol Venerol. 2012. Vol. 26. P. 572–577.
+Ramot Y., Mastrofrancesco A., Camera E. et al. The role of PPARγ-mediated signalling in skin biology and pathology: new targets and opportunities for clinical dermatology // Exp Dermatol. 2015. Vol. 24(4). P. 245–251.
+Steinhoff M., Neisius U., Ikoma A. et al. Proteinase-activated receptor-2 mediates itch: a novel pathway for pruritus in human skin // J Neurosci. 2003. Vol. 23. P. 6176–6180.
+Adachi Y., Hatano Y., Sakai T., Fujiwara S. Expressions of peroxisome proliferator-activated receptors (PPARs) are directly influenced by permeability barrier abrogation and inflammatory cytokines and depressed PRAPalpha modulates expressions of chemokines and epidermal differentiation-related molecules in keratinocytes // Exp Dermatol. 2013. Vol. 22. P. 606–608.
+Briot A., Lacroix M., Robin A. et al. PAR-2 inactivation inhibits early production of TSLP, but not cutaneous inflammation, in Netherton syndrome adult mouse model // J Invest Dermatol. 2010. Vol. 130. P. 2736–2742.
+Hatano Y., Elias P.M., Crumrine D. et al. Efficacy of combined peroxisome proliferator-activated receptors-alpha ligand and glucocorticoid therapy in a murine model of atopic dermatitis // Exp Dermatol. 2011. Vol. 131. P. 1845–1852.
+Gupta M., Mahajan V.K., Mehta K.S. et al. Peroxisome proliferator-activated receptors (PPARs) and PPAR agonists: the 'future' in dermatology therapeutics? // Arch Dermatol Res. 2015. Vol. 307(9). P. 767–780.
+Buddenkotte J., Steinhoff M. Pathophysiology and therapy of pruritus in allergic and atopic diseases // Allergy. 2010. Vol. 65(7). P. 805–821.
+Yang D., Chen Q., Yang H. et al. High mobility group box-1 protein induces the migration and activation of human dendritic cells and acts as alarmin // J Leukoc Biol. 2007. Vol. 81. P. 59–66.
+Nakae S., Morita H., Ohno T. et al. Role of interleukin-33 in innate-type immune cells in allergy // Allergol Int. 2013. Vol. 62. P. 13–20.
+Dioszeghy V., Mondoulet L., Dhelft V. et al. Epicutaneous immunotherapy results in rapid allergen uptake by dendritic cells through intact skin and downregulates the allergen-specific response in sensitized mice // J Immunol. 2011. Vol. 186. P. 5629–5637.
+Lack G., Fox D., Northstone K., Golding J. Factors associated with the development of peanut allergy in childhood // N Engl J Med. 2003. Vol. 248. P. 977-985.
+Moingeon P., Mascarell L. Novel routes for allergen immunotherapy: safety, efficacy and mode of action // Immunotherapy. 2012. Vol. 4. P. 201–212.
+Li W., Zhang Z., Saxon A., Zhang K. Prevention of oral food allergy sensitization via skin application of food allergen in a mouse model // Allergy. 2012. Vol. 67. P. 622–629.
+Oyoshi M.K., Larson R.P., Ziegler S.F., Geha R.S. Mechanical injury polarizes skin dendritic cells to elicit a T(H)2 response by inducing cutaneous thymic stromal lymphopoietin expression // J Allergy Clin Immunol. 2010. Vol. 126. P. 976–984.
+Mondoulet L., Dioszeghy V., Puteaux E. et al. Intact skin and not stripped skin is crucial for the safety and efficacy of peanut epicutaneous immunotherapy (EPIT)in mice // Clin Transl Allergy. 2012. Vol. 2(1). P. 22–33.
+Wetzig H., Schulz R., Diez U. et al. Associations between duration of breastfeeding, sensitization to hen’s eggs and eczema infantum in one and two year old children at high risk of atopy // Int J Hyg Environ Health. 2000. Vol. 203. P. 17–21.
+Lai C.C., Yan D.C., Yu J. et al. Latex allergy in hospital employees // J Formos Med Assoc. 1997. Vol. 96. P. 266–271.
+Lack G. Epidemiologic risks for food allergy // J Allergy Clin Immunol. 2008. Vol. 121. P. 1331–1336.
+Brown S.J., Asai Y., Cordell H.J. et al. Loss-of-function variants in the filaggrin gene are a significant risk factor for peanut allergy // J Allergy Clin Immunol. 2011. Vol. 127. P. 661–667.
+Tsakok T., Marrs T., Mohsin M. et al. Does atopic dermatitis cause food allergy? A systematic review // J Allergy Clin Immunol. 2016. Vol. 137(4). P. 1071–1078.
+Matsumoto K., Shimanouchi Y., Kawakubo K. et al. Infantile eczema at one month of age is associated with cord blood eosinophilia and subsequent development of atopic dermatitis and wheezing illness until two years of age // Int Asch Allergy Immunol. 2005. Vol. 137. P. 69–76.
+Федеральные клинические рекомендации. Дерматовенерология, 2015: Болезни кожи. Инфекции, передаваемые половым путем. 5-е изд., перераб. и доп. М.: Деловой экспресс, 2016. 768 с. [Federal'nye klinicheskie rekomendacii. Dermatovenerologija 2015: Bolezni kozhi. Infekcii, peredavaemye polovym putem. 5-e izd., pererab. i dop. M.: Delovoj jekspress, 2016. 768 s. (in Russian)].
+Nowicki R., Trzeciak M., Wilkowska A. et al. Atopic dermatitis: current treatment guidelines // Postepy Dermatol Alergol. 2015. Vol. 32(4). P. 239–249.
+Kezic S., Novak N., Jakasa I. et al. Skin barrier in atopic dermatitis // Front Biosci. 2014. Vol. 1(19). P. 542–556.
+Giam Y.C., Hebert A.A., Dizon M.V. et al. A review on the role of moisturizers for atopic dermatitis // Asia Pac Allergy. 2016. Vol. 6(2). P. 120–128.
+Lindh J.D., Bradley M. Clinical Effectiveness of Moisturizers in Atopic Dermatitis and Related Disorders: A Systematic Review // Am J Clin Dermatol. 2015. Vol. 16(5). P. 341–359.
+Loden M., Maibach H. Dry skin and moisturizers: Chemistry and Function. 1st ed. New York: CRC Press; 1999. P. 472.
+Sethi A., Kaur T., Malhotra S.K. Moisturizers: The Slippery Road // Indian J Dermatol. 2016. Vol. 61(3). P. 279–287.
+Rawlings A.V., Canestrari D.A., Dobkowski B. Moisturizer technology versus clinical performance // Dermatol Ther. 2004. Vol. 17(1). P. 49–56.
+Loden M. The clinical benefit of moisturizers // Journal of the European Academy of Dermatology and Venereology. 2005. Vol. 19. P. 672–688.
+Hon K.L., Wang S.S., Lau Z. et al. Pseudoceramide for childhood eczema: does it work? // Hong Kong Med J. 2011. Vol. 17(2). P. 132–136.
+Ring J. et al. Guidelines for treatment of atopic eczema (atopic dermatitis). Part I // Journal of the European Academy of Dermatology and Venerology. 2012. Vol. 26(8). P. 1045–1060.
+Sathishkumar D., Moss C. Topical Therapy in Atopic Dermatitis in Children // Indian J Dermatol. 2016. Vol. 61(6). P. 656–661.
+Breternitz M., Kowatzki D., Langenauer M. et al. Placebo-controlled, double-blind, randomized, prospective study of a glycerol-based emollient on eczematous skin in atopic dermatitis: biophysical and clinical evaluation // Skin Pharmacol Physiol. 2008. Vol. 21(1). P. 39–45.
+Lynde C.W. Moisturizers: What they are and how they work // Skin Therapy Lett. 2001. Vol. 6(13). P. 3–5.
+Varothai S., Nitayavardhana S., Kulthanan K. Moisturizers for patients with atopic dermatitis // Asian Pac J Allergy Immunol. 2013. Vol. 31. P. 91–98.
+Hon K.L., Tsang Y.C., Pong N.H. et al. Patient acceptability, efficacy, and skin biophysiology of a cream and cleanser containing lipid complex with shea butter extract versus a ceramide product for eczema // Hong Kong Med J. 2015. Vol. 21(5). P. 417–425.
+Tichota D.M., Silva A.C., Sousa Lobo J.M., Amaral M.H. Design, characterization, and clinical evaluation of argan oil nanostructured lipid carriers to improve skin hydration // Int J Nanomedicine. 2014. Vol. 11(9). P. 3855–3864.
+Тлиш М.М., Глузмин Н.И., Карташевская М.И., Псавок Ф.А. Атопический дерматит у детей: перспективы применения инновационных средств в наружной терапии // Вестник дерматологии и венерологии. 2016. № 2. С. 96–102 [Tlish M.M., Gluzmin N.I., Kartashevskaja M.I., Psavok F.A. Atopicheskij dermatit u detej: perspektivy primenenija innovacionnyh sredstv v naruzhnoj terapii // Vestnik dermatologii i venerologii. 2016. № 2. S. 96–102 (in Russian)].
+Narbutt J., Bednarski I.A., Lesiak A. The effect of an emollient with benfothiamine and Biolin prebiotic on the improvement of epidermal skin function // Postepy Dermatol Alergol. 2016. Vol. 33(3). P. 224–231.
+Мигачева Н.Б., Жестков А.В., Лямин А.В. Влияние средств ухода за кожей на основе термальной воды на состав микрофлоры кожи детей раннего возраста // Международный научно-исследовательский журнал Research Journal of International Studies. Екатеринбург. 2016. № 9 (51). С. 62–64 [Migacheva N.B., Zhestkov A.V., Ljamin A.V. Vlijanie sredstv uhoda za kozhej na osnove termal'noj vody na sostav mikroflory kozhi detej rannego vozrasta // Mezhdunarodnyj nauchno-issledovatel'skij zhurnal Research Journal of International Studies. Ekaterinburg. 2016. № 9 (51). S. 62–64 (in Russian)].
+Reynertson K.A., Garay M., Nebus J. et al. Anti-inflammatory activities of colloidal oatmeal (Avena sativa) contribute to the effectiveness of oats in treatment of itch associated with dry, irritated skin // J Drugs Dermatol. 2015. Vol. 14(1). P. 43–48.
+Lio P.A. Efficacy of a Moisturizing Foam in Skin Barrier Regeneration and Itch Relief in Subjects Prone to Atopic Dermatitis // J Drugs Dermatol. 2016. Vol. 15(11). P. 77–80.
+De Belilovsky C., Roo-Rodriguez E., Baudouin C. et al. Natural peroxisome proliferator-activated receptor-alpha agonist cream demonstrates similar therapeutic response to topical steroids in atopic dermatitis // J Dermatolog Treat. 2011. Vol. 22. P. 359–365.
+Draelos Z.D. Therapeutic Moisturizers // Dermatol Clin. 2000. Vol. 18(4). P. 597–607.
+Hon K.L., Leung A.K., Barankin B. Barrier repair therapy in atopic dermatitis: an overview // Am J Clin Dermatol. 2013. Vol. 14(5). P. 389–399.
+Seite S., Flores G.E., Henley J.B. et al. Microbiome of affected and unaffected skin of patients with atopic dermatitis before and after emollient treatment // J Drugs Dermatol. 2014. Vol. 13(11). P. 1365–1372.
+Bianchi P., Theunis J., Casas C. et al. Effects of a New Emollient-Based Treatment on Skin Microflora Balance and Barrier Function in Children with Mild Atopic Dermatitis // Pediatr Dermatol. 2016. Vol. 33(2). P. 165–171.
+Akerstrom U., Reitamo S., Langeland T. et al. Comparison of Moisturizing Creams for the Prevention of Atopic Dermatitis Relapse: a Randomized Double-blind Controlled Multicentre Clinical Trial // Acta Derm Venereol. 2015. Vol. 95. P. 587–592.
+Mason J.M., Carr J., Buckley C. et al. Improved emollient use reduces atopic eczema symptoms and is cost neutral in infants: before-and-after evaluation of a multifaceted educational support programme // BMC Dermatol. 2013. Vol. 16. P. 13–17.
+Grimalt R., Mengeaud V., Cambazard F.; Study Investigators’ Group. The steroid-sparing effect of an emollient therapy in infants with atopic dermatitis: a randomized controlled study // Dermatology. 2007. Vol. 214. P. 61–67.
+Szczepanowska J., Reich A., Szepietowski J. C. Emollients improve treatment results with topical corticosteroids in childhood atopic dermatitis: a randomized comparative study // Pediatr Allergy Immunol. 2008. Vol. 19. P. 614–618.
+Lynde C.W., Andriessen A., Bertucci V. et al. The Skin Microbiome in Atopic Dermatitis and Its Relationship to Emollients // J Cutan Med Surg. 2016. Vol. 20(1). P. 21–28.
+Moncrieff G., Cork M., Lawton S. et al. Use of emollients in dry-skin conditions: consensus statement // Clin Exp Dermatol. 2013. Vol. 38. P. 231–238.
+Grey K., Maguiness S. Atopic Dermatitis: Update for Pediatricians // Pediatr Ann. 2016. Vol. 45(8). P. 280–286.
+Saeki H., Nakahara T., Tanaka A. et al.; Committee for Clinical Practice Guidelines for the Management of Atopic Dermatitis of Japanese Dermatological Association. Clinical Practice Guidelines for the Management of Atopic Dermatitis 2016 // J Dermatol. 2016. Vol. 43(10). P. 1117–1145.
+Chiang C., Eichenfield L.F. Quantitative assessment of combination bathing and moisturizing regimens on skin hydration in atopic dermatitis // Pediatr Dermatol. 2009. Vol. 26. P. 273–278.
+Ivens U.I., Steinkjer B., Serup J. Ointment is evenly spread on a skin in contrast to creams and solutions // Br J Dermatol. 2001. Vol. 145. P. 264–267.
+Cork M.J., Britton J., Butler L. et al. Comparison of parent knowledge, therapy utilization and severity of atopic eczema before and after explanation and demonstration of topical therapies by a specialist dermatology nurse // Br J Dermatol. 2003. Vol. 149. P. 582–589.
+Santer M., Muller I., Yardley L. et al. Parents' and carers' views about emollients for childhood eczema: qualitative interview study // BMJ Open. 2016. Vol. 6(8). e011887.
+Norrlid H., Hjalte F., Lundqvist A. et al. Cost-effectiveness of Maintenance Treatment with a Barrier-strengthening Moisturizing Cream in Patients with Atopic Dermatitis in Finland, Norway and Sweden // Acta Derm Venereol. 2016. Vol. 96(2). P. 173–176.
+Lodén M. Treatments Improving Skin Barrier Function // Curr Probl Dermatol. 2016. Vol. 49. P. 112–122.
+Friedlander S.F., Simpson E.L., Irvine A.D., Eichenfield L.F. The Changing Paradigm of Atopic Dermatitis Therapy // Semin Cutan Med Surg. 2016. Vol. 35(5). P. 97–99.
+Van Bever H.P., Nagarajan S., Shek L.P., Lee B.W. OPINION: Primary prevention of allergy – Will it soon become a reality? // Ped Allergy Immunol. 2016. Vol. 27. P. 6–12.
+Simpson E.L., Berry T.M., Brown P.A., Hanifin J.M. A Pilot Study of Emollient Therapy for the Primary Prevention of Atopic Dermatitis // J Am Acad Dermatol. 2010. Vol. 63(4). P. 587–593.
+Rendell M.E., Baig-Lewis S.F., Berry T.M. et al. Do early skin care practices alter the risk of atopic dermatitis? A case-control study // Pediatr Dermatol. 2011. Vol. 28(5). P. 593–595.
+Kvenshagen B.K., Carlsen K.H., Mowinckel P. et al. Can early skin care normalise dry skin and possibly prevent atopic eczema? A pilot study in young infants // Allergol Immunopathol (Madr). 2014. Vol. 42(6). P. 539–543.
+Simpson E.L., Chalmers J.R., Hanifin J.M. et al. Emollient enhancement of the skin barrier from birth offers effective atopic dermatitis prevention // J Allergy Clin Immunol. 2014. Vol. 134(4). P. 818–823.
+Horimukai K., Morita K., Narita M. et al. et al. Application of moisturizer to neonates prevents development of atopic dermatitis // J Allergy Clin Immunol. 2014. Vol. 134(4). P. 824–830.
+Horimukai K., Morita K., Narita M. et al. et al. Transepidermal water loss measurement during infancy can predict the subsequent development of atopic dermatitis regardless of filaggrin mutations // Allergjlogy International. 2016. Vol. 65. P. 103–108.
+Blume-Peytavi U., Lavender T., Jenerowicz D. et al. Recommendations from a European Roundtable Meeting on Best Practice Healthy Infant Skin Care // Pediatr Dermatol. 2016. Vol. 33(3). P. 311–321.

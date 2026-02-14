@@ -9,6 +9,8 @@ node_modules
 # IDE
 .idea/
 .vscode/
+.vs/
+backend/.vs/
 
 # Frontend
 course_project_3/node_modules/

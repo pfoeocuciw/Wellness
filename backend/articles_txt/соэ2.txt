@@ -1,0 +1,181 @@
+﻿Название
+Современные представления о последствиях недостатка сна 
+
+
+Автор
+Ю.В. Гаврилов
+Гаврилов Юрий Владимирович—кандидат медицинских наук
+
+
+Категория
+Сон и энергия
+
+
+Аннотация
+Недостаток сна, который приобрел «эпидемический» характер, критически нарушает нормальную функцию систем и органов человека. Данный обзор обобщает современные научные данные, раскрывающие негативное влияние дефицита сна на развитие и течение хронических заболеваний и патологических процессов в различных системах организма. Расширение этих знаний о физиологии сна и его роли в здоровье открывает дополнительные возможности для диагностики и терапии в рамках интегративной медицины.
+
+
+Текст 
+Заголовок
+Введение: Эпидемия Недостатка Сна и Новое Понимание Физиологии
+В последние десятилетия активно развивается медицина сна (sleep medicine) — научное направление, изучающее физиологию цикла «сон–бодрствование» и его критическую связь с развитием и течением хронических заболеваний. Термин «недостаток сна» в данном контексте является обобщающим и включает:
+* Количественные изменения: Систематическое сокращение общей продолжительности сна.
+* Качественные нарушения: Изменение числа, длительности или структуры отдельных фаз сна.
+Проблема недостатка сна приобрела в современном мире «эпидемический характер», что неизбежно ведет к нарушению нормальной функции практически всех систем и органов человека. В отличие от прошлых представлений, когда сон считался биологически бессмысленным феноменом, современные фундаментальные исследования кардинально изменили это мнение. Сон признан важнейшей составляющей существования всех живых организмов.
+Заголовок
+Биологическая и Психофизиологическая Значимость Сна
+Сон критически необходим для восстановления функций центральной нервной системы и уравновешивания метаболических процессов. Во время сна происходит переключение активности организма:
+* С катаболической активности (распада, характерной для бодрствования).
+* На анаболическую активность (восстановления и роста).
+Сон оказывает прямое регуляторное влияние на две ключевые эффекторные системы: гипоталамо-гипофизарно-надпочечниковую ось и симпатическую нервную систему, которые, в свою очередь, модулируют иммунные реакции.
+Подзаголовок
+Гормональная и Метаболическая Регуляция во Сне:
+Во время сна наблюдаются важные гормональные изменения:
+* Снижение уровня кортизола, адреналина и норадреналина.
+* Резкое повышение секреции гормонов, поддерживающих рост клеток, таких как гормон роста, пролактин и мелатонин.
+Подзаголовок
+Влияние Сна на Когнитивные Функции:
+Сон занимает центральное место в психофизиологических процессах:
+* Компенсация стресса: Он компенсирует состояния, вызванные эмоциональным или социальным напряжением.
+* Мыслительная функция: Активирует творческое мышление и аналитические способности мозга.
+* Концентрация: Существенно влияет на способность к концентрации внимания.
+* Память: Играет ключевую роль в формировании краткосрочной и долгосрочной памяти.
+   * Медленный сон (NREM-сон), особенно его глубокие стадии, критически важен для консолидации приобретенных воспоминаний.
+   * Быстрый сон (REM-сон) стабилизирует и интегрирует уже сформированные воспоминания.
+Заголовок
+Масштаб Проблемы и Факторы Недостатка Сна
+Человек — единственное живое существо, которое систематически и добровольно сокращает продолжительность сна. Недостаток сна чаще всего обусловлен:
+* Особенностями современного образа жизни.
+* Рабочим режимом (например, посменной работой).
+* Острыми или хроническими заболеваниями.
+Проведенные глобальные метаанализы подчеркивают масштаб проблемы:
+* Продолжительность сна: Около двух третей взрослого населения индустриальных стран спят менее рекомендованных 8 часов в сутки. Примерно 30% взрослого населения спит менее 6 часов.
+* Распространенность бессонницы: В развитых странах до 40% населения Западной Европы и около 25% населения США страдают клинически выраженной бессонницей.
+* Скрытая проблема: Эти данные могут быть занижены, поскольку в ряде случаев у пациентов с объективными сомнологическими нарушениями отсутствуют субъективные жалобы на плохое качество сна.
+Заголовок
+Последствия Недостатка Сна для Психического Здоровья
+Негативное влияние недостатка сна на возникновение, рецидивы и клиническое течение психических расстройств является доказанным фактом. Сон признан одним из шести ключевых факторов функционирования человека, влияющих на психическое здоровье.
+Недостаток сна является важным фактором в развитии и усугублении следующих психических нарушений:
+* Депрессия и тревожные расстройства: Нарушение сна не только изменяет эмоциональное состояние, но и является ключевым фактором в развитии депрессивных и тревожно-фобических расстройств.
+* Суицидальный риск: Циркадные ритмы и нарушения сна напрямую связаны с повышением риска суицидальных попыток.
+* Психозы и Шизофрения:
+   * Галлюцинации и бред: У здоровых людей лишение сна способно вызвать паранойяльные синдромы и галлюцинации.
+   * Первый эпизод психоза: Установлено, что почти у 80% пациентов нарушения сна присутствовали еще до манифестации первого эпизода психоза.
+   * Короткая продолжительность сна: Молекулярно-генетические исследования показали, что полигенный риск шизофрении связан с более короткой продолжительностью сна.
+В целом, нарушения сна наблюдаются у пациентов практически со всеми психическими заболеваниями, что подчеркивает их неразрывную связь. Еще в конце XIX века в экспериментах на животных было доказано, что полное лишение сна приводит к серьезным патологическим изменениям и даже смерти, что подтверждает жизненно важную необходимость сна для поддержания функции головного мозга.
+Источники
+Aminoff M.J., Boller F., Swaab D.F. We spend about one-third of our life either sleeping or attempting to do so // Handb. Clin. Neurol. 2011. Vol. 98. P. vii. DOI: 10.1016/B978-0-444-52006-7.00047-2.
+Rechtschaffen A. Current perspectives on the function of sleep // Perspect. Biol. Med. Spring. 1998. Vol. 41, No. 3. P. 360. DOI: 10.1353/pbm.1998.0051.
+McGinty D., Szymusiak R. Neural control of sleep in mammals // Principles and practice of sleep medicine. 6th ed. Philadelphia: Elsevier, 2017. P. 62–77
+Kushida C. Encyclopedia of Sleep. Amsterdam: Elsevier, 2013.
+Bellesi M., Bushey D., Chini M. et al. Contribution of sleep to the repair of neuronal DNA double-strand breaks: evidence from flies and mice // Sci. Rep. 2016. Vol. 6. P. 36804. DOI: 10.1038/srep36804.
+Datta S. Cellular and chemical neuroscience of mammalian sleep // Sleep Med. 2010. Vol. 11, No. 5. P. 431–440. DOI: 10.1016/j.sleep.2010.02.002.
+Besedovsky L., Lange T., Born J. Sleep and immune function // Pflugers Arch. 2012. Vol. 463, No. 1. P. 121–137. DOI: 10.1007/s00424-011-1044-0.
+Humer E., Pieh C., Brandmayr G. Metabolomics in sleep, insomnia and sleep apnea // Int. J. Mol. Sci. 2020. Vol. 21, No. 19. P. 7244. DOI: 10.3390/ijms21197244.
+Rasch B., Born J. About sleep’s role in memory // Physiol. Rev. 2013. Vol. 93, No. 2. P. 681–766. DOI: 10.1152/physrev.00032.2012.
+Kocevska D., Lysen T.S., Dotinga A. et al. Sleep characteristics across the lifespan in 1.1 million people from the Netherlands, United Kingdom and United States: a systematic review and meta-analysis // Nat. Hum. Behav. 2021. Vol. 5, No. 1. P. 113–122. DOI: 10.1038/s41562-020-00965-x.
+Walker M. Why we sleep: The new science of sleep and dreams. New York, Scribner, 2017.
+National Center for Health Statistics. Quick Stats: Percentage of adults who reported an average of 66h of sleep per 24-h period, by sex and age group-United States, 1985 and 2004. Morbidity and Mortality Weekly Report. 2005.
+Ohayon M.M., Lemoine P. Sommeil et principaux indicateurs d’insomnie dans la population générale française [Sleep and insomnia markers in the general population] // Encephale. 2004. Vol. 30, No. 2. P. 135–140. DOI: 10.1016/s0013-7006(04)95423-1.
+LeBlanc M., Merette C., Savard J. et al. Incidence and risk factors of insomnia in a population-based sample // Sleep. 2009. Vol. 32, No. 8. P. 1027–1037. DOI: 10.1093/sleep/32.8.1027.
+Imbach L.L., Valko P.O., Li T. et al. Increased sleep need and daytime sleepiness 6 months after traumatic brain injury: a prospective controlled clinical trial // Brain. 2015. Vol. 138, No. Pt 3. P. 726–735. DOI: 10.1093/brain/awu391.
+De Manacéïne M. Le surmenade mentale dans la civilization modern. Effects causesremudes. Paris, 1890.
+Everson C.A., Bergmann B.M., Rechtschaffen A. Sleep deprivation in the rat: III. Total sleep deprivation // Sleep. 1989. Vol. 12, No. 1. P. 13–21. DOI: 10.1093/sleep/12.1.13.
+Riemann D., Berger M., Voderholzer U. Sleep and depression–results from psychobiological studies: an overview // Biol. Psychol. 2001. Vol. 57, No. 1. P. 67–103. DOI: 10.1016/s0301-0511(01)00090-4.
+Wulff K., Gatti S., Wettstein J.G., Foster R.G. Sleep and circadian rhythm disruption in psychiatric and neurodegenerative disease // Nat. Rev. Neurosci. 2010. Vol. 11, No. 8. P. 589–599. DOI: 10.1038/nrn2868.
+Kozak M.J., Cuthbert B.N. The NIMH Research Domain Criteria initiative: background, issues, and pragmatics // Psychophysiology. 2016. Vol. 53, No. 3. P. 286–297. DOI: 10.1111/psyp.12518.
+Hertenstein E., Feige B., Gmeiner T. et al. Insomnia as a predictor of mental disorders: a systematic review and meta-analysis // Sleep Med. Rev. 2019. Vol. 43. P. 96–105. DOI: 10.1016/j.smrv.2018.10.006.
+Bishop T., Walsh P., Ashrafioun L. et al. Sleep, suicide behaviors, and the protective role of sleep medicine // Sleep Med. 2020. Vol. 66. P. 264–270. DOI: 10.1016/j.sleep.2019.07.01.
+Emert S.E., Tutek J., Lichstein K.L. Associations between sleep disturbances, personality, and trait emotional intelligence // Pers. Individ. Dif. 2017. Vol. 107. P. 195–200. DOI: 10.1016/j.paid.2016.11.050.
+Wehr T.A., Sack D.A., Rosenthal N.E. Sleep reduction as a final common pathway in the genesis of mania // Am. J. Psychiatry. 1987. Vol. 144, No. 2. P. 201–204. DOI: 10.1176/ajp.144.2.201.
+Lewis K.S., Gordon-Smith K., Forty L. et al. Sleep loss as a trigger of mood episodes in bipolar disorder: individual differences based on diagnostic subtype and gender // Br. J. Psychiatry. 2017. Vol. 211, No. 3. P. 169–174. DOI: 10.1192/bjp.bp.117.202259.
+Baglioni C., Nanovska S., Regen W. et al. Sleep and mental disorders: a meta-analysis of polysomnographic research // Psychol. Bull. 2016. Vol. 142, No. 9. P. 969–990. DOI: 10.1037/bul0000053.
+Petrovsky N., Ettinger U., Hill A. et al. Sleep deprivation disrupts prepulse inhibition and induces psychosis-like symptoms in healthy humans // J. Neurosci. 2014. Vol. 34, No. 27. P. 9134–9140. DOI: 10.1523/JNEUROSCI.0904-14.2014.
+Freeman D., Sheaves B., Goodwin G.M. et al. The effects of improving sleep on mental health (OASIS): a randomised controlled trial with mediation analysis // Lancet Psychiatry. 2017. Vol. 4, No. 10. P. 749–758. DOI: 10.1016/S2215-0366(17)30328-0.
+Koyanagi A., Stickley A. The Association between sleep problems and psychotic symptoms in the general population: a global perspective // Sleep. 2015. Vol. 38, No. 12. P. 1875–1885. DOI: 10.5665/sleep.5232.
+Benard V., Etain B., Vaiva G. et al. Sleep and circadian rhythms as possible trait markers of suicide attempt in bipolar disorders: An actigraphy study // J. Affect Disord. 2019. Vol. 244. P. 1–8. DOI: 10.1016/j.jad.2018.09.054.
+Reeve S., Sheaves B., Freeman D. Sleep disorders in early psychosis: incidence, severity, and association with clinical symptoms // Schizophr. Bull. 2019. Vol. 45, No. 2. P. 287–295. DOI: 10.1093/schbul/sby129.
+Freeman D., Morrison A., Bird J.C. et al. The weeks before 100 persecutory delusions: the presence of many potential contributory causal factors // BJPsych. Open. 2019. Vol. 5, No. 5. P. e83. DOI: 10.1192/bjo.2019.67.
+Reed Z.E., Jones H.J., Hemani G. et al. Schizophrenia liability shares common molecular genetic risk factors with sleep duration and nightmares in childhood // Wellcome Open Res. 2019. Vol. 4. P. 15. DOI: 10.12688/wellcomeopenres.15060.2.
+Li L., Wu C., Gan Y. et al. Insomnia and the risk of depression: a meta-analysis of prospective cohort studies // BMC Psychiatry. 2016. Vol. 16, No. 1. P. 375. DOI: 10.1186/s12888-016-1075-3.
+Freeman D., Sheaves B., Waite F. et al. Sleep disturbance and psychiatric disorders // Lancet Psychiatry. 2020. Vol. 7, No. 7. P. 628–637. DOI: 10.1016/S2215-0366(20)30136-X.
+Gica Ş., Selvı Y. Sleep interventions in the treatment of schizophrenia and bipolar disorder // Noro. Psikiyatr. Ars. 2021. Vol. 58, No. Suppl 1. P. S53–S60. DOI: 10.29399/npa.27467.
+Dong H., Wang J., Yang Y.F. et al. Dorsal striatum dopamine levels fluctuate across the sleep-wake cycle and respond to salient stimuli in mice // Front. Neurosci. 2019. Vol. 13. P. 242. DOI: 10.3389/fnins.2019.00242.
+Bishir M., Bhat A., Essa M.M. et al. Sleep deprivation and neurological disorders // Biomed. Res. Int. 2020. Vol. 2020. P. 5764017. DOI: 10.1155/2020/5764017.
+Lim A.S., Yu L., Kowgier M. et al. Modification of the relationship of the apolipoprotein E ε4 allele to the risk of Alzheimer disease and neurofibrillary tangle density by sleep // JAMA Neurol. 2013. Vol. 70, No. 12. P. 1544–1551. DOI: 10.1001/jamaneurol.2013.4215.
+Osorio R.S., Pirraglia E., Agüera-Ortiz L.F. et al. Greater risk of Alzheimer’s disease in older adults with insomnia // J. Am. Geriatr. Soc. 2011. Vol. 59, No. 3. P. 559–562. DOI: 10.1111/j.1532-5415.2010.03288.
+Romanella S.M., Roe D., Tatti E. et al. The sleep side of aging and Alzheimer’s disease // Sleep Med. 2021. Vol. 77. P. 209–225. DOI: 10.1016/j.sleep.2020.05.029.
+Xie L., Kang H., Xu Q. et al. Sleep drives metabolite clearance from the adult brain // Science. 2013. Vol. 342, No. 6156. P. 373–377. DOI: 10.1126/science.1241224.
+Christensen J., Yamakawa G.R., Shultz S.R. et al. Is the glymphatic system the missing link between sleep impairments and neurological disorders? Examining the implications and uncertainties // Prog. Neurobiol. 2021. Vol. 198. P. 101917. DOI: 10.1016/j.pneurobio.2020.101917.
+Mishima K., Tozawa T., Satoh K. et al. Melatonin secretion rhythm disorders in patients with senile dementia of Alzheimer’s type with disturbed sleepwaking // Biol. Psychiatry. 1999. Vol. 45, No. 4. P. 417–421. DOI: 10.1016/s0006-3223(97)00510-6.
+Bedrosian T.A., Nelson R.J. Pro: Alzheimer’s disease and circadian dysfunction: chicken or egg? // Alzheimers Res. Ther. 2012. Vol. 4, No. 4. P. 25. DOI: 10.1186/alzrt128.
+Kang J.E., Lim M.M., Bateman R.J. et al. Amyloid-beta dynamics are regulated by orexin and the sleep-wake cycle // Science. 2009. Vol. 326, No. 5955. P. 1005–1007. DOI: 10.1126/science.1180962.
+Lim A.S., Ellison B.A., Wang J.L. et al. Sleep is related to neuron numbers in the ventrolateral preoptic/intermediate nucleus in older adults with and without Alzheimer’s disease // Brain. 2014. Vol. 137, No. Pt 10. P. 2847–2861. DOI: 10.1093/brain/awu222.
+Holth J., Patel T., Holtzman D.M. Sleep in Alzheimer’s disease – beyond amyloid // Neurobiol. Sleep Circadian. Rhythms. 2017. Vol. 2. P. 4–14. DOI: 10.1016/j.nbscr.2016.08.002.
+Mander B.A., Winer J.R., Jagust W.J. et al. Sleep: a novel mechanistic pathway, biomarker, and treatment target in the pathology of Alzheimer’s disease? // Trends Neurosci. 2016. Vol. 39, No. 8. P. 552–566. DOI: 10.1016/j.tins.2016.05.002.
+Mallon L., Broman J.E., Hetta J. Sleep complaints predict coronary artery disease mortality in males: a 12-year follow-up study of a middle-aged Swedish population // J. Intern. Med. 2002. Vol. 251, No. 3. P. 207–216. DOI: 10.1046/j.1365-2796.2002.00941.x.
+Ayas N.T., White D.P., Manson J.E. et al. A prospective study of sleep duration and coronary heart disease in women // Arch. Intern. Med. 2003. Vol. 163, No. 2. P. 205–209. DOI: 10.1001/archinte.163.2.205.
+Hoevenaar-Blom M.P., Spijkerman A.M., Kromhout D. et al. Sleep duration and sleep quality in relation to 12-year cardiovascular disease incidence: the MORGEN study // Sleep. 2011. Vol. 34, No. 11. P. 1487–1492. DOI: 10.5665/sleep.1382.
+Cote K.A., McCormick C.M., Geniole S.N. et al. Sleep deprivation lowers reactive aggression and testosterone in men // Biol. Psychol. 2013. Vol. 92, No. 2. P. 249–256. DOI: 10.1016/j.biopsycho.2012.09.011.
+Hombali A., Seow E., Yuan Q. et al. Prevalence and correlates of sleep disorder symptoms in psychiatric disorders // Psychiatry Res. 2019. Vol. 279. P. 116–122. DOI: 10.1016/j.psychres.2018.07.009.
+Wang Q., Xi B., Liu M. et al. Short sleep duration is associated with hypertension risk among adults: a systematic review and meta-analysis // Hypertens Res. 2012. Vol. 35, No. 10. P. 1012–1018. DOI: 10.1038/hr.2012.91.
+Grandner M.A., Perlis M.L. Short sleep duration and insomnia associated with hypertension incidence // Hypertens Res. 2013. Vol. 36, No. 11. P. 932–933. DOI: 10.1038/hr.2013.83.
+Cappuccio F.P., Cooper D., D’Elia L. et al. Sleep duration predicts cardiovascular outcomes: a systematic review and meta-analysis of prospective studies // Eur. Heart J. 2011. Vol. 32, No. 12. P. 1484–1492. DOI: 10.1093/eurheartj/ehr007.
+Heslop P., Smith G.D., Metcalfe C. et al. Sleep duration and mortality: the effect of short or long sleep duration on cardiovascular and all-cause mortality in working men and women // Sleep Med. 2002. Vol. 3, No. 3. P. 305–314. DOI: 10.1016/s1389-9457(02)00016-3.
+Chien K.L., Chen P.C., Hsu H.C. et al. Habitual sleep duration and insomnia and the risk of cardiovascular events and all-cause death: report from a community-based cohort // Sleep. 2010. Vol. 33, No. 2. P. 177–184. DOI: 10.1093/sleep/33.2.177.
+Sabanayagam C., Shankar A., Buchwald D., Goins R.T. Insomnia symptoms and cardiovascular disease among older American Indians: the Native Elder Care Study // J. Environ. Public Health. 2011. Vol. 2011. P. 964617. DOI: 10.1155/2011/964617.
+Vgontzas A.N., Fernandez-Mendoza J., Liao D., Bixler E.O. Insomnia with objective short sleep duration: the most biologically severe phenotype of the disorder // Sleep Med. Rev. 2013. Vol. 17, No. 4. P. 241–254. DOI: 10.1016/j.smrv.2012.09.005.
+Irwin M.R. Why sleep is important for health: a psychoneuroimmunology perspective // Annu. Rev. Psychol. 2015. Vol. 66. P. 143–172. DOI: 10.1146/annurev-psych-010213-115205.
+Irwin M.R., Cole S.W. Reciprocal regulation of the neural and innate immune systems // Nat. Rev. Immunol. 2011. Vol. 11, No. 9. P. 625–632. DOI: 10.1038/nri3042.
+Slavich G.M., Irwin M.R. From stress to inflammation and major depressive disorder: a social signal transduction theory of depression // Psychol. Bull. 2014. Vol. 140, No. 3. P. 774–815. DOI: 10.1037/a0035302.
+Irwin M., Mascovich A., Gillin J.C. et al. Partial sleep deprivation reduces natural killer cell activity in humans // Psychosom. Med. 1994. Vol. 56, No. 6. P. 493–498. DOI: 10.1097/00006842-199411000-00004.
+Frey D.J., Fleshner M., Wright K.P.Jr. The effects of 40 hours of total sleep deprivation on inflammatory markers in healthy young adults // Brain Behav. Immun. 2007. Vol. 21, No. 8. P. 1050–1057. DOI: 10.1016/j.bbi.2007.04.003.
+Haus E.L., Smolensky M.H. Shift work and cancer risk: potential mechanistic roles of circadian disruption, light at night, and sleep deprivation // Sleep Med. Rev. 2013. Vol. 17, No. 4. P. 273–284. DOI: 10.1016/j.smrv.2012.08.003.
+Toth L.A. Sleep, sleep deprivation and infectious disease: studies in animals // Adv. Neuroimmunol. 1995. Vol. 5, No. 1. P. 79–92. DOI: 10.1016/0960-5428(94)00045-p.
+Patel S.R., Malhotra A., Gao X. et al. A prospective study of sleep duration and pneumonia risk in women // Sleep. 2012. Vol. 35, No. 1. P. 97–101. DOI: 10.5665/sleep.1594.
+Cohen S., Doyle W.J., Alper C.M. et al. Sleep habits and susceptibility to the common cold // Arch. Intern. Med. 2009. Vol. 169, No. 1. P. 62–67. DOI: 10.1001/archinternmed.2008.505.
+Reid S., Dwyer J. Insomnia in HIV infection: a systematic review of prevalence, correlates, and management // Psychosom. Med. 2005. Vol. 67, No. 2. P. 260–269. DOI: 10.1097/01.psy.0000151771.46127.df.
+Lange T., Perras B., Fehm H.L., Born J. Sleep enhances the human antibody response to hepatitis A vaccination // Psychosom. Med. 2003. Vol. 65, No. 5. P. 831–835. DOI: 10.1097/01.psy.0000091382.61178.f1.
+Prather A.A., Hall M., Fury J.M. et al. Sleep and antibody response to hepatitis B vaccination // Sleep. 2012. Vol. 35, No. 8. P. 1063–1069. DOI: 10.5665/sleep.1990.
+Spiegel K., Sheridan J.F., Van Cauter E. Effect of sleep deprivation on response to immunization // JAMA. 2002. Vol. 288, No. 12. P. 1471–1472. DOI: 10.1001/jama.288.12.1471-a.
+Irwin M.R., Levin M.J., Laudenslager M.L. et al. Varicella zoster virus-specific immune responses to a herpes zoster vaccine in elderly recipients with major depression and the impact of antidepressant medications // Clin. Infect. Dis. 2013. Vol. 56, No. 8. P. 1085–1093. DOI: 10.1093/cid/cis1208.
+Besedovsky L., Lange T., Haack M. The sleep-immune crosstalk in health and disease // Physiol. Rev. 2019. Vol. 99, No. 3. P. 1325–1380. DOI: 10.1152/physrev.00010.2018.
+Garbarino S., Lanteri P., Bragazzi N.L. et al. Role of sleep deprivation in immune-related disease risk and outcomes // Commun. Biol. 2021. Vol. 4, No. 1. P. 1304. DOI: 10.1038/s42003-021-02825-4.
+IARC Monographs on the Identification of Carcinogenic Hazards to Humans Volume 124 [Электронный ресурс]. Режим доступа: https://publications.iarc.fr/593.
+Kubo T., Ozasa K., Mikami K. et al. Prospective cohort study of the risk of prostate cancer among rotating-shift workers: findings from the Japan collaborative cohort study // Am. J. Epidemiol. 2006. Vol. 164, No. 6. P. 549–55. DOI: 10.1093/aje/kwj232.
+Kubo T., Oyama I., Nakamura T. et al. Retrospective cohort study of the risk of obesity among shift workers: findings from the industry-based Shift Workers’ Health study, Japan // Occup. Environ. Med. 2011. Vol. 68, No. 5. P. 327–331. DOI: 10.1136/oem.2009.054445.
+Parent M.E., El-Zein M., Rousseau M.C. et al. Night work and the risk of cancer among men // Am. J. Epidemiol. 2012. Vol. 176, No. 9. P. 751–759. DOI: 10.1093/aje/kws318.
+Conlon M., Lightfoot N., Kreiger N. Rotating shift work and risk of prostate cancer // Epidemiology. 2007. Vol. 18, No. 1. P. 182–183. DOI: 10.1097/01.ede.0000249519.33978.31.
+Sigurdardottir L.G., Valdimarsdottir U.A., Mucci L.A. et al. Sleep disruption among older men and risk of prostate cancer // Cancer Epidemiol. Biomarkers Prev. 2013. Vol. 22, No. 5. P. 872–879. DOI: 10.1158/1055-9965.EPI-12-1227-T.
+International Agency for Research on Cancer IARC Monographs Meeting 124: Night Shift Work (4–11 June 2019); [Электронный ресурс]. Режим доступа: https://www.iarc.fr/wp-content/uploads/2019/07/QA_Monographs_Volume124.pdf.
+von Ruesten A., Weikert C., Fietze I., Boeing H. Association of sleep duration with chronic diseases in the European Prospective Investigation into Cancer and Nutrition (EPIC)-Potsdam study // PLoS One. 2012. Vol. 7, No. 1. P. e30972. DOI: 10.1371/journal.pone.0030972.
+Huang W., Ramsey K.M., Marcheva B., Bass J. Circadian rhythms, sleep, and metabolism // J. Clin. Invest. 2011. Vol. 121, No. 6. P. 2133–2141. DOI: 10.1172/JCI46043.
+Ogilvie R.P., Patel S.R. The epidemiology of sleep and obesity // Sleep Health. 2017. Vol. 3, No. 5. P. 383–388. DOI: 10.1016/j.sleh.2017.07.013.
+Leproult R., Van Cauter E. Effect of 1 week of sleep restriction on testosterone levels in young healthy men // JAMA. 2011. Vol. 305, No. 21. P. 2173–2174. DOI: 10.1001/jama.2011.710.
+Lateef O.M., Akintubosun M.O. Sleep and Reproductive Health // J. Circadian. Rhythms. 2020. Vol. 18. P. 1. DOI: 10.5334/jcr.190.
+Antunes I.B., Andersen M.L., Baracat E.C., Tufik S. The effects of paradoxical sleep deprivation on estrous cycles of the female rats // Horm. Behav. 2006. Vol. 49. P. 433–440. DOI: 10.1016/j.yhbeh.2005.09.005.
+Pereira J.C.Jr., Andersen M.L. The role of thyroid hormone in sleep deprivation // Med. Hypotheses. 2014. Vol. 82, No. 3. P. 350–355. DOI: 10.1016/j.mehy.2014.01.003.
+Tsutsumi R., Webster N.J. GnRH pulsatility, the pituitary response and reproductive dysfunction // Endocr. J. 2009. Vol. 56, No. 6. P. 729–737. DOI: 10.1507/endocrj. k09e-185.
+Kalmbach D.A., Arnedt J.T., Pillai V., Ciesla J.A. The impact of sleep on female sexual response and behavior: a pilot study // J. Sex. Med. 2015. Vol. 12, No. 5. P. 1221–1232. DOI: 10.1111/jsm.12858.
+Veldhuis J.D., Iranmanesh A., Godschalk M., Mulligan T. Older men manifest multifold synchrony disruption of reproductive neurohormone outflow // J. Clin. Endocrinol. Metab. 2000. Vol. 85, No. 4. P. 1477–1486. DOI: 10.1210/jcem.85.4.6546.
+Andersen M.L., Alvarenga T.A., Mazaro-Costa R. et al. The association of testosterone, sleep, and sexual function in men and women // Brain Res. 2011. Vol. 1416. P. 80–104. DOI: 10.1016/j.brainres.2011.07.060.
+O’Byrne N.A., Yuen F., Niaz W., Liu P.Y. Sleep and the testis // Curr. Opin. Endocr. Metab. Res. 2021. Vol. 18. P. 83–93. DOI: 10.1016/j.coemr.2021.03.002.
+Jensen T.K., Andersson A.M., Skakkebæk N.E. et al. Association of sleep disturbances with reduced semen quality: a cross-sectional study among 953 healthy young Danish men // Am. J. Epidemiol. 2013. Vol. 177, No. 10. P. 1027–1037. DOI: 10.1093/aje/kws420.
+Liu M.M., Liu L., Chen L. et al. Sleep deprivation and late bedtime impair sperm health through increasing antisperm antibody production: a prospective study of 981 healthy men // Med. Sci. Monit. 2017. Vol. 23. P. 1842–1848. DOI: 10.12659/msm.900101.
+Labyak S., Lava S., Turek F., Zee P. Effects of shiftwork on sleep and menstrual function in nurses // Health Care Women Int. 2002. Vol. 23, No. 6–7. P. 703–714. DOI: 10.1080/07399330290107449.
+Baumgartner A., Dietzel M., Saletu B. et al. Influence of partial sleep deprivation on the secretion of thyrotropin, thyroid hormones, growth hormone, prolactin, luteinizing hormone, follicle stimulating hormone, and estradiol in healthy young women // Psychiatry Res. 1993. Vol. 48, No. 2. P. 153–178. DOI: 10.1016/0165-1781(93)90039-J.
+Ahn R.S., Choi J.H., Choi B.C. et al. Cortisol, estradiol-17β, and progesterone secretion within the first hour after awakening in women with regular menstrual cycles // J. Endocrinol. 2011. Vol. 211, No. 3. P. 285–295. DOI: 10.1530/JOE-11-0247.
+Alvarenga T.A., Hirotsu C., Mazaro-Costa R. et al. Impairment of male reproductive function after sleep deprivation // Fertil Steril. 2015. Vol. 103, No. 5. P. 1355–1362.e. DOI: 10.1016/j.fertnstert.2015.02.002.
+Barclay J.L., Husse J., Bode B. et al. Circadian desynchrony promotes metabolic disruption in a mouse model of shiftwork // PLoS One. 2012. Vol. 7, No. 5. P. e37150. DOI: 10.1371/journal.pone.0037150.
+Maret S., Dorsaz S., Gurcel L. et al. Homer1a is a core brain molecular correlate of sleep loss // Proc. Natl. Acad. Sci. USA. 2007. Vol. 104, No. 50. P. 20090–20095. DOI: 10.1073/pnas.0710131104.
+Archer S.N., Oster H. How sleep and wakefulness influence circadian rhythmicity: effects of insufficient and mistimed sleep on the animal and human transcriptome // J. Sleep Res. 2015. Vol. 24, No. 5. P. 476–493. DOI: 10.1111/jsr.12307.
+Möller-Levet C.S., Archer S.N., Bucca G. et al. Effects of insufficient sleep on circadian rhythmicity and expression amplitude of the human blood transcriptome // Proc. Natl. Acad. Sci. USA. 2013. Vol. 110, No. 12. P. E1132–1141. DOI: 10.1073/pnas.1217154110.
+Kuna S.T., Maislin G., Pack F.M. et al. Heritability of performance deficit accumulation during acute sleep deprivation in twins // Sleep. 2012. Vol. 35, No. 9. P. 1223–1233. DOI: 10.5665/sleep.2074.
+Cirelli C., Tononi G. Differences in brain gene expression between sleep and waking as revealed by mRNA differential display and cDNA microarray technology // J. Sleep Res. 1999. Vol. 8. Suppl 1. P. 44–52. DOI: 10.1046/j.1365-2869.1999.00008.x.
+Cirelli C., Gutierrez C.M., Tononi G. Extensive and divergent effects of sleep and wakefulness on brain gene expression // Neuron. 2004. Vol. 41, No. 1. P. 35–43. DOI: 10.1016/s0896-6273(03)00814-6.
+Vecsey C.G., Peixoto L., Choi H. et al. Genomic analysis of sleep deprivation reveals translational regulation in the hippocampus // Physiol. Genomics. 2012. Vol. 44, No. 20. P. 981–991. DOI: 10.1152/physiolgenomics.00084.2012.
+Arnardottir E.S., Nikonova E.V., Shockley K.R. et al. Blood-gene expression reveals reduced circadian rhythmicity in individuals resistant to sleep deprivation // Sleep. 2014. Vol. 37, No. 10. P. 1589–1600. DOI: 10.5665/sleep.4064.
+Wynchank D., Bijlenga D., Penninx B.W. et al. Delayed sleep-onset and biological age: late sleep-onset is associated with shorter telomere length // Sleep. 2019. Vol. 42, No. 10. P. zsz139. DOI: 10.1093/sleep/zsz139.
+Prather A.A., Gurfein B., Moran P. et al. Tired telomeres: Poor global sleep quality, perceived stress, and telomere length in immune cell subsets in obese men and women // Brain Behav. Immun. 2015. Vol. 47. P. 155–162. DOI: 10.1016/j.bbi.2014.12.011.
+Prather A.A., Puterman E., Lin J. et al. Shorter leukocyte telomere length in midlife women with poor sleep quality // J. Aging Res. 2011. Vol. 2011. P. 721390. DOI: 10.4061/2011/721390.
+James S., McLanahan S., Brooks-Gunn J. et al. Sleep duration and telomere length in children // J. Pediatr. 2017. Vol. 187. P. 247–252.e1. DOI: 10.1016/j.jpeds.2017.05.014.

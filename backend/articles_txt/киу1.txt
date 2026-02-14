@@ -1,0 +1,151 @@
+﻿Название
+Барьерная функция кожи и роль жирорастворимых витаминов в коррекции ее нарушений
+
+
+Автор
+C.Ю. Петрова, В.И. Альбанова 
+Петрова Станислава Юрьевна - кандидат медицинских наук
+Альбанова Вера Игоревна - доктор медицинских наук
+
+
+Категория
+Кожа и уход
+
+
+Аннотация 
+Кожа выполняет основную защитную функцию за счет многоуровневого барьера, включающего физическую прочность (роговой слой, дерма, межклеточные контакты), химико-биологическую защиту (липиды, пептиды) и местный иммунитет с полезной микрофлорой. Нарушение одного из этих звеньев ведет к каскаду патологических реакций. Для восстановления барьерной функции применяют витамины А, D и Е. Витамин А стимулирует обновление клеток и синтез структур дермы; Витамин D регулирует рост кератиноцитов; Витамин Е действует как антиоксидант. Совместное использование этих витаминов комплексно укрепляет все защитные механизмы кожи: повышает механическую и химическую прочность, снижает трансэпидермальную потерю влаги, уменьшает УФ-повреждения и усиливает антимикробную/антиоксидантную защиту.
+
+
+Текст
+Важнейшая функция кожи — служить барьером между внутренней средой организма и окружающей внешней средой, защищая от множества воздействий и, главное, предотвращая критическую потерю воды и электролитов.
+Заголовок
+Структура и компоненты защитного барьера кожи
+
+
+Защитный барьер кожи условно делится на три тесно связанных между собой системы: физический, химико-биологический и иммунологический барьеры. Это деление условно, поскольку все структуры и функции кожи взаимосвязаны; например, натуральный увлажняющий фактор (НУФ), играет роль практически во всех видах защиты.
+Подзаголовок
+Физический барьер проницаемости
+Основную нагрузку по поддержанию физического барьера несет эпидермис, а его главная структура — роговой слой. Механическую прочность обеспечивают межклеточные контакты в эпидермисе (десмосомы и корнеодесмосомы) и структурные белки дермы.
+Эпидермис и процесс обновления
+Целостность эпидермиса поддерживается постоянным процессом обновления. Деление клеток происходит в базальном слое. Кератиноциты по мере продвижения к поверхности теряют органеллы и превращаются в безъядерные чешуйки — корнеоциты. Корнеоциты, соединенные корнеодесмосомами, образуют многорядный «щит» — основу механической прочности.
+Ключевые структурные компоненты
+* Корнеоцит: Состоит из плотных пучков кератиновых волокон (содержащих НУФ) и окружен белково-липидной оболочкой (роговым конвертом).
+* Липидный матрикс рогового слоя: Состоит из церамидов, холестерина и жирных кислот. Эта уникальная ламеллярная структура снижает трансэпидермальную потерю влаги (ТЭПВ) и препятствует проникновению чужеродных веществ.
+Деструкция филаггрина в роговом слое приводит к образованию компонентов НУФ, который критически важен для поддержания физиологического pH, антибактериальной защиты, удержания влаги и защиты от инсоляции.
+
+
+Подзаголовок
+Химико-биологический барьер
+Этот барьер включает несколько механизмов:
+1. Водно-липидная мантия (ВЛМ): Служит дополнительным химическим барьером, поддерживая постоянный слабокислый рН (4,5–5,5). Снижение рН рогового слоя объясняется гидролизом фосфолипидов в свободные жирные кислоты, а также катаболизмом филаггрина. ВЛМ подавляет размножение бактерий, грибов и вирусов благодаря свободным жирным кислотам и антимикробным пептидам (АМП).
+2. Секрет сальных желез: Содержит триглицериды, восковые эфиры и сквален, способствуя удерживанию влаги и поддержанию низкого рН.
+3. Секрет потовых желез: Содержит мочевину и молочную кислоту (входят в состав НУФ), а также АМП и провоспалительные цитокины. Пот способен увеличивать гидратацию кожи.
+Подзаголовок
+Микробиологический и иммунологический барьеры
+Микробиологический барьер
+Кожный микробиом (бактерии, грибы, вирусы) обычно непатогенен и обеспечивает защиту от патогенов за счет микробного антагонизма. Он вырабатывает АМП и физически противодействует колонизации патогенами. Состав микробиома зависит от участка кожи; например, липофильные виды Propionibacterium преобладают на сальных участках.
+Иммунологический барьер
+Жесткая регуляция состава микробиома обеспечивается рН эпидермиса и иммунной системой.
+* Кератиноциты и фибробласты относятся к клеткам врожденной иммунной защиты. Они экспрессируют толл-подобные рецепторы (TLRs) для распознавания патогенов и повреждений, что инициирует выработку провоспалительных цитокинов и АМП ($\beta$-дефензинов, кателицидина).
+* Клетки Лангерганса (КЛ) в эпидермисе являются фагоцитами. Они поглощают антигены и представляют их резидентным Т-клеткам памяти, инициируя местный адаптивный иммунный ответ.
+* Дерма содержит дермальные дендритные клетки и макрофаги.
+* Адипоциты (клетки гиподермы) также играют роль в барьерном иммунитете как важный источник АМП.
+Заголовок
+Нарушение барьерной функции кожи
+Нарушение барьерной функции кожи создает возможность для развития аллергических и аутоиммунных заболеваний.
+Нарушения могут быть связаны с действием:
+* Экзогенных факторов: Механические, химические, физические воздействия; недостаток омега-3 и омега-6 жирных кислот; ятрогенные факторы (глюкокортикостероиды, косметические процедуры).
+* Эндогенных факторов: Приобретенные иммунологические нарушения; соматические заболевания (сахарный диабет); возрастные периоды (новорожденные, лица старше 60 лет).
+* Генетических факторов: Мутации при псориазе, ихтиозах и атопическом дерматите.
+Следствием нарушений является повышение проницаемости кожи, проявляющееся в увеличении ТЭПВ и восприимчивости к инфекции, воспалению и контактной сенсибилизации.
+Заголовок
+Влияние жирорастворимых витаминов на барьерную функцию
+Для наружного лечения заболеваний, связанных с нарушением барьерной функции, используют витамины А, D и Е.
+Подзаголовок
+Ретинола пальмитат (Витамин А)
+Местное действие связано со способностью кератиноцитов и фибробластов преобразовывать его в ретиноевую кислоту, которая, связываясь с ядерным рецептором RAR-RXR, регулирует транскрипцию генов и влияет на синтез белков.
+В умеренных дозах ретинола пальмитат:
+* Стабилизирует физический барьер: Повышает количество митозов в базальном слое, утолщая эпидермис; формирует компактный роговой слой; в дерме усиливает синтез коллагена I и III типов, фибронектина и эластина.
+* Усиливает защиту от УФ: За счет своего антиоксидантного действия.
+* Обладает иммуностимулирующим эффектом: Стимулирует реакции клеточного иммунитета (Т-киллеров, фагоцитоз).
+Подзаголовок
+Колекальциферол (Витамин D)
+Колекальциферол (D3) вырабатывается в кератиноцитах под действием УФ-B. Кератиноциты имеют ферментативные системы для преобразования его в активные метаболиты (кальцидиол и кальцитриол), которые связываются с рецептором VDR и регулируют дифференцировку и пролиферацию.
+При наружном нанесении витамин D3:
+* Усиливает физический барьер: Стимулирует формирование рогового слоя, увеличивая экспрессию инволюкрина, лорикрина и филаггрина, и подавляет гиперпролиферацию.
+* Усиливает химико-биологический барьер: Повышает выработку АМП (включая кателицидин) и снижает избыточные реакции на бактериальные токсины.
+* Повышает защиту от УФ: Кальцитриол обладает фотозащитным действием, уменьшая повреждение ДНК.
+Подзаголовок
+Токоферола ацетат (Витамин Е)
+Витамин Е — это антиоксидант, основное действие которого — стабилизация клеточных мембран, защищающая их от деструктивного повреждения.
+При наружном нанесении витамин Е:
+* Стабилизирует физический барьер: Предотвращает апоптоз клеток.
+* Улучшает химический барьер: Снижает pH кожи, препятствуя росту бактерий.
+* Обладает фотопротективным и иммуномодулирующим действием: Устраняет слабый провоспалительный фон, стабилизируя мембраны.
+Подзаголовок
+Совместное действие жирорастворимых витаминов
+Общеизвестен синергизм действия витаминов А и Е, особенно выраженный в их совместном антиоксидантном эффекте и фотопротекции (токоферол защищает двойные связи в молекулах витамина А от окисления).
+Совместное применение жирорастворимых витаминов А, D и Е оказывает комплексное влияние на все основные звенья защиты эпидермиса и дермы:
+* Укрепляется механическая прочность рогового слоя и дермы.
+* Стабилизируется химическая и физическая защита, что препятствует проникновению чужеродных веществ и снижает ТЭПВ.
+* Уменьшается повреждающее действие УФ и увеличивается антимикробная защита.
+Их совместное применение позволяет влиять на основные звенья защиты, формируя баланс между пролиферацией, дифференцировкой и апоптозом в эпидермисе.
+Источники
+Хлебникова А.Н., Петрунин Д.Д., Молочков А.В. Липиды человеческого эпидермиса (фундаментальные сведения и клиническая имплементация). М: МОНИКИ; 2015. с. 4–56. [Hlebnikova AN, Petrunin DD, Molochkov AV. Lipids of the human epidermis (fundamental information and clinical implementation). Moscow: MONIKI; 2015: 4-56. (In Russ.)].
+Альбанова В.И., Пампура А.Н. Атопический дерматит. М: ГЭОТАР-Медиа; 2020. с. 5–16 [Albanova VI, Pampura AN. Atopic dermatitis. Moscow: GEOTAR-Media; 2020: 5-16 (In Russ.)]. doi: 10.33029/9704-5640-8-ATTI-2020-1-144
+Голдсмит Л.А., Кац С.И., Джилкрест Б.А., Паллер Э.С., Леффель Д.Дж., Вольф К. Дерматология Фицпатрика в клинической практике. М: Издательство Панфилова; 2015. Т. 1. с. 64–83 [Goldsmith LA, Katz SI, Gilchrest BA, Paller AS, Leffell DJ, Wolff K. Fitzpatrick’s Dermatology General Medicine. Moscow: Izdatel'stvo Panfilova; 2015: 64-83 (In Russ.)].
+Синичкин Ю.П., Утц С.Р. In vivo отражательная и флуоресцентная спектроскопия кожи человека. Саратов: Издательство Саратовского университета; 2018. с. 6–100 [Sinichkin YuP, Utc SR. In vivo reflective and fluorescent spectroscopy of human skin. Saratov: Saratov University Press; 2018: Р. 108 (In Russ.)].
+Chambers ES, Vukmanovic-Stejic M. Skin barrier immunity and ageing. Immunology. 2020;160(2) 116–25. doi: 10.1111/imm.13152
+Lehmann B, Genehr T, Knuschke P, Pietzsch J, Meurer M. UVB-induced conversion of 7-dehydrocholesterol to 1alpha,25-dihydroxyvitamin D3 in an in vitro human skin equivalent model. J Invest Dermatol. 2001;117(5):1179-85. doi: 10.1046/j.0022-202x.2001
+Мяделец О.Д., Соболевская И.С., Мяделец В.О. Гистофизиология жиросодержащих структур кожи: пособие. Витебск: ВГМУ; 2015. с. 5–201[Myadelec OD, Sobolevskaya IS, Myadelec VO. Histophysiology of fat-containing skin structures: a manual. Vitebsk: VGMU; 2015: 5–201 (In Russ.)].
+Кузнецов С. Л., Горячкина В. Л., Цомартова Д. А., Заборова В. А., Луцевич О. А. Современные представления о структуре и функциях эпидермиса. Российский журнал кожных и венерических болезней. 2013;2:26-32 [Kuznetsov SL, Goryachkina VL, Tsomartova DA, Zaborova VA, Lutsevich OA. Modern concepts on the structure and functions of the epidermis and derma. Russian journal of skin and venereal diseases. 2013; 2:26-32. (In Russ.)]
+Петрунин Д.Д. Медикаментозная терапия с точки зрения влияния на морфофункциональные характеристики эпидермального барьера. Вестник дерматологии и венерологии. 2019;95(1):59–76 [Petrunin DD. Pharmacotherapy: Its impact on morphofunctional characteristics of the epidermal barrier. Vestnik dermatologii i venerologii. 2019;95(1):59-76. (In Russ.)] doi: 10.25208/0042-4609-2019-95-1-59-76
+Évora AS, Adams MJ, Johnson SA, Zhang Z. Corneocytes: relationship between structural and biomechanical properties. Skin Pharmacol Physiol. 2021;34(3):146-61. doi: 10.1159/000513054
+Мурашкин Н.Н., Амбарчян Э.Т., Епишев Р.В., Материкин А.И. Барьерные свойства кожи в норме и патологии. Педиатрия. Журнал им. Г.Н. Сперанского. 2015;6:165-9 [Murashkin NN, Ambarchyan ET, Epishev RV, Materikin AI. Skin barrier properties in norm and pathology. Pediatriya. ZHurnal imeni G.N. Speranskogo. 2015;6:165-9. (In Russ.)]
+Lefèvre-Utile A, Braun C, Haftek M, Aubin F. Five functional aspects of the epidermal barrier. Int J Mol Sci. 2021;22(21):11676. doi: 10.3390/ijms222111676
+Shiohara T, Mizukawa Y, Shimoda-Komatsu Y, Aoyama Y. Sweat is a most efficient natural moisturizer providing protective immunity at points of allergen entry. Allergol Int. 2018;67:442–7. doi: 10.1016/j.alit.2018.07.010
+Dai X, Okazaki H, Hanakawa Y, Murakami M, Tohyama M, Shirakata Yu, Sayama K. Eccrine sweat contains IL-1α, IL-1β and IL-31 and activates epidermal keratinocytes as a danger signal. PLoS ONE. 2013 8:e67666. doi: 10.1371/journal.pone.0067666
+Murota H, Yamaga K, Ono E, Murayama N, Yokozeki H, Katayama I. Why does sweat lead to the development of itch in atopic dermatitis? Exp. Dermatol. 2019;28:1416–21. doi: 10.1111/exd.13981
+Byrd A, Belkaid Y, Segre J. The human skin microbiome. Nat. Rev. Microbiol. 2018;16: 143–55. doi: 10.1038/nrmicro.2017.157
+Brandwein M, Bentwich Z, Steinberg D. Endogenous antimicrobial peptide expression in response to bacterial epidermal colonization. Front. Immunol. 2017;8:1637. doi: 10.3389/fimmu.2017.01637
+Belkaid Y, Segre JA. Dialogue between skin microbiota and immunity. Science. 2014;346: 954–9. doi: 10.1126/science.1260144
+Döge N, Avetisyan A, Hadam S, Pfannes EKB, Rancan F, Blume-Peytavi U, Vogt A. Assessment of skin barrier function and biochemical changes of ex vivo human skin in response to physical and chemical barrier disruption. Eur J Pharm Biopharm. 2017;116: 138-48. doi: 10.1016/j.ejpb.2016.12.012
+Козлов В.А., Савченко А.А., Кудрявцев И.В., Козлов И.Г., Кудлай Д.А., Продеус А.П., и соавт. Клиническая иммунология. Красноярск: Поликор; 2020. 386 с [Kozlov VA, Savchenko AA, Kudryavcev IV, Kozlov IG, Kudlaj DA, Prodeus AP, et al. Clinical immunology. Krasnoyarsk: Polikor; 2020: Р. 386 (In Russ.)].
+Пинегин Б.В., Иванов О.Л., Пинегин В.Б. Роль клеток иммунной системы и цитокинов в развитии псориаза. Иммунология. 2012;33(4):213-9 [Pinegin BV, Ivanov OL, Pinegin VB. The role of immune cells and cytokines in the development of psoriasis. Immunologiya. 2012;33(4):213-9. (In Russ.)]
+Streilein JW, Grammer SF, Yoshikawa T, Demidem A, Vermeer M. Functional dichotomy between Langerhans cells that present antigen to naive and to memory/effector T lymphocytes. Immunol Rev. 1990;117:159-83. doi: 10.1111/j.1600-065x.1990.tb00572.x
+Akdis CA. Does the epithelial barrier hypothesis explain the increase in allergy, autoimmunity and other chronic conditions? Nat Rev Immunol. 2021;21(11):739-51. doi: 10.1038/s41577-021-00538-7
+Петрова C.Ю., Хлгатян С.В., Бержец В.М., Васильева А.В. Аллергенсодержащие вакцины для специфической иммунотерапии. 2021;98(1):104-12 [Petrova SYu, Khlgatian SV, Berzhets VM, Vasileva AV. Allergy vaccines for specific immunotherapy. Journal of microbiology, epidemiology and immunobiology. 2021;98(1):104-12. (In Russ.)] doi: 10.36233/0372-9311-11
+Rerknimitr P, Otsuka A, Nakashima C, Kabashima K. The etiopathogenesis of atopic dermatitis: barrier disruption, immunological derangement, and pruritus. Inflamm Regen. 2017;37:1-15. doi: 10.1186/s41232-017-0044-7
+Eberting CL, Coman G, Blickenstaff N. Repairing a compromised skin barrier in dermatitis: leveraging the skin’s ability to heal itself. J Allergy Ther. 2014;5:187. doi:10.4172/2155-6121.1000187
+Бурместер Г.Р., Пецутто А. Наглядная иммунология. М: Лаборатория знаний; 2018. c. 55–98 [Burmester GR, Pecutto A. Visual immunology. Moscow: Laboratoriya znanii; 2018: 55–98 (In Russ.)].
+Ковалева Ю.С., Ведлер А.А., Кожевникова П.Е. Роль керамидов в сохранении эпидермального барьера. Клиническая дерматология и венерология. 2019;18(4):513-8 [Kovaleva YuS, Vedler AA, Kozhevnikova PE. The role of ceramides in preserving the epidermal barrier. Klinicheskaya Dermatologiya i Venerologiya. 2019;18(4):513-8. (In Russ.)] doi :10.17116/klinderma201918041513
+Альбанова В.И. Роль наружных ретиноидов в устранении признаков старения кожи. Вестник дерматологии и венерологии. 2021;97(4):60-70 [Albanova VI. The role of local retinoids in eliminating signs of skin aging. Vestnik Dermatologii i Venerologii. 2021; 97(4):60-70. (In Russ.)] doi: 10.25208/vdv1220
+Stalder JF, Tennstedt D, Deleuran M, Fabbrocini G, de Lucas R, Haftek M, et al. Fragility of epidermis and its consequence in dermatology. J Eur Acad Dermatol Venereol. 2014;28(4): 1-18. doi: 10.1111/jdv.12509
+Силина Л.В., Харахордина Ю.Е., Есипова Е.А., Карпова А.В. Оценка клинической эффективности поливитаминного репаративного препарата для местного применения в комплексной терапии экземы. Клиническая дерматология и венерология. 2021; 20(1):62–70 [Silina LV, Kharakhordina YuE, Esipova EA, Karpova AV. Clinical efficacy evaluation of a multivitamin combined reparative drug for local use in the complex therapy of eczema. Klinicheskaya Dermatologiya i Venerologiya. 2021;20(1):62-70. (In Russ.)] doi: 10.17116/klinderma20212001162
+Карпова А.В. Оценка эффективности комплексной терапии волосяного лишая (фолликулярного поверхностного кератоза) с учётом этиопатогенеза заболевания. Вестник постдипломного медицинского образования. 2017;4:6-9 [Karpova AV. Effectiveness of complex therapy of keratosis follicularis (superfi cial follicular keratosis) subject to the etiopathogenesis of the disease. Post-qualifying medical education herald. 2017;4:6-9. (In Russ.)]
+Касихина Е.И., Колбина М.С. Ретинол в коррекции возрастных изменений кожи: обзор клинической эффективности и безопасности. Клиническая дерматология и венерология. 2014;12(6):115-9 [Kasikhina EI, Kolbina MS. The use of retinol to correct age-related skin changes: a review of clinical effectiveness and safety. Klinicheskaya Dermatologiya i Venerologiya. 2014;12(6):115-9 (In Russ.)]
+Kam RK, Deng Y, Chen Y, Zhao H. Retinoic acid synthesis and functions in early embryonic development. Cell Biosci. 2012;2(1):11. doi: 10.1186/2045-3701-2-11
+Еникеев А.Д., Комельков А.В., Аксельрод М.Е., Чевкина Е.М. Неканоническая активность ретиноевой кислоты как возможный механизм формирования резистентности злокачественных клеток к ретиноидной терапии. Российский биотерапевтический журнал. 2019;10:43-50 [Enikeev AD, Komelkov AV, Akselrod ME, Tchevkina EM. Non-canonical activity of retinoic acid as a possible mechanism of retinoid resistance in cancer therapy. Rossijskij bioterapevtičeskij žurnal. 2019;10:43-50. (In Russ.)] doi: 10.17650/1726-9784-2019-18-4-43-50
+Ноздрин В.И., Лаврик О.И., Банин В.В., Белоусова Т.А., Трунова Г.В. Радевит®Актив- поливитаминная мазь для смягчения, питания и заживления кожи. Ретиноиды. Альманах. 2014;33:63-9 [Nozdrin VI, Lavrik OI, Banin VV, Belousova TA, Trunova GV. Radevit ®Active - multivitamin ointment for softening, nourishing and healing the skin. Retinoids. Al'manah. 2014;33:63-9. (In Russ.)]
+Ноздрин В.И., Конь И.Я., Гузев К.С., Волков Ю.Т. Фармакологическая активность ретинола пальмитата. Ретиноиды. Альманах. 2014;33:12-8 [Nozdrin VI, Kon IYa, Guzev KS, Volkov YuT. Pharmacological activity of retinol palmitate. Retinoids. Al'manah. 2014; 33:12-8. (In Russ.)]
+Babamiri K, Nassab R. Cosmeceuticals: the evidence behind the retinoids. Aesthet Surg J. 2010;30(1):74-7. doi: 10.1177/1090820X09360704
+Shao Y, He T, Fisher GJ, Voorhees JJ, Quan T. Molecular basis of retinol anti-ageing properties in naturally aged human skin in vivo. Int J Cosmet Sci. 2017;39(1):56-5. doi: 10.1111/ics.12348
+Кинаш М.И., Боярчук О.Р. Жирорастворимые витамины и иммунодефицитные состояния: механизмы влияния и возможности использования. Вопросы питания. 2020:89(3);22-32 [Kinash MI, Boyarchuk OR. Fat-soluble vitamins and immunodeficiency: mechanisms of influence and opportunities for use. Problems of nutrition. 2020:89(3);22-32. (In Russ.)] doi: 10.24411/0042-8833-2020-10026
+Tang XH, Gudas LJ. Retinoids, retinoic acid receptors, and cancer. Annu Rev Pathol. 2011; 6:345-64. doi: 10.1146/annurev-pathol-011110-130303
+Agak GW, Qin M, Nobe J, Kim MH, Krutzik SR, Tristan GR, et al. Propionibacterium acnes induces an IL-17 response in acne vulgaris that is regulated by vitamin A and vitamin D. J Invest Dermatol. 2014;134(2):366-73. doi: 10.1038/jid.2013.334
+Kong R, Cui Y, Fisher GJ, Wang X, Chen Y, Schneider LM, et al. A comparative study of the effects of retinol and retinoic acid on histological, molecular, and clinical properties of human skin. J Cosmet Dermatol. 2016;15(1):49-57. doi: 10.1111/jocd.12193
+Wadhwa B, Relhan V, Goel K, Kochhar AM, Garg VK. Vitamin D and skin diseases: A review. Indian J Dermatol Venereol Leprol. 2015;81(4):344-55. doi: 10.4103/0378-6323.159928
+Trémezaygues L, Reichrath J. Vitamin D analogs in the treatment of psoriasis: Where are we standing and where will we be going? Dermatoendocrinol. 2011;3(3):180-6. doi: 10.4161/derm.3.3.17534
+Дедов И.И., Мельниченко Г.А., Пигарова Е.А., Дзеранова Л.К., Рожинская Л.Я., Трошина Е.А. Дефицит витамина D у взрослых: диагностика, лечение и профилактика. Учебное пособие: Клинические рекомендации Российской ассоциации эндокринологов. Тверь: ООО «Издательство «Триада»; 2020. с. 4–48 [Dedov II, Melnichenko GA, Pigarova E A, Dzeranova LC, Rozhinskaya LA, Troshina EA. Vitamin D deficiency in adults: diagnosis, treatment and prevention. Textbook: Clinical recommendations of the Russian Association of Endocrinologists. Tver: OOO «Izdatel'stvo «Triada»; 2020: 4-48 (In Russ.)].
+Захарова И.Н., Мальцев С.В., Заплатников А.Л., Климов Л.Я., Пампура А.Н., Курьянинова В.А., и соавт. Влияние витамина D на иммунный ответ организма. Педиатрия. Consilium Medicum. 2020;2:29-37 [Akharova IN, Maltsev SV, Zaplatnikov AL, Klimov LYa, Pampura AN, Kuryaninova VA, et al. Influence of vitamin D on the immune response of the organism. Pediatrics. Consilium Medicum. 2020;2:29-37. (In Russ.)] doi: 10.26442/26586630.2020.2.200238
+Reichrath J, Schuler C, Seifert M, Zouboulis С, Tilgen W. The vitamin D endocrine system of human sebocytes. Experimental Dermatology. 2008;15(8):643 –48. doi: 10.1111/j.1600-0625.2006.00439b.x
+Slominski AT, Kim TK, Shehabi HZ, Semak I, Tang EK, Nguyen MN, et al. In vivo evidence for a novel pathway of vitamin D metabolism initiated by P450scc and modified by CYP27B1. FASEB J. 2012;26(9):3901-15. doi: 10.1096/fj.12-208975
+Scheenstra MR, van Harten RM, Veldhuizen EJA, Haagsman HP, Coorens M. Cathelicidins Modulate TLR-activation and inflammation. Front. Immunol. 2020;11:1137. doi: 10.3389/fimmu.2020.01137
+Thorsteinn L. Drug stability for pharmaceutical scientists. Amsterdam: Academic Press; 2014: Р. 56. doi: 10.1016/C2012-0-07703-4
+Stanizzi A, Bottoni M, Tartaglione C, Bolletta E, Benedetto G. Associated use of silicone-vitamin E gauzes and α-tocopherol acetate oil in healing of skin graft donor sites. International Wound Journal 2017;14(5):1-5. doi: 10.1111/iwj.12707
+Malavolta М, Mocchegiani E. Molecular basis of nutrition and aging. Amsterdam: Academic Press; 2016: pp. 637-47. doi: 10.1016/C2014-0-00388-7
+Wagner R, Piñón Hofbauer J, Wally V, Kofler B, Schmuth M, De Rosa L, et al. Epigenetic and metabolic regulation of epidermal homeostasis. Experimental Dermatology. 2021;30(3): doi: 30. 10.1111/exd.14305
+Гузев К.С., Жучков С.А., Никитин В.Г. Исследование некоторых фармакокинетических показателей лекарственного средства Радевит®Актив. Научные ведомости. 2010;22(93):23-8 [Guzev KS, Zhuchkov SA, Nikitin VG. Investigation of some pharmacokinetic parameters of the drug Radevit®Aktiv. Nauchnye vedomosti. 2010;22(93):23-8. (In Russ.)]
+Силина Л.В., Харахордина Ю.Е., Есипова Е.А., Карпова А.В. Клинические перспективы использования в коморбидной терапии ладонно-подошвенных кератодермий «Ретинола пальмитата», мазей «Радевит Актив» и «Уродерм». Вестник постдипломного медицинского образования. 2020;1:21-8 [Silina LV, Kharakhordina YuE, Esipova EA, Karpova AV. Clinical prospects for the use of palm-plantar keratodermia "Retinol palmitate", " Radevit Aktiv " and "Uroderm" in comorbid therapy. Post-qualifying medical education herald. 2020;1:21-8. (In Russ.)]
+Клинические рекомендации. Ихтиоз. Общероссийская общественная организация «Российское общество дерматовенерологов и косметологов». 2020. (26 Июня 2022) [Klinicheskie rekomendacii. Ihtioz. RODVK. 2020. (In Russ.)]
+Альбанова В.И., Петрова С.Ю. Атопический дерматит. М: ГЭОТАР-Медиа; 2022. с. 113–17 [Albanova VI,Petrova S.Yu. Atopic dermatitis. Moscow: GEOTAR-Media; 2022: 113-17 (In Russ.)]. doi: 10.33029/9704-6852-4-ATD-2022-1-168

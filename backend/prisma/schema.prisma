@@ -1,0 +1,24 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Article {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  authorName  String
+  authorBio   String?
+  category    String
+  annotation  String   @db.Text
+  imageUrl    String
+  imageAlt    String
+  content     Json
+  sources     Json
+  createdAt   DateTime @default(now())
+  published   Boolean  @default(true)
+}
