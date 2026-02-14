@@ -2,8 +2,10 @@
 import json
 import re
 
-INPUT_DIR = "../articles_txt"
-OUTPUT_FILE = "../articles.json"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+INPUT_DIR = os.path.join(BASE_DIR, "..", "articles_txt")
+OUTPUT_FILE = os.path.join(BASE_DIR, "..", "articles.json")
 
 def slugify(text):
     text = text.lower()
@@ -31,54 +33,64 @@ def parse_article(text):
     while i < len(lines):
         line = lines[i]
 
+        # на всякий случай убираем BOM/невидимые символы в начале
+        line = line.lstrip("\ufeff").strip()
+
         if line == "Название":
             i += 1
-            article["title"] = lines[i]
-            article["slug"] = slugify(article["title"])
-            article["imageUrl"] = f"/images/articles/{article['slug']}.jpg"
-            article["imageAlt"] = article["title"]
+            if i < len(lines):
+                article["title"] = lines[i].lstrip("\ufeff").strip()
+                article["slug"] = slugify(article["title"])
+                article["imageUrl"] = f"/images/articles/{article['slug']}.jpg"
+                article["imageAlt"] = article["title"]
 
         elif line == "Автор":
             i += 1
-            article["authorName"] = lines[i]
+            if i < len(lines):
+                article["authorName"] = lines[i].lstrip("\ufeff").strip()
             i += 1
-            article["authorBio"] = lines[i]
+            if i < len(lines):
+                article["authorBio"] = lines[i].lstrip("\ufeff").strip()
 
         elif line == "Категория":
             i += 1
-            article["category"] = lines[i]
+            if i < len(lines):
+                article["category"] = lines[i].lstrip("\ufeff").strip()
 
         elif line == "Аннотация":
             i += 1
-            article["annotation"] = lines[i]
+            if i < len(lines):
+                article["annotation"] = lines[i].lstrip("\ufeff").strip()
 
         elif line == "Источники":
             i += 1
             while i < len(lines):
-                article["sources"].append(lines[i])
+                article["sources"].append(lines[i].lstrip("\ufeff").strip())
                 i += 1
             break
 
         elif line == "Заголовок":
             i += 1
-            article["content"].append({
-                "type": "heading",
-                "level": 2,
-                "text": lines[i]
-            })
+            if i < len(lines):
+                article["content"].append({
+                    "type": "heading",
+                    "level": 2,
+                    "text": lines[i].lstrip("\ufeff").strip()
+                })
 
         elif line == "Подзаголовок":
             i += 1
-            article["content"].append({
-                "type": "heading",
-                "level": 3,
-                "text": lines[i]
-            })
+            if i < len(lines):
+                article["content"].append({
+                    "type": "heading",
+                    "level": 3,
+                    "text": lines[i].lstrip("\ufeff").strip()
+                })
 
         elif line.startswith("* "):
             items = []
-            while i < len(lines) and lines[i].startswith("* "):
-                items.append(lines[i][2:])
+            while i < len(lines) and lines[i].lstrip("\ufeff").strip().startswith("* "):
+                items.append(lines[i].lstrip("\ufeff").strip()[2:])
                 i += 1
             article["content"].append({
                 "type": "bullet-list",
@@ -100,17 +112,23 @@ def parse_article(text):
 def main():
     articles = []
 
-    for filename in os.listdir(INPUT_DIR):
+    # диагностика
+    if not os.path.isdir(INPUT_DIR):
+        raise FileNotFoundError(f"INPUT_DIR not found: {INPUT_DIR}")
+
+    for filename in sorted(os.listdir(INPUT_DIR)):
         if filename.endswith(".txt"):
-            with open(os.path.join(INPUT_DIR, filename), encoding="utf-8") as f:
+            path = os.path.join(INPUT_DIR, filename)
+            with open(path, encoding="utf-8") as f:
                 text = f.read()
-                article = parse_article(text)
-                articles.append(article)
+                articles.append(parse_article(text))
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(articles, f, ensure_ascii=False, indent=2)
 
     print(f"{len(articles)} статей успешно конвертировано!")
+    print("INPUT_DIR =", INPUT_DIR)
+    print("OUTPUT_FILE =", OUTPUT_FILE)
 
 
 if __name__ == "__main__":
