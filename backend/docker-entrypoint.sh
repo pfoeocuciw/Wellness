@@ -10,11 +10,22 @@ npx prisma generate
 echo "➡️ Seeding database..."
 npx prisma db seed
 
-echo "➡️ Running RSS import check on startup..."
-python3 -m rss_importer.main --trigger startup || true
+echo "➡️ Running RSS import on startup in background..."
+(
+  /opt/venv/bin/python -m rss_importer.main --trigger startup --force --limit "${RSS_LIMIT_PER_FEED:-10}" \
+    || echo "⚠️ Startup RSS import failed"
+) &
 
 echo "➡️ Starting RSS scheduler in background..."
-python3 -m rss_importer.scheduler &
+(
+  while true
+  do
+    /opt/venv/bin/python -m rss_importer.main --trigger scheduler --limit "${RSS_LIMIT_PER_FEED:-10}" \
+      || echo "⚠️ Scheduled RSS import failed"
+
+    sleep 3600
+  done
+) &
 
 echo "➡️ Starting server..."
 exec node src/server.js

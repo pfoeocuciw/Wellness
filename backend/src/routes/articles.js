@@ -1,11 +1,11 @@
-const express = require("express");
+ï»¿const express = require("express");
 const prisma = require("../prisma");
 
 const router = express.Router();
 
 /**
  * GET /api/articles
- * Ñïèñîê ñòàòåé (êðàòêàÿ èíôîðìàöèÿ)
+ * Ð¡Ð¿Ð¸ÑÐ¾Ðº ÑÑ‚Ð°Ñ‚ÐµÐ¹ (ÐºÑ€Ð°Ñ‚ÐºÐ°Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ)
  */
 router.get("/", async (req, res) => {
     try {
@@ -33,8 +33,8 @@ router.get("/", async (req, res) => {
 
 /**
  * GET /api/articles/id/:id
- * Ïîëó÷åíèå ñòàòüè ïî ID
- * ÂÀÆÍÎ: äîëæåí áûòü âûøå, ÷åì /:slug
+ * ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ ÑÑ‚Ð°Ñ‚ÑŒÐ¸ Ð¿Ð¾ ID
+ * Ð’ÐÐ–ÐÐž: Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ Ð²Ñ‹ÑˆÐµ, Ñ‡ÐµÐ¼ /:slug
  */
 router.get("/id/:id", async (req, res) => {
     try {
@@ -55,7 +55,7 @@ router.get("/id/:id", async (req, res) => {
 
 /**
  * GET /api/articles/:slug
- * Ïîëó÷åíèå ñòàòüè ïî slug
+ * ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ ÑÑ‚Ð°Ñ‚ÑŒÐ¸ Ð¿Ð¾ slug
  */
 router.get("/:slug", async (req, res) => {
     try {
