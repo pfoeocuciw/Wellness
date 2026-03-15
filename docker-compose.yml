@@ -32,7 +32,7 @@ services:
 
         RSS_IMPORT_MIN_HOURS: 84
         RSS_TIMEZONE: Europe/Moscow
-        RSS_LIMIT_PER_FEED: 3
+        RSS_LIMIT_PER_FEED: 5
         RSS_IMAGE_DIR: public/images/articles
         RSS_PG_LOCK_KEY: 84512001
       ports:
