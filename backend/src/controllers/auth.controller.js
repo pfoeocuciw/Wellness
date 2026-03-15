@@ -9,12 +9,47 @@ function generateCode() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+function parseBool(value, fallback = false) {
+    if (value === undefined || value === null || value === "") return fallback;
+    const v = String(value).trim().toLowerCase();
+    return ["1", "true", "yes", "y", "on"].includes(v);
+}
+
+function isGmailConfig(host, user) {
+    const h = (host || "").toLowerCase();
+    const u = (user || "").toLowerCase();
+    return h.includes("gmail") || u.endsWith("@gmail.com");
+}
+
+function mapSmtpErrorToPublicMessage(error, smtpHost, smtpUser) {
+    if (!error) return null;
+
+    if (error.code === "EAUTH") {
+        if (isGmailConfig(smtpHost, smtpUser)) {
+            return "Не удалось авторизоваться в Gmail SMTP. Для Gmail нужен App Password (16 символов) при включенной 2FA, обычный пароль аккаунта не подойдет.";
+        }
+        return "Не удалось авторизоваться на SMTP-сервере. Проверьте SMTP_USER/SMTP_PASS.";
+    }
+
+    if (error.code === "ESOCKET" || error.code === "ECONNECTION" || error.code === "ETIMEDOUT") {
+        return "Не удалось подключиться к SMTP-серверу. Проверьте SMTP_HOST/SMTP_PORT и сетевой доступ.";
+    }
+
+    return null;
+}
+
 function getSmtpConfig() {
-    const smtpHost = process.env.SMTP_HOST;
-    const smtpUser = process.env.SMTP_USER;
-    const smtpPass = process.env.SMTP_PASS;
-    const smtpFrom = process.env.SMTP_FROM;
+    const smtpHost = (process.env.SMTP_HOST || "").trim();
+    const smtpUser = (process.env.SMTP_USER || "").trim();
+    let smtpPass = (process.env.SMTP_PASS || "").trim();
+    const smtpFrom = (process.env.SMTP_FROM || "").trim();
     const smtpPort = Number(process.env.SMTP_PORT || 587);
+    const smtpSecure = parseBool(process.env.SMTP_SECURE, smtpPort === 465);
+
+    // Частая ошибка с Gmail App Password: копируют пароль с пробелами.
+    if (isGmailConfig(smtpHost, smtpUser)) {
+        smtpPass = smtpPass.replace(/\s+/g, "");
+    }
 
     const missing = [];
     if (!smtpHost) missing.push("SMTP_HOST");
@@ -32,6 +67,7 @@ function getSmtpConfig() {
         smtpPass,
         smtpFrom,
         smtpPort,
+        smtpSecure,
     };
 }
 
@@ -40,7 +76,8 @@ function createTransporter() {
     return nodemailer.createTransport({
         host: cfg.smtpHost,
         port: cfg.smtpPort,
-        secure: cfg.smtpPort === 465,
+        secure: cfg.smtpSecure,
+        requireTLS: !cfg.smtpSecure,
         auth: {
             user: cfg.smtpUser,
             pass: cfg.smtpPass,
@@ -52,11 +89,13 @@ async function sendVerificationEmail(email, code) {
     const cfg = getSmtpConfig();
     const transporter = createTransporter();
 
-    await transporter.sendMail({
-        from: cfg.smtpFrom,
-        to: email,
-        subject: "Код подтверждения Wellness",
-        html: `
+    try {
+        await transporter.sendMail({
+            from: `Wellness <${cfg.smtpFrom}>`,
+            to: email,
+            subject: "Код подтверждения Wellness",
+            text: `Ваш код подтверждения: ${code}. Код действует 10 минут.`,
+            html: `
       <div style="font-family: Arial, sans-serif; line-height: 1.5;">
         <h2>Подтверждение почты</h2>
         <p>Ваш код подтверждения:</p>
@@ -66,7 +105,16 @@ async function sendVerificationEmail(email, code) {
         <p>Код действует 10 минут.</p>
       </div>
     `,
-    });
+        });
+    } catch (error) {
+        const msg = mapSmtpErrorToPublicMessage(error, cfg.smtpHost, cfg.smtpUser);
+        if (msg) {
+            const wrapped = new Error(msg);
+            wrapped.code = error.code;
+            throw wrapped;
+        }
+        throw error;
+    }
 }
 
 async function register(req, res) {
@@ -150,7 +198,7 @@ async function register(req, res) {
         console.error("register error:", error);
         return res.status(500).json({
             message: "Ошибка регистрации",
-            error: error.message,
+            error: error.message || "Неизвестная ошибка",
         });
     }
 }
@@ -256,7 +304,7 @@ async function resendVerificationCode(req, res) {
         console.error("resendVerificationCode error:", error);
         return res.status(500).json({
             message: "Ошибка повторной отправки кода",
-            error: error.message,
+            error: error.message || "Неизвестная ошибка",
         });
     }
 }
