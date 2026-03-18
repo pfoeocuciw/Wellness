@@ -184,7 +184,7 @@ export default function AiPage() {
         setMenuForChatId(null);
     };
 
-    const API = process.env.NEXT_PUBLIC_CHAT_API_URL;
+    //const API = process.env.NEXT_PUBLIC_CHAT_API_URL;
 
     const generateTitle = async (text: string) => {
         const r = await fetch("/api/generate-title", {
@@ -313,7 +313,7 @@ export default function AiPage() {
             );
 
             // Если это первое сообщение в чате — генерируем название
-            const currentChat = chats.find((c) => c.id === activeChatId);
+            /*const currentChat = chats.find((c) => c.id === activeChatId);
 
             if (currentChat && currentChat.messages.length === 0) {
                 try {
@@ -340,7 +340,7 @@ export default function AiPage() {
                 } catch (e) {
                     console.log("Ошибка генерации названия");
                 }
-            }
+            }*/
 
 
             requestAnimationFrame(() => scrollToBottom(true));
