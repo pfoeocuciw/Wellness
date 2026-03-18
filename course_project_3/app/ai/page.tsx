@@ -184,7 +184,7 @@ export default function AiPage() {
         setMenuForChatId(null);
     };
 
-    const API = process.env.NEXT_PUBLIC_API_URL;
+    const API = process.env.NEXT_PUBLIC_CHAT_API_URL;
 
     const generateTitle = async (text: string) => {
         if (!API) return null;
@@ -283,7 +283,7 @@ export default function AiPage() {
             // }));
 
 
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat`, {
+            const res = await fetch(`${API}/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -321,7 +321,7 @@ export default function AiPage() {
             if (currentChat && currentChat.messages.length === 0) {
                 try {
                     const titleRes = await fetch(
-                        `${process.env.NEXT_PUBLIC_API_URL}/generate-title`,
+                        `${API}/generate-title`,
                         {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
