@@ -187,9 +187,7 @@ export default function AiPage() {
     const API = process.env.NEXT_PUBLIC_CHAT_API_URL;
 
     const generateTitle = async (text: string) => {
-        if (!API) return null;
-
-        const r = await fetch(`${API}/generate-title`, {
+        const r = await fetch("/api/generate-title", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text }),
@@ -200,7 +198,6 @@ export default function AiPage() {
         const data: { title?: string } = await r.json();
         return data.title?.trim() || null;
     };
-
 
 
 
@@ -283,7 +280,7 @@ export default function AiPage() {
             // }));
 
 
-            const res = await fetch(`${API}/chat`, {
+            const res = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
