@@ -13,6 +13,7 @@ export async function POST(req: Request) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
+            cache: "no-store",
         });
 
         const text = await upstream.text();
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
         if (!upstream.ok) {
             return NextResponse.json(
                 {
-                    error: "Upstream chat error",
+                    error: "Upstream /chat failed",
                     status: upstream.status,
                     body: text,
                 },
@@ -29,11 +30,13 @@ export async function POST(req: Request) {
         }
 
         try {
-            const data = JSON.parse(text);
-            return NextResponse.json(data);
+            return NextResponse.json(JSON.parse(text));
         } catch {
             return NextResponse.json(
-                { error: "Invalid JSON from chat service", body: text },
+                {
+                    error: "Upstream /chat returned invalid JSON",
+                    body: text,
+                },
                 { status: 502 }
             );
         }
