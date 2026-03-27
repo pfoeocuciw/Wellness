@@ -184,12 +184,10 @@ export default function AiPage() {
         setMenuForChatId(null);
     };
 
-    const API = process.env.NEXT_PUBLIC_API_URL;
+    //const API = process.env.NEXT_PUBLIC_CHAT_API_URL;
 
     const generateTitle = async (text: string) => {
-        if (!API) return null;
-
-        const r = await fetch(`http://127.0.0.1:8000/generate-title`, {
+        const r = await fetch("/api/generate-title", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text }),
@@ -200,7 +198,6 @@ export default function AiPage() {
         const data: { title?: string } = await r.json();
         return data.title?.trim() || null;
     };
-
 
 
 
@@ -283,7 +280,7 @@ export default function AiPage() {
             // }));
 
 
-            const res = await fetch(`api/chat`, {
+            const res = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -316,12 +313,12 @@ export default function AiPage() {
             );
 
             // Если это первое сообщение в чате — генерируем название
-            const currentChat = chats.find((c) => c.id === activeChatId);
+            /*const currentChat = chats.find((c) => c.id === activeChatId);
 
             if (currentChat && currentChat.messages.length === 0) {
                 try {
                     const titleRes = await fetch(
-                        `api/generate-title`,
+                        `${API}/generate-title`,
                         {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
@@ -343,7 +340,7 @@ export default function AiPage() {
                 } catch (e) {
                     console.log("Ошибка генерации названия");
                 }
-            }
+            }*/
 
 
             requestAnimationFrame(() => scrollToBottom(true));
@@ -429,20 +426,19 @@ export default function AiPage() {
                                                 className={`${styles.chatItem} ${active ? styles.chatItemActive : ""}`}
                                                 onClick={() => setActiveChatId(c.id)}
                                             >
-                                                <span className={styles.chatTitle}>{c.title}</span>
+                                                {c.title}
+                                            </button>
 
-                                                <span
-                                                    className={styles.chatMenuBtn}
-                                                    role="button"
-                                                    aria-label="Меню"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        setMenuForChatId((prev) => (prev === c.id ? null : c.id));
-                                                    }}
-                                                >
-      <DotsIcon />
-    </span>
+                                            <button
+                                                type="button"
+                                                className={styles.chatMenuBtn}
+                                                aria-label="Меню"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setMenuForChatId((prev) => (prev === c.id ? null : c.id));
+                                                }}
+                                            >
+                                                <DotsIcon />
                                             </button>
 
                                             {menuForChatId === c.id && (
@@ -456,7 +452,6 @@ export default function AiPage() {
                                                 </div>
                                             )}
                                         </div>
-
                                     );
                                 })
                             )}

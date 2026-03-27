@@ -9,7 +9,7 @@ export async function POST(req: Request) {
             process.env.NEXT_PUBLIC_CHAT_API_URL ||
             "https://zealous-integrity-production-4287.up.railway.app";
 
-        const upstream = await fetch(`${base}/chat`, {
+        const upstream = await fetch(`${base}/generate-title`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     } catch (error) {
         return NextResponse.json(
             {
-                error: "chat proxy crashed",
+                error: "title proxy crashed",
                 details: error instanceof Error ? error.message : "unknown",
             },
             { status: 502 }
