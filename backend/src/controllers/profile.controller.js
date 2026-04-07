@@ -1,6 +1,56 @@
 ﻿const { PrismaClient } = require("@prisma/client");
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
+const bcrypt = require("bcryptjs");
 
 const prisma = new PrismaClient();
+
+const AVATAR_DIR = path.join(__dirname, "../../public/uploads/avatars");
+
+if (!fs.existsSync(AVATAR_DIR)) {
+    fs.mkdirSync(AVATAR_DIR, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => {
+        cb(null, AVATAR_DIR);
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname || "").toLowerCase() || ".jpg";
+        const safeExt = [".jpg", ".jpeg", ".png", ".webp"].includes(ext) ? ext : ".jpg";
+        cb(null, `avatar_${req.user.userId}_${Date.now()}${safeExt}`);
+    },
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (_req, file, cb) => {
+        if (file.mimetype && file.mimetype.startsWith("image/")) {
+            cb(null, true);
+            return;
+        }
+        cb(new Error("Можно загружать только изображения"));
+    },
+});
+
+function formatProfileResponse(user) {
+    return {
+        id: user.id,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        role: user.role,
+        is_verified: user.is_verified,
+        is_email_verified: user.is_email_verified,
+        diploma_info: user.diploma_info,
+        bio: user.bio,
+        created_at: user.created_at,
+        avatarUrl: user.avatarUrl || null,
+        interests: (user.interesting_categories || []).map((item) => item.category),
+    };
+}
 
 async function getMe(req, res) {
     try {
@@ -21,19 +71,7 @@ async function getMe(req, res) {
             return res.status(404).json({ message: "Пользователь не найден" });
         }
 
-        return res.json({
-            id: user.id,
-            email: user.email,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            role: user.role,
-            is_verified: user.is_verified,
-            is_email_verified: user.is_email_verified,
-            diploma_info: user.diploma_info,
-            bio: user.bio,
-            created_at: user.created_at,
-            interests: user.interesting_categories.map((item) => item.category),
-        });
+        return res.json(formatProfileResponse(user));
     } catch (error) {
         console.error("getMe error:", error);
         return res.status(500).json({
@@ -46,7 +84,7 @@ async function getMe(req, res) {
 async function updateMe(req, res) {
     try {
         const userId = req.user.userId;
-        const { firstName, lastName, bio, diplomaInfo, role } = req.body;
+        const { firstName, lastName, email, bio, diplomaInfo, role } = req.body;
 
         const currentUser = await prisma.user.findUnique({
             where: { id: userId },
@@ -66,6 +104,29 @@ async function updateMe(req, res) {
             data.last_name = String(lastName).trim();
         }
 
+        if (email !== undefined) {
+            const normalizedEmail = String(email).trim().toLowerCase();
+
+            if (!normalizedEmail) {
+                return res.status(400).json({ message: "Email не может быть пустым" });
+            }
+
+            if (normalizedEmail !== currentUser.email) {
+                const emailTaken = await prisma.user.findFirst({
+                    where: {
+                        email: normalizedEmail,
+                        NOT: { id: userId },
+                    },
+                });
+
+                if (emailTaken) {
+                    return res.status(400).json({ message: "Этот email уже занят" });
+                }
+            }
+
+            data.email = normalizedEmail;
+        }
+
         if (role !== undefined) {
             if (role !== "user" && role !== "expert") {
                 return res.status(400).json({ message: "Некорректная роль" });
@@ -78,7 +139,6 @@ async function updateMe(req, res) {
         if (bio !== undefined) {
             data.bio = bio ? String(bio).trim() : null;
         }
-
 
         if (diplomaInfo !== undefined) {
             data.diploma_info = diplomaInfo ? String(diplomaInfo).trim() : null;
@@ -101,19 +161,7 @@ async function updateMe(req, res) {
             },
         });
 
-        return res.json({
-            id: user.id,
-            email: user.email,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            role: user.role,
-            is_verified: user.is_verified,
-            is_email_verified: user.is_email_verified,
-            diploma_info: user.diploma_info,
-            bio: user.bio,
-            created_at: user.created_at,
-            interests: user.interesting_categories.map((item) => item.category),
-        });
+        return res.json(formatProfileResponse(user));
     } catch (error) {
         console.error("updateMe error:", error);
         return res.status(500).json({
@@ -172,8 +220,131 @@ async function updateInterests(req, res) {
     }
 }
 
+async function uploadAvatar(req, res) {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "Файл не загружен" });
+        }
+
+        const currentUser = await prisma.user.findUnique({
+            where: { id: req.user.userId },
+            select: { avatarUrl: true },
+        });
+
+        if (currentUser?.avatarUrl) {
+            const oldFilename = path.basename(currentUser.avatarUrl);
+            const oldPath = path.join(AVATAR_DIR, oldFilename);
+            if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath);
+            }
+        }
+
+        const avatarUrl = `/uploads/avatars/${req.file.filename}`;
+
+        await prisma.user.update({
+            where: { id: req.user.userId },
+            data: { avatarUrl },
+        });
+
+        return res.json({
+            message: "Аватар обновлён",
+            avatarUrl,
+        });
+    } catch (error) {
+        console.error("uploadAvatar error:", error);
+        return res.status(500).json({
+            message: "Ошибка загрузки аватара",
+            error: error.message,
+        });
+    }
+}
+
+async function changePassword(req, res) {
+    try {
+        const userId = req.user.userId;
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({ message: "Заполните все поля" });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({ message: "Новый пароль должен быть не короче 6 символов" });
+        }
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "Пользователь не найден" });
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+        if (!isMatch) {
+            return res.status(400).json({ message: "Неверный текущий пароль" });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await prisma.user.update({
+            where: { id: userId },
+            data: { password: hashedPassword },
+        });
+
+        return res.json({ message: "Пароль успешно изменён" });
+    } catch (error) {
+        console.error("changePassword error:", error);
+        return res.status(500).json({
+            message: "Ошибка смены пароля",
+            error: error.message,
+        });
+    }
+}
+
+async function deleteMe(req, res) {
+    try {
+        const userId = req.user.userId;
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { id: true, deleted_flag: true, avatarUrl: true },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "Пользователь не найден" });
+        }
+
+        if (user.deleted_flag === "true") {
+            return res.status(400).json({ message: "Аккаунт уже удалён" });
+        }
+
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                deleted_flag: "true",
+                is_verified: false,
+                is_email_verified: false,
+            },
+        });
+
+        return res.json({ message: "Аккаунт удалён" });
+    } catch (error) {
+        console.error("deleteMe error:", error);
+        return res.status(500).json({
+            message: "Ошибка удаления аккаунта",
+            error: error.message,
+        });
+    }
+}
+
 module.exports = {
     getMe,
     updateMe,
     updateInterests,
+    uploadAvatar,
+    changePassword,
+    deleteMe,
+    upload,
 };

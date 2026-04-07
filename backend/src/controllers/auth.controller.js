@@ -141,6 +141,14 @@ async function register(req, res) {
             where: { email: normalizedEmail },
         });
 
+        if (existingUser && existingUser.deleted_flag === "true") {
+            return res.status(409).json({
+                message: "Аккаунт с этой почтой был удалён",
+                restoreAvailable: true,
+                email: existingUser.email,
+            });
+        }
+
         if (existingUser) {
             if (existingUser.is_email_verified) {
                 return res.status(409).json({ message: "Пользователь с такой почтой уже существует" });
@@ -205,6 +213,74 @@ async function register(req, res) {
         console.error("register error:", error);
         return res.status(500).json({
             message: "Ошибка регистрации",
+            error: error.message || "Неизвестная ошибка",
+        });
+    }
+}
+
+async function restoreAccount(req, res) {
+    try {
+        const { email, password, firstName, lastName } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email и пароль обязательны" });
+        }
+
+        const normalizedEmail = email.toLowerCase().trim();
+
+        const user = await prisma.user.findUnique({
+            where: { email: normalizedEmail },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "Аккаунт не найден" });
+        }
+
+        if (user.deleted_flag !== "true") {
+            return res.status(403).json({
+                message: "Этот аккаунт не удалён",
+            });
+        }
+
+        const passwordHash = await bcrypt.hash(password, 10);
+
+        const restoredUser = await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                password: passwordHash,
+                first_name: firstName?.trim() || user.first_name || "",
+                last_name: lastName?.trim() || user.last_name || "",
+                deleted_flag: "false",
+                role: "user",
+                is_verified: false,
+                is_email_verified: false,
+                email_verified_at: null,
+                diploma_info: null,
+            },
+        });
+
+        const code = generateCode();
+
+        await prisma.emailVerificationCode.create({
+            data: {
+                user_id: restoredUser.id,
+                email: restoredUser.email,
+                code,
+                expires_at: new Date(Date.now() + 10 * 60 * 1000),
+                used: false,
+            },
+        });
+
+        await sendVerificationEmail(restoredUser.email, code);
+
+        return res.status(200).json({
+            message: "Аккаунт восстановлен. Код подтверждения отправлен на почту",
+            email: restoredUser.email,
+        });
+    } catch (error) {
+        console.error("restoreAccount error:", error);
+        return res.status(500).json({
+            message: "Ошибка восстановления аккаунта",
             error: error.message || "Неизвестная ошибка",
         });
     }
@@ -334,6 +410,13 @@ async function login(req, res) {
             return res.status(401).json({ message: "Неверная почта или пароль" });
         }
 
+        if (user.deleted_flag === "true") {
+            return res.status(403).json({
+                message: "Этот аккаунт удалён. Зарегистрируйтесь снова, чтобы восстановить его.",
+                restoreAvailable: true,
+            });
+        }
+
         const isValid = await bcrypt.compare(password, user.password);
 
         if (!isValid) {
@@ -375,6 +458,7 @@ async function login(req, res) {
 
 module.exports = {
     register,
+    restoreAccount,
     verifyEmail,
     resendVerificationCode,
     login,

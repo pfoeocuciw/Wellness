@@ -6,6 +6,15 @@ import { useEffect, useMemo, useState } from "react";
 
 type Role = "user" | "expert";
 
+type SavedArticleApi = {
+    id: string;
+    title: string;
+    imageUrl?: string;
+    category?: string;
+    authorName?: string;
+    createdAt?: string;
+};
+
 type ProfileArticle = {
     id: string;
     title: string;
@@ -17,40 +26,61 @@ type ProfileArticle = {
     updatedText?: string;
 };
 
+type Interest = {
+    id: number;
+    name: string;
+    description?: string | null;
+};
+
 type ProfileData = {
     id: number;
     email: string;
     first_name: string;
     last_name: string;
-    role: "user" | "expert";
+    role: Role;
     is_verified: boolean;
     is_email_verified: boolean;
     diploma_info: string | null;
     bio: string | null;
-    interests: { id: number; name: string; description?: string | null }[];
+    avatarUrl?: string | null;
+    interests: Interest[];
 };
+
+function toMediaUrl(url?: string | null) {
+    if (!url) return "";
+    if (url.startsWith("http://") || url.startsWith("https://")) return url;
+    return `${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`;
+}
+
+function formatRuDate(dateStr?: string) {
+    if (!dateStr) return "";
+    const d = new Date(dateStr);
+    if (Number.isNaN(d.getTime())) return dateStr;
+
+    return d.toLocaleDateString("ru-RU", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+    });
+}
+
+async function readJsonSafe(res: Response): Promise<unknown> {
+    const text = await res.text();
+    if (!text) return {};
+
+    try {
+        return JSON.parse(text) as unknown;
+    } catch {
+        throw new Error(`Сервер вернул не JSON: ${text.slice(0, 120)}`);
+    }
+}
 
 function ArrowLeftIcon() {
     return (
         <svg width="58" height="24" viewBox="0 0 58 24" fill="none" aria-hidden="true">
-            <path
-                d="M56 12H14"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-            />
-            <path
-                d="M14 12L24 2"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-            />
-            <path
-                d="M14 12L24 22"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-            />
+            <path d="M56 12H14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M14 12L24 2" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M14 12L24 22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
         </svg>
     );
 }
@@ -104,8 +134,8 @@ function StatArticleCard({
                             key={tag}
                             className={`${styles.cardTagPill} ${isActive ? styles.cardTagPillActive : ""}`}
                         >
-                {tag}
-            </span>
+                            {tag}
+                        </span>
                     );
                 })}
             </div>
@@ -119,32 +149,62 @@ function StatArticleCard({
     );
 }
 
-
 export default function ProfilePage() {
     const [profile, setProfile] = useState<ProfileData | null>(null);
-    const [isProfileLoaded, setIsProfileLoaded] = useState(false);
+    const [savedArticles, setSavedArticles] = useState<ProfileArticle[]>([]);
+    const [savedLoading, setSavedLoading] = useState(false);
 
+    const [tab, setTab] = useState<"saved" | "created">("saved");
+    const [search, setSearch] = useState("");
+    const [activeTag, setActiveTag] = useState("все");
+
+    const filterTags = ["все", "гибкость", "бодрость", "витамины", "ментальное здоровье"];
+
+    const createdArticles: ProfileArticle[] = [
+        {
+            id: "c1",
+            title: "ВСЕ СТАТЬИ",
+            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
+            tags: ["йога", "гибкость", "бодрость", "утренняя зарядка"],
+            date: "14 августа 2024",
+        },
+        {
+            id: "c2",
+            title: "ПРАВИЛЬНЫЙ СОН",
+            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
+            tags: ["сон", "мелатонин", "бодрость", "спокойствие"],
+            date: "14 августа 2024",
+        },
+    ];
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
-        setIsProfileLoaded(true);
 
         const loadProfile = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/me`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profile/me`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    cache: "no-store",
                 });
 
-                const data = await res.json();
+                const data = await readJsonSafe(res);
 
                 if (!res.ok) {
-                    throw new Error(data.message || "Не удалось загрузить профиль");
+                    const message =
+                        typeof data === "object" &&
+                        data !== null &&
+                        "message" in data &&
+                        typeof data.message === "string"
+                            ? data.message
+                            : "Не удалось загрузить профиль";
+
+                    throw new Error(message);
                 }
 
-                setProfile(data);
+                setProfile(data as ProfileData);
             } catch (error) {
                 console.error("Ошибка загрузки профиля", error);
             }
@@ -153,97 +213,87 @@ export default function ProfilePage() {
         void loadProfile();
     }, []);
 
+    useEffect(() => {
+        const loadSavedArticles = async () => {
+            try {
+                setSavedLoading(true);
 
+                const raw = localStorage.getItem("savedArticleIds");
+                if (!raw) {
+                    setSavedArticles([]);
+                    return;
+                }
 
-    const [tab, setTab] = useState<"saved" | "created">("created");
-    const [search, setSearch] = useState("");
-    const [activeTag, setActiveTag] = useState("все");
+                let ids: string[] = [];
 
+                try {
+                    const parsed = JSON.parse(raw) as unknown;
+                    if (Array.isArray(parsed)) {
+                        ids = parsed.filter((item): item is string => typeof item === "string");
+                    }
+                } catch {
+                    setSavedArticles([]);
+                    return;
+                }
 
-    const filterTags = ["все", "гибкость", "бодрость", "витамины", "ментальное здоровье"];
+                if (ids.length === 0) {
+                    setSavedArticles([]);
+                    return;
+                }
 
+                const base = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
 
+                const results = await Promise.all(
+                    ids.map(async (id) => {
+                        try {
+                            const res = await fetch(
+                                `${base}/api/articles/id/${encodeURIComponent(id)}`,
+                                { cache: "no-store" }
+                            );
 
-    const savedArticles: ProfileArticle[] = [
-        {
-            id: "1",
-            title: "НАРУШЕНИЕ СНА ПРИ РАССТРОЙСТВЕ АДАПТАЦИИ",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "бессонница", "бодрость", "нервная система"],
-            author: "Мария Петрова",
-            date: "13 января 2024",
-        },
-        {
-            id: "2",
-            title: "ДИФФЕРЕНЦИАЛЬНАЯ ДИАГНОСТИКА",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "бессонница", "диагностика"],
-            author: "Мария Петрова",
-            date: "13 января 2024",
-        },
-        {
-            id: "3",
-            title: "ЙОГА ДЛЯ НАЧИНАЮЩИХ: ПЕРВЫЕ ШАГИ К ГАРМОНИИ",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "йога", "бодрость", "утренняя зарядка"],
-            author: "Мария Петрова",
-            date: "13 января 2024",
-        },
-        {
-            id: "4",
-            title: "НАРУШЕНИЯ СНА У ЖИТЕЛЕЙ МЕГАПОЛИСА",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "бессонница", "нарушения"],
-            author: "Мария Петрова",
-            date: "13 января 2024",
-        },
-        {
-            id: "5",
-            title: "ПСИХИЧЕСКОЕ ЗДОРОВЬЕ НАСЕЛЕНИЯ",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "психология", "бодрость"],
-            author: "Мария Петрова",
-            date: "13 января 2024",
-        },
-    ];
+                            if (!res.ok) return null;
 
-    const createdArticles: ProfileArticle[] = [
-        {
-            id: "c1",
-            title: "ВСЕ СТАТЬИ",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["йога", "гибкость", "бодрость", "утренняя зарядка", "..."],
-            date: "14 августа 2024",
-        },
-        {
-            id: "c2",
-            title: "ПРАВИЛЬНЫЙ СОН",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "мелатонин", "бодрость", "спокойствие", "бессонница"],
-            date: "14 августа 2024",
-        },
-        {
-            id: "c3",
-            title: "ПРАВИЛЬНЫЙ СОН",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "мелатонин", "бодрость", "спокойствие", "бессонница"],
-            date: "14 августа 2024",
-        },
-        {
-            id: "c4",
-            title: "ПРАВИЛЬНЫЙ СОН",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "мелатонин", "бодрость", "спокойствие", "бессонница"],
-            date: "14 августа 2024",
-        },
-        {
-            id: "c5",
-            title: "ПРАВИЛЬНЫЙ СОН",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "мелатонин", "бодрость", "спокойствие", "бессонница"],
-            date: "14 августа 2024",
-        },
-    ];
+                            const article = (await res.json()) as SavedArticleApi;
+
+                            const mapped: ProfileArticle = {
+                                id: article.id,
+                                title: article.title,
+                                image:
+                                    article.imageUrl && article.imageUrl.startsWith("http")
+                                        ? article.imageUrl
+                                        : article.imageUrl
+                                            ? `${base}${article.imageUrl}`
+                                            : "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
+                                tags: article.category ? [article.category.toLowerCase()] : [],
+                                author: article.authorName || "Автор",
+                                date: formatRuDate(article.createdAt),
+                            };
+
+                            return mapped;
+                        } catch {
+                            return null;
+                        }
+                    })
+                );
+
+                setSavedArticles(results.filter((item): item is ProfileArticle => item !== null));
+            } finally {
+                setSavedLoading(false);
+            }
+        };
+
+        void loadSavedArticles();
+
+        const handleFocus = () => {
+            void loadSavedArticles();
+        };
+
+        window.addEventListener("focus", handleFocus);
+
+        return () => {
+            window.removeEventListener("focus", handleFocus);
+        };
+    }, []);
 
     const filterArticles = (articles: ProfileArticle[]) => {
         return articles.filter((article) => {
@@ -260,7 +310,6 @@ export default function ProfilePage() {
         });
     };
 
-
     const filteredSavedArticles = filterArticles(savedArticles);
     const filteredCreatedArticles = filterArticles(createdArticles);
 
@@ -272,7 +321,6 @@ export default function ProfilePage() {
     const favoriteTopics = profile?.interests?.map((item) => item.name) ?? [];
 
     const createdActionText = canPublish ? "МОИ СТАТЬИ" : "";
-    const shouldShowCreatedGrid = canPublish;
 
     const mainTitle = useMemo(() => {
         if (tab === "saved") return "МОИ ПОДБОРКИ";
@@ -283,6 +331,8 @@ export default function ProfilePage() {
     if (!profile) {
         return <div className={styles.loader}>Загрузка профиля...</div>;
     }
+
+    const avatar = toMediaUrl(profile.avatarUrl);
 
     return (
         <div className={styles.page}>
@@ -306,15 +356,25 @@ export default function ProfilePage() {
             </header>
 
             <main className={styles.container}>
-
                 <section className={styles.profileHead}>
-                    <div className={styles.avatar}></div>
+                    <div
+                        className={styles.avatar}
+                        style={
+                            avatar
+                                ? {
+                                    backgroundImage: `url(${avatar})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                }
+                                : undefined
+                        }
+                    />
                     <h1 className={styles.userName}>{displayName}</h1>
 
                     {role === "expert" ? (
                         <span className={styles.roleBadge}>
-        {profile?.is_verified ? "Подтверждённый эксперт" : "Эксперт · на проверке"}
-    </span>
+                            {profile.is_verified ? "Подтверждённый эксперт" : "Эксперт · на проверке"}
+                        </span>
                     ) : (
                         <span className={styles.userRole}>Пользователь</span>
                     )}
@@ -325,8 +385,8 @@ export default function ProfilePage() {
                     <div className={styles.topicList}>
                         {favoriteTopics.map((topic, i) => (
                             <span key={`${topic}-${i}`} className={styles.topicPill}>
-                {topic}
-              </span>
+                                {topic}
+                            </span>
                         ))}
                     </div>
                 </section>
@@ -356,9 +416,9 @@ export default function ProfilePage() {
                         <section className={styles.contentArea}>
                             <aside className={styles.filters}>
                                 <div className={styles.searchRow}>
-                               <span className={styles.searchIcon}>
-                                 <SearchIcon />
-                               </span>
+                                    <span className={styles.searchIcon}>
+                                        <SearchIcon />
+                                    </span>
 
                                     <input
                                         type="text"
@@ -388,7 +448,9 @@ export default function ProfilePage() {
                             </aside>
 
                             <div className={styles.savedGrid}>
-                                {filteredSavedArticles.length > 0 ? (
+                                {savedLoading ? (
+                                    <div className={styles.noResults}>Загрузка сохранённых статей...</div>
+                                ) : filteredSavedArticles.length > 0 ? (
                                     filteredSavedArticles.map((article) => (
                                         <StatArticleCard
                                             key={article.id}
@@ -398,7 +460,7 @@ export default function ProfilePage() {
                                         />
                                     ))
                                 ) : (
-                                    <div className={styles.noResults}>Ничего не найдено</div>
+                                    <div className={styles.noResults}>У вас пока нет сохранённых статей</div>
                                 )}
                             </div>
                         </section>
@@ -412,9 +474,9 @@ export default function ProfilePage() {
                         <section className={styles.contentArea}>
                             <aside className={styles.filters}>
                                 <div className={styles.searchRow}>
-        <span className={styles.searchIcon}>
-            <SearchIcon />
-        </span>
+                                    <span className={styles.searchIcon}>
+                                        <SearchIcon />
+                                    </span>
 
                                     <input
                                         type="text"
@@ -487,6 +549,7 @@ export default function ProfilePage() {
                             Может быть в другой раз
                         </button>
                     </section>
+
                 )}
             </main>
         </div>

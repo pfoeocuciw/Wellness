@@ -44,7 +44,7 @@ export default function ExpertVerifyPage() {
                 return;
             }
 
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/me`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profile/me`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

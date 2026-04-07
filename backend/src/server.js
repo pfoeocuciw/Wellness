@@ -1,5 +1,6 @@
 ﻿const express = require("express");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const articlesRouter = require("./routes/articles");
@@ -9,18 +10,23 @@ const categoriesRouter = require("./routes/categories");
 
 const app = express();
 
-app.use(cors({
-    origin: true,
-    credentials: true
-}));
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+    })
+);
 
 app.use(express.json());
+
+// раздача загруженных файлов
+app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 
 app.get("/health", (req, res) => res.json({ ok: true }));
 
 app.use("/api/articles", articlesRouter);
 app.use("/auth", authRouter);
-app.use("/profile", profileRouter);
+app.use("/api/profile", profileRouter);
 app.use("/categories", categoriesRouter);
 
 const PORT = process.env.PORT || 3001;

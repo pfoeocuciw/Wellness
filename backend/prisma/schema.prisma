@@ -14,6 +14,7 @@ model User {
   first_name        String
   last_name         String
   role              String
+  avatarUrl         String?
   is_verified       Boolean   @default(false)
   diploma_info      String?
   bio               String?

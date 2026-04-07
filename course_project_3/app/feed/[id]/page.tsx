@@ -1,6 +1,4 @@
-// app/feed/[id]/page.tsx
-import Link from "next/link";
-import styles from "./article.module.css";
+import ArticlePageClient from "./ArticlePageClient";
 
 type ArticleBlock =
     | { type: "paragraph"; text: string }
@@ -46,87 +44,11 @@ function formatRuDate(dateStr?: string) {
 function absAssetUrl(apiBase: string, url?: string) {
     if (!url) return "";
     if (url.startsWith("http://") || url.startsWith("https://")) return url;
-
-    // если это картинка из public Next.js
     if (url.startsWith("/images/")) return url;
-
-    // иначе это ассет бэка
     if (url.startsWith("/")) return `${apiBase}${url}`;
     return `${apiBase}/${url}`;
 }
 
-function renderBlock(b: ArticleBlock, key: number) {
-    switch (b.type) {
-        case "heading": {
-            const lvl = b.level ?? 2;
-            if (lvl === 1) return <h1 key={key} className={styles.h1}>{b.text}</h1>;
-            if (lvl === 2) return <h2 key={key} className={styles.h2}>{b.text}</h2>;
-            if (lvl === 3) return <h3 key={key} className={styles.h3}>{b.text}</h3>;
-            return <h4 key={key} className={styles.h4}>{b.text}</h4>;
-        }
-
-        case "bullet-list":
-            return (
-                <ul key={key} className={styles.ul}>
-                    {b.items.map((it, i) => (
-                        <li key={i} className={styles.li}>{it}</li>
-                    ))}
-                </ul>
-            );
-
-        case "ordered-list":
-            return (
-                <ol key={key} className={styles.ol}>
-                    {b.items.map((it, i) => (
-                        <li key={i} className={styles.li}>{it}</li>
-                    ))}
-                </ol>
-            );
-
-        case "quote":
-            return (
-                <blockquote key={key} className={styles.quote}>
-                    {b.text}
-                </blockquote>
-            );
-
-        default:
-            return <p key={key} className={styles.p}>{b.text}</p>;
-    }
-}
-
-function renderSource(source: ArticleSource, key: number) {
-    if (typeof source === "string") {
-        return (
-            <li key={key} className={styles.li}>
-                {source}
-            </li>
-        );
-    }
-
-    const title = source.title || source.url || "Источник";
-    const type = source.type ? ` (${source.type})` : "";
-
-    if (source.url) {
-        return (
-            <li key={key} className={styles.li}>
-                <a href={source.url} target="_blank" rel="noreferrer">
-                    {title}
-                </a>
-                {type}
-            </li>
-        );
-    }
-
-    return (
-        <li key={key} className={styles.li}>
-            {title}
-            {type}
-        </li>
-    );
-}
-
-// Next 16: params может быть Promise
 export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
 
@@ -136,92 +58,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
     const res = await fetch(url, { cache: "no-store" });
 
     if (!res.ok) {
-        return (
-            <div className={styles.notFound}>
-                <header className={styles.topbar}>
-                    <nav className={styles.tabs}>
-                        <Link href="/feed" className={`${styles.tab} ${styles.tabActive}`}>Feed</Link>
-                        <Link href="/ai" className={styles.tab}>Chat</Link>
-                    </nav>
-                    <Link href="/profile" className={styles.profileDot} aria-label="Профиль" />
-                </header>
-
-                <h1>Статья не найдена</h1>
-                <p>HTTP {res.status}</p>
-                <p><Link href="/feed">Вернуться в ленту</Link></p>
-            </div>
-        );
+        return <div style={{ padding: 24 }}>Статья не найдена. HTTP {res.status}</div>;
     }
 
     const article = (await res.json()) as Article;
-
     const cover = absAssetUrl(base, article.imageUrl);
     const date = formatRuDate(article.createdAt);
 
-    return (
-        <div className={styles.page}>
-            <header className={styles.topbar}>
-                <nav className={styles.tabs}>
-                    <Link href="/feed" className={`${styles.tab} ${styles.tabActive}`}>Feed</Link>
-                    <Link href="/ai" className={styles.tab}>Chat</Link>
-                </nav>
-                <Link href="/profile" className={styles.profileDot} aria-label="Профиль" />
-            </header>
-
-            <main className={styles.main}>
-                <section className={styles.left}>
-                    <div className={styles.metaRow}>
-                        <span className={styles.author}>{article.authorName || "Автор"}</span>
-                        <span className={styles.dot} aria-hidden />
-                        <span className={styles.date}>{date}</span>
-                    </div>
-
-                    <h1 className={styles.bigTitle}>{article.title}</h1>
-
-                    <div className={styles.tags}>
-                        {article.category && (
-                            <span className={styles.tag}>{article.category.toLowerCase()}</span>
-                        )}
-                    </div>
-
-                    {article.annotation && <p className={styles.lead}>{article.annotation}</p>}
-                </section>
-
-                <div className={styles.divider} aria-hidden>
-                    <div className={styles.dividerDot} />
-                </div>
-
-                <section className={styles.right}>
-                    {cover && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img className={styles.cover} src={cover} alt={article.imageAlt || ""} />
-                    )}
-
-                    <div className={styles.content}>
-                        {Array.isArray(article.content) && article.content.length > 0 ? (
-                            article.content.map((b, i) => renderBlock(b, i))
-                        ) : (
-                            <p className={styles.p}>Нет контента</p>
-                        )}
-                    </div>
-
-                    {Array.isArray(article.sources) && article.sources.length > 0 && (
-                        <section className={styles.sources}>
-                            <details className={styles.sourcesDetails}>
-                                <summary className={styles.sourcesSummary}>
-                                    <span className={styles.sourcesTitle}>Источники</span>
-                                    <span className={styles.sourcesHint}>({article.sources.length})</span>
-                                    <span className={styles.sourcesChevron} aria-hidden />
-                                </summary>
-
-                                <ol className={styles.ol}>
-                                    {article.sources.map((s, i) => renderSource(s, i))}
-                                </ol>
-                            </details>
-                        </section>
-                    )}
-                </section>
-            </main>
-        </div>
-    );
+    return <ArticlePageClient article={article} cover={cover} date={date} />;
 }

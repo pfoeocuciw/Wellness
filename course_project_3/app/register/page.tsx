@@ -16,13 +16,54 @@ export default function RegisterPage() {
 
     const [toast, setToast] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [restoreAvailable, setRestoreAvailable] = useState(false);
 
     const normalizedEmail = useMemo(() => email.trim().toLowerCase(), [email]);
 
     const showToast = (msg: string) => {
         setToast(msg);
-        window.clearTimeout((showToast as any)._t);
-        (showToast as any)._t = window.setTimeout(() => setToast(null), 2500);
+        window.clearTimeout((showToast as unknown as { _t?: number })._t);
+        (showToast as unknown as { _t?: number })._t = window.setTimeout(() => setToast(null), 2500);
+    };
+
+    const handleRestoreAccount = async () => {
+        if (loading) return;
+
+        if (!normalizedEmail) return showToast('Введите e-mail');
+        if (!firstName.trim()) return showToast('Введите имя');
+        if (!lastName.trim()) return showToast('Введите фамилию');
+        if (!pass1) return showToast('Введите пароль');
+        if (pass1.length < 6) return showToast('Пароль минимум 6 символов');
+        if (pass1 !== pass2) return showToast('Пароли не совпадают');
+
+        setLoading(true);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/restore-account`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: normalizedEmail,
+                    password: pass1,
+                    firstName: firstName.trim(),
+                    lastName: lastName.trim(),
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                showToast(data.message || 'Не удалось восстановить аккаунт');
+                return;
+            }
+
+            setRestoreAvailable(false);
+            router.push(`/register/verify?email=${encodeURIComponent(normalizedEmail)}`);
+        } catch {
+            showToast('Не удалось восстановить аккаунт');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const onSubmit = async (e: React.FormEvent) => {
@@ -36,6 +77,7 @@ export default function RegisterPage() {
         if (pass1.length < 6) return showToast('Пароль минимум 6 символов');
         if (pass1 !== pass2) return showToast('Пароли не совпадают');
 
+        setRestoreAvailable(false);
         setLoading(true);
 
         try {
@@ -52,7 +94,14 @@ export default function RegisterPage() {
 
             const data = await res.json();
 
+            if (res.status === 409 && data.restoreAvailable) {
+                setRestoreAvailable(true);
+                showToast(data.message || 'Аккаунт можно восстановить');
+                return;
+            }
+
             if (!res.ok) {
+                setRestoreAvailable(false);
                 showToast(data.message || 'Ошибка регистрации');
                 return;
             }
@@ -140,6 +189,17 @@ export default function RegisterPage() {
                     <button className={styles.button} type="submit" disabled={loading}>
                         {loading ? '...' : 'Зарегистрироваться'}
                     </button>
+
+                    {restoreAvailable && (
+                        <button
+                            className={styles.button}
+                            type="button"
+                            onClick={handleRestoreAccount}
+                            disabled={loading}
+                        >
+                            {loading ? '...' : 'Восстановить аккаунт'}
+                        </button>
+                    )}
 
                     <Link className={styles.link} href="/login">
                         Уже есть аккаунт

@@ -260,7 +260,62 @@
 .sourcesDetails > .ol {
     margin-top: 12px;
 }
+.bookmarkBtn {
+    margin-top: 10px;
+    margin-left: -8px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 42px;
+}
 
+.bookmarkSvg {
+    display: block;
+}
+
+.bookmarkOutline {
+    fill: #bcc1cb;
+}
+
+.bookmarkFilled {
+    fill: #2f2f31;
+}
+
+.bookmarkBtn:hover .bookmarkOutline,
+.bookmarkBtn:hover .bookmarkFilled {
+    opacity: 0.85;
+}
+
+.bookmarkBtnSaved .bookmarkFilled {
+    fill: #2f2f31;
+}
+
+.divider {
+    position: relative;
+    align-self: stretch;
+    min-height: 100%;
+    margin-top: 30px;
+    border-left: 3px solid #cfcfcf;
+    justify-self: center;
+}
+
+.dividerDot {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: #efe2a0;
+    border: 2px solid #cfcfcf;
+    transform: translateX(-50%);
+    will-change: top;
+}
 
 /* ---------- MOBILE / TABLET FIX ---------- */
 @media (max-width: 1020px) {
