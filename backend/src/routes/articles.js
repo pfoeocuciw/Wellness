@@ -2,6 +2,33 @@
 const prisma = require("../prisma");
 
 const router = express.Router();
+const DEFAULT_ARTICLE_IMAGE = "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png";
+
+async function pickRandomArticleImageUrl() {
+    const total = await prisma.article.count({
+        where: {
+            imageUrl: {
+                not: "",
+            },
+        },
+    });
+
+    if (!total) return DEFAULT_ARTICLE_IMAGE;
+
+    const randomOffset = Math.floor(Math.random() * total);
+    const [randomArticle] = await prisma.article.findMany({
+        where: {
+            imageUrl: {
+                not: "",
+            },
+        },
+        select: { imageUrl: true },
+        skip: randomOffset,
+        take: 1,
+    });
+
+    return randomArticle?.imageUrl || DEFAULT_ARTICLE_IMAGE;
+}
 
 /**
  * GET /api/articles
@@ -17,6 +44,9 @@ const {
     deleteMyArticle,
     uploadArticleCover,
     uploadArticleCoverFile,
+    getSavedArticleIds,
+    toggleSavedArticle,
+    getSavedArticles,
 } = require("../controllers/articles.controller");
 
 
@@ -32,6 +62,9 @@ router.delete("/my/:id", authMiddleware, deleteMyArticle);
 router.post("/draft", authMiddleware, saveDraftArticle);
 router.patch("/draft/:id", authMiddleware, updateDraftArticle);
 router.post("/publish", authMiddleware, publishArticle);
+router.get("/saved", authMiddleware, getSavedArticles);
+router.get("/saved/ids", authMiddleware, getSavedArticleIds);
+router.post("/saved/toggle", authMiddleware, toggleSavedArticle);
 
 router.get("/", async (req, res) => {
     try {
@@ -139,7 +172,9 @@ router.post("/", async (req, res) => {
             authorBio: payload.authorBio || null,
             category: payload.category || "Новости",
             annotation: payload.annotation || "",
-            imageUrl: payload.imageUrl || "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
+            imageUrl: typeof payload.imageUrl === "string" && payload.imageUrl.trim()
+                ? payload.imageUrl.trim()
+                : await pickRandomArticleImageUrl(),
             imageAlt: payload.imageAlt || title,
             content: Array.isArray(payload.content) ? payload.content : [],
             sources: Array.isArray(payload.sources) ? payload.sources : [],

@@ -7,6 +7,8 @@ from psycopg2.extras import Json, RealDictCursor
 
 from .config import DATABASE_URL, IMPORT_JOB_NAME, IMPORT_MIN_HOURS, PG_ADVISORY_LOCK_KEY
 
+DEFAULT_ARTICLE_IMAGE = "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png"
+
 
 def get_connection():
     return psycopg2.connect(DATABASE_URL)
@@ -174,6 +176,25 @@ def _normalize_string(value: Any) -> Optional[str]:
     return text or None
 
 
+def pick_random_article_image(conn) -> str:
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT "imageUrl"
+            FROM "Article"
+            WHERE COALESCE("imageUrl", '') <> ''
+            ORDER BY RANDOM()
+            LIMIT 1
+            """
+        )
+        row = cur.fetchone()
+
+    if row and row[0]:
+        return str(row[0]).strip() or DEFAULT_ARTICLE_IMAGE
+
+    return DEFAULT_ARTICLE_IMAGE
+
+
 def acquire_lock(conn) -> bool:
     with conn.cursor() as cur:
         cur.execute("SELECT pg_try_advisory_lock(%s);", (PG_ADVISORY_LOCK_KEY,))
@@ -281,6 +302,8 @@ def upsert_article(conn, article: dict):
     normalized_content = _normalize_content(article.get("content"))
     normalized_sources = _normalize_sources(article.get("sources"))
     normalized_image_url = _normalize_image_url(article.get("imageUrl"))
+    if not normalized_image_url:
+        normalized_image_url = pick_random_article_image(conn)
     normalized_image_alt = _normalize_string(article.get("imageAlt"))
     normalized_author_name = _normalize_string(article.get("authorName")) or "Редакция"
     normalized_author_bio = _normalize_string(article.get("authorBio"))

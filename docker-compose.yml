@@ -63,9 +63,9 @@ services:
       context: ./backend/chatbot
       dockerfile: Dockerfile
     container_name: wellness_chat
+    env_file:
+      - ./backend/.env
     environment:
-      # required for chatbot/chat_app.py
-      GROQ_API_KEY: ${GROQ_API_KEY}
       # optional; for production you should use explicit origins instead of "*"
       CHAT_CORS_ORIGINS: ${CHAT_CORS_ORIGINS:-*}
     ports:

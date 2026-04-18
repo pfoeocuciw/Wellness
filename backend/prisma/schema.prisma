@@ -32,6 +32,7 @@ model User {
   verification_codes EmailVerificationCode[]
   interesting_categories UserInterestingCategory[]
   articles Article[]
+  savedArticles SavedArticle[]
   chats Chat[]
 }
 
@@ -103,12 +104,26 @@ model Article {
   status       ArticleStatus @default(published)
   authorId     Int?
   authorUser   User?         @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  savedBy      SavedArticle[]
 
   coauthors    String?
   tagsJson     Json?
   publishedAt  DateTime?
 
   @@index([authorId, status])
+}
+
+model SavedArticle {
+  id        String   @id @default(uuid())
+  userId    Int
+  articleId String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+  @@index([userId, createdAt])
 }
 
 model ImportRun {

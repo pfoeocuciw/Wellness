@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./article.module.css";
 
 type ArticleBlock =
@@ -145,9 +145,7 @@ export default function ArticlePageClient({
     const mainRef = useRef<HTMLElement | null>(null);
     const [scrollProgress, setScrollProgress] = useState(0);
     const [isSaved, setIsSaved] = useState(false);
-
-    const storageKey = useMemo(() => "savedArticleIds", []);
-
+    const backendBase = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
 
     useEffect(() => {
         let ticking = false;
@@ -188,32 +186,72 @@ export default function ArticlePageClient({
         };
     }, []);
 
-    const toggleSaved = () => {
-        const raw = localStorage.getItem(storageKey);
-        let ids: string[] = [];
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            setIsSaved(false);
+            return;
+        }
 
-        if (raw) {
+        let active = true;
+
+        const loadSavedState = async () => {
             try {
-                const parsed = JSON.parse(raw);
-                if (Array.isArray(parsed)) {
-                    ids = parsed.filter((item): item is string => typeof item === "string");
+                const res = await fetch(`${backendBase}/api/articles/saved/ids`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    cache: "no-store",
+                });
+
+                if (!res.ok) return;
+
+                const data = await res.json();
+                const ids = Array.isArray(data.articleIds)
+                    ? data.articleIds.filter((id: unknown): id is string => typeof id === "string")
+                    : [];
+
+                if (active) {
+                    setIsSaved(ids.includes(article.id));
                 }
             } catch {
-                ids = [];
+                if (active) setIsSaved(false);
             }
+        };
+
+        void loadSavedState();
+
+        return () => {
+            active = false;
+        };
+    }, [article.id, backendBase]);
+
+    const toggleSaved = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        const nextSaved = !isSaved;
+        setIsSaved(nextSaved);
+
+        try {
+            const res = await fetch(`${backendBase}/api/articles/saved/toggle`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    articleId: article.id,
+                    saved: nextSaved,
+                }),
+            });
+
+            if (!res.ok) {
+                setIsSaved(!nextSaved);
+            }
+        } catch {
+            setIsSaved(!nextSaved);
         }
-
-        let nextIds: string[];
-
-        if (ids.includes(article.id)) {
-            nextIds = ids.filter((id) => id !== article.id);
-            setIsSaved(false);
-        } else {
-            nextIds = [...ids, article.id];
-            setIsSaved(true);
-        }
-
-        localStorage.setItem(storageKey, JSON.stringify(nextIds));
     };
 
     return (

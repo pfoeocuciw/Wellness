@@ -3,6 +3,7 @@ const prisma = require("../prisma");
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
+const savedArticlesService = require("../services/saved-articles.service");
 
 
 const articleCoversDir = path.join(process.cwd(), "public", "uploads", "article_covers");
@@ -29,6 +30,40 @@ const uploadArticleCover = multer({
     storage: articleCoverStorage,
     limits: { fileSize: 10 * 1024 * 1024 },
 });
+
+const DEFAULT_ARTICLE_IMAGE = "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png";
+
+async function pickRandomArticleImageUrl() {
+    const total = await prisma.article.count({
+        where: {
+            imageUrl: {
+                not: "",
+            },
+        },
+    });
+
+    if (!total) return DEFAULT_ARTICLE_IMAGE;
+
+    const randomOffset = Math.floor(Math.random() * total);
+    const [randomArticle] = await prisma.article.findMany({
+        where: {
+            imageUrl: {
+                not: "",
+            },
+        },
+        select: { imageUrl: true },
+        skip: randomOffset,
+        take: 1,
+    });
+
+    return randomArticle?.imageUrl || DEFAULT_ARTICLE_IMAGE;
+}
+
+async function resolveArticleImageUrl(value) {
+    const normalized = typeof value === "string" ? value.trim() : "";
+    if (normalized) return normalized;
+    return pickRandomArticleImageUrl();
+}
 
 async function uploadArticleCoverFile(req, res) {
     try {
@@ -197,7 +232,7 @@ async function saveDraftArticle(req, res) {
                 authorBio: user.bio || null,
                 category: category || "статья",
                 annotation: annotation || "",
-                imageUrl: imageUrl || "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
+                imageUrl: await resolveArticleImageUrl(imageUrl),
                 imageAlt: imageAlt || safeTitle,
                 content: content || "",
                 sources: Array.isArray(sources) ? sources : [],
@@ -256,13 +291,18 @@ async function updateDraftArticle(req, res) {
             nextSlug = await ensureUniqueSlug(makeSlug(title.trim()));
         }
 
+        const nextImageUrl =
+            imageUrl === undefined
+                ? article.imageUrl
+                : await resolveArticleImageUrl(imageUrl);
+
         const updated = await prisma.article.update({
             where: { id },
             data: {
                 title: title?.trim() || article.title,
                 slug: nextSlug,
                 annotation: annotation ?? article.annotation,
-                imageUrl: imageUrl ?? article.imageUrl,
+                imageUrl: nextImageUrl,
                 imageAlt: imageAlt ?? article.imageAlt,
                 coauthors: coauthors ?? article.coauthors,
                 tagsJson: Array.isArray(tags) ? tags : article.tagsJson,
@@ -353,6 +393,69 @@ async function deleteMyArticle(req, res) {
     }
 }
 
+async function getSavedArticleIds(req, res) {
+    try {
+        const userId = req.user.userId;
+        const articleIds = await savedArticlesService.getSavedArticleIds(prisma, userId);
+
+        return res.json({
+            articleIds,
+        });
+    } catch (error) {
+        console.error("getSavedArticleIds error:", error);
+        return res.status(500).json({
+            message: "Ошибка загрузки сохранённых статей",
+            error: error.message,
+        });
+    }
+}
+
+async function toggleSavedArticle(req, res) {
+    try {
+        const userId = req.user.userId;
+        const { articleId, saved } = req.body || {};
+
+        if (!articleId || typeof articleId !== "string") {
+            return res.status(400).json({ message: "articleId обязателен" });
+        }
+
+        const result = await savedArticlesService.toggleSavedArticle(
+            prisma,
+            userId,
+            articleId,
+            Boolean(saved)
+        );
+
+        if (!result.found) {
+            return res.status(404).json({ message: "Статья не найдена" });
+        }
+        return res.json({ articleId, saved: result.saved });
+    } catch (error) {
+        console.error("toggleSavedArticle error:", error);
+        return res.status(500).json({
+            message: "Ошибка сохранения статьи",
+            error: error.message,
+        });
+    }
+}
+
+async function getSavedArticles(req, res) {
+    try {
+        const userId = req.user.userId;
+        const articles = await savedArticlesService.getSavedArticles(prisma, userId);
+
+        return res.json({
+            articles,
+        });
+    } catch (error) {
+        console.error("getSavedArticles error:", error);
+        return res.status(500).json({
+            message: "Ошибка загрузки сохранённых статей",
+            error: error.message,
+        });
+    }
+}
+
 module.exports = {
     getMyArticles,
     getMyArticleById,
@@ -362,4 +465,7 @@ module.exports = {
     deleteMyArticle,
     uploadArticleCover,
     uploadArticleCoverFile,
+    getSavedArticleIds,
+    toggleSavedArticle,
+    getSavedArticles,
 };

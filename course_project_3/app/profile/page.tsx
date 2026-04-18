@@ -361,70 +361,48 @@ export default function ProfilePage() {
 
     useEffect(() => {
         const loadSavedArticles = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                setSavedArticles([]);
+                return;
+            }
+
             try {
                 setSavedLoading(true);
-
-                const raw = localStorage.getItem("savedArticleIds");
-                if (!raw) {
-                    setSavedArticles([]);
-                    return;
-                }
-
-                let ids: string[] = [];
-
-                try {
-                    const parsed = JSON.parse(raw) as unknown;
-                    if (Array.isArray(parsed)) {
-                        ids = parsed.filter((item): item is string => typeof item === "string");
-                    }
-                } catch {
-                    setSavedArticles([]);
-                    return;
-                }
-
-                if (ids.length === 0) {
-                    setSavedArticles([]);
-                    return;
-                }
-
                 const base = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
 
-                const results = await Promise.all(
-                    ids.map(async (id) => {
-                        try {
-                            const res = await fetch(
-                                `${base}/api/articles/id/${encodeURIComponent(id)}`,
-                                { cache: "no-store" }
-                            );
+                const res = await fetch(`${base}/api/articles/saved`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    cache: "no-store",
+                });
 
-                            if (!res.ok) return null;
+                if (!res.ok) {
+                    setSavedArticles([]);
+                    return;
+                }
 
-                            const article = await readJsonSafe<SavedArticleApi>(res);
+                const data = await readJsonSafe<{ articles?: SavedArticleApi[] }>(res);
+                const list = Array.isArray(data.articles) ? data.articles : [];
 
-                            const mapped: ProfileArticle = {
-                                id: article.id,
-                                title: article.title,
-                                image:
-                                    article.imageUrl && article.imageUrl.startsWith("http")
-                                        ? article.imageUrl
-                                        : article.imageUrl
-                                            ? `${base}${article.imageUrl}`
-                                            : "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-                                tags: article.category ? [article.category.toLowerCase()] : [],
-                                author: article.authorName || "Автор",
-                                date: formatRuDate(article.createdAt),
-                                status: "published",
-                                slug: article.slug,
-                            };
-
-                            return mapped;
-                        } catch {
-                            return null;
-                        }
-                    })
+                setSavedArticles(
+                    list.map((article) => ({
+                        id: article.id,
+                        title: article.title,
+                        image:
+                            article.imageUrl && article.imageUrl.startsWith("http")
+                                ? article.imageUrl
+                                : article.imageUrl
+                                    ? `${base}${article.imageUrl}`
+                                    : "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
+                        tags: article.category ? [article.category.toLowerCase()] : [],
+                        author: article.authorName || "Автор",
+                        date: formatRuDate(article.createdAt),
+                        status: "published",
+                        slug: article.slug,
+                    }))
                 );
-
-                setSavedArticles(results.filter((item): item is ProfileArticle => item !== null));
             } finally {
                 setSavedLoading(false);
             }
@@ -620,14 +598,6 @@ export default function ProfilePage() {
                         <span className={styles.userRole}>Пользователь</span>
                     )}
 
-                    {role === "expert" && (profile.documents?.length || profile.diploma_info) ? (
-                        <p className={styles.emptyText}>
-                            Документ:{" "}
-                            {profile.documents?.[0]
-                                ? profile.documents[0].split("/").pop()
-                                : profile.diploma_info}
-                        </p>
-                    ) : null}
                 </section>
 
                 <section className={styles.topicsSection}>

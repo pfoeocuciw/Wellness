@@ -229,13 +229,11 @@ export default function ProfileSettingsPage() {
             setError(null);
             setSuccessMessage("Проверяем диплом...");
 
-            const aiBase = process.env.NEXT_PUBLIC_EXPERT_API_URL || "http://localhost:8000";
             const formData = new FormData();
             formData.append("education_description", profile?.diploma_info || "Медицинское образование");
             formData.append("file", file);
 
-            // 🔥 1. AI ПРОВЕРКА
-            const aiRes = await fetch(`${aiBase}/expert/verify`, {
+            const aiRes = await fetch("/api/expert-verify", {
                 method: "POST",
                 body: formData,
             });
@@ -313,6 +311,7 @@ export default function ProfileSettingsPage() {
             return;
         }
 
+        const previousAvatarPreview = avatarPreview;
         const localPreview = URL.createObjectURL(file);
         setAvatarPreview(localPreview);
 
@@ -358,7 +357,12 @@ export default function ProfileSettingsPage() {
             );
 
             setAvatarPreview(nextAvatar);
+            if (nextAvatar !== localPreview) {
+                URL.revokeObjectURL(localPreview);
+            }
         } catch (err) {
+            URL.revokeObjectURL(localPreview);
+            setAvatarPreview(previousAvatarPreview);
             setError(err instanceof Error ? err.message : "Ошибка загрузки фото");
         }
     };

@@ -56,12 +56,11 @@ export default function ExpertVerifyPage() {
         setSuccess("");
 
         try {
-            const aiBase = process.env.NEXT_PUBLIC_EXPERT_API_URL || "http://localhost:8000";
             const formData = new FormData();
             formData.append("education_description", education.trim());
             formData.append("file", file);
 
-            const aiRes = await fetch(`${aiBase}/expert/verify`, {
+            const aiRes = await fetch("/api/expert-verify", {
                 method: "POST",
                 body: formData,
             });
