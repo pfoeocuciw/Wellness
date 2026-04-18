@@ -30,6 +30,7 @@ model User {
   email_verified_at DateTime?
 
   verification_codes EmailVerificationCode[]
+  password_reset_codes PasswordResetCode[]
   interesting_categories UserInterestingCategory[]
   articles Article[]
   savedArticles SavedArticle[]
@@ -49,6 +50,21 @@ model EmailVerificationCode {
 
   @@index([email])
   @@map("email_verification_codes")
+}
+
+model PasswordResetCode {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  email      String
+  code       String
+  expires_at DateTime
+  used       Boolean  @default(false)
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@map("password_reset_codes")
 }
 
 model UserInterestingCategory {
