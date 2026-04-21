@@ -1,9 +1,32 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
-    const base = process.env.BACKEND_URL || process.env.ARTICLES_API_URL || "http://localhost:3001";
+function getBackendBase() {
+    return (
+        process.env.BACKEND_URL ||
+        process.env.ARTICLES_API_URL ||
+        process.env.NEXT_PUBLIC_BACKEND_URL ||
+        ""
+    ).replace(/\/$/, "");
+}
 
-    const res = await fetch(`${base}/api/articles`, { cache: "no-store" });
+export async function GET() {
+    const base = getBackendBase();
+    if (!base) {
+        return NextResponse.json(
+            { error: "Backend URL is not configured" },
+            { status: 500 }
+        );
+    }
+
+    let res: Response;
+    try {
+        res = await fetch(`${base}/api/articles`, { cache: "no-store" });
+    } catch {
+        return NextResponse.json(
+            { error: "Failed to reach backend service" },
+            { status: 500 }
+        );
+    }
 
     if (!res.ok) {
         return NextResponse.json({ error: "Failed to load articles" }, { status: res.status });
@@ -14,18 +37,32 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-    const base = process.env.BACKEND_URL || process.env.ARTICLES_API_URL || "http://localhost:3001";
+    const base = getBackendBase();
+    if (!base) {
+        return NextResponse.json(
+            { error: "Backend URL is not configured" },
+            { status: 500 }
+        );
+    }
     const authHeader = req.headers.get("authorization");
     const body = await req.text();
 
-    const res = await fetch(`${base}/api/articles`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            ...(authHeader ? { Authorization: authHeader } : {}),
-        },
-        body,
-    });
+    let res: Response;
+    try {
+        res = await fetch(`${base}/api/articles`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                ...(authHeader ? { Authorization: authHeader } : {}),
+            },
+            body,
+        });
+    } catch {
+        return NextResponse.json(
+            { error: "Failed to reach backend service" },
+            { status: 500 }
+        );
+    }
 
     const raw = await res.text();
     let data: unknown = {};
