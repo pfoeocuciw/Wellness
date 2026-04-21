@@ -76,7 +76,7 @@ function createTransporter() {
     return nodemailer.createTransport({
         host: cfg.smtpHost,
         port: cfg.smtpPort,
-        secure: cfg.smtpPort === 465,
+        secure: cfg.smtpSecure,
         auth: {
             user: cfg.smtpUser,
             pass: cfg.smtpPass,
@@ -95,7 +95,7 @@ async function sendVerificationEmail(email, code) {
         console.log("SMTP verify start", {
             host: cfg.smtpHost,
             port: cfg.smtpPort,
-            secure: cfg.smtpPort === 587,
+            secure: cfg.smtpSecure,
             user: cfg.smtpUser,
         });
         console.log("sendMail start", email);
