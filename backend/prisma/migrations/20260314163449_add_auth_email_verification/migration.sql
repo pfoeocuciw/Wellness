@@ -2,7 +2,18 @@
 DROP INDEX IF EXISTS "Article_sourceSite_idx";
 
 -- AlterTable
-ALTER TABLE "Article" ALTER COLUMN "updatedAt" DROP DEFAULT;
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'Article'
+          AND column_name = 'updatedAt'
+    ) THEN
+        ALTER TABLE "Article" ALTER COLUMN "updatedAt" DROP DEFAULT;
+    END IF;
+END $$;
 
 -- CreateTable
 CREATE TABLE "User" (
