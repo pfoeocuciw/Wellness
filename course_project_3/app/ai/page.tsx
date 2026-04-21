@@ -76,6 +76,7 @@ export default function AiPage() {
     const [chats, setChats] = useState<ChatItem[]>([]);
     const [activeChatId, setActiveChatId] = useState<string | null>(null);
     const [authError, setAuthError] = useState("");
+    const [isGuest, setIsGuest] = useState(false);
 
 
     const activeChat = useMemo(() => {
@@ -153,6 +154,19 @@ export default function AiPage() {
         } catch (e) {
             if (e instanceof Error && e.message === "NO_TOKEN") {
                 setAuthError("Чтобы сохранять чаты в базе, нужно войти в аккаунт.");
+                setIsGuest(true);
+
+                const guestChatId = tmpId();
+                const now = new Date().toISOString();
+                setChats([
+                    {
+                        id: guestChatId,
+                        title: "Гостевой чат",
+                        createdAt: now,
+                        messages: [],
+                    },
+                ]);
+                setActiveChatId(guestChatId);
             } else {
                 setAuthError("Не удалось загрузить чаты. Проверьте backend и токен.");
             }
@@ -178,17 +192,21 @@ export default function AiPage() {
         const trimmed = next.trim();
         if (!trimmed) return;
         setChats((prev) => prev.map((c) => (c.id === id ? { ...c, title: trimmed } : c)));
-        void apiFetch(`/api/chats/${encodeURIComponent(id)}`, {
-            method: "PATCH",
-            body: JSON.stringify({ title: trimmed }),
-        }).catch(() => {});
+        if (!isGuest) {
+            void apiFetch(`/api/chats/${encodeURIComponent(id)}`, {
+                method: "PATCH",
+                body: JSON.stringify({ title: trimmed }),
+            }).catch(() => {});
+        }
     };
 
     const deleteChat = (id: string) => {
         const ok = confirm("Удалить этот чат?");
         if (!ok) return;
 
-        void apiFetch(`/api/chats/${encodeURIComponent(id)}`, { method: "DELETE" }).catch(() => {});
+        if (!isGuest) {
+            void apiFetch(`/api/chats/${encodeURIComponent(id)}`, { method: "DELETE" }).catch(() => {});
+        }
 
         setChats((prev) => {
             const next = prev.filter((c) => c.id !== id);
@@ -215,6 +233,7 @@ export default function AiPage() {
     };
 
     const loadChatMessages = async (chatId: string) => {
+        if (isGuest) return;
         try {
             const res = await apiFetch(`/api/chats/${encodeURIComponent(chatId)}`);
             if (!res.ok) return;
@@ -250,6 +269,14 @@ export default function AiPage() {
     const ensureChatExists = async () => {
         if (activeChatId) return activeChatId;
 
+        if (isGuest) {
+            const id = tmpId();
+            const now = new Date().toISOString();
+            setChats((prev) => [{ id, title: "Гостевой чат", createdAt: now, messages: [] }, ...prev]);
+            setActiveChatId(id);
+            return id;
+        }
+
         const res = await apiFetch("/api/chats", {
             method: "POST",
             body: JSON.stringify({ title: "Новый чат" }),
@@ -271,8 +298,14 @@ export default function AiPage() {
         try {
             chatId = await ensureChatExists();
         } catch {
-            setAuthError("Нужно войти в аккаунт, чтобы сохранять чат в базе.");
-            return;
+            // guest режим: если токена нет — все равно продолжаем, просто не сохраняем в БД
+            const id = tmpId();
+            const now = new Date().toISOString();
+            setIsGuest(true);
+            setAuthError("Гостевой режим: чат не будет сохранён. Для сохранения войдите в аккаунт.");
+            setChats([{ id, title: "Гостевой чат", createdAt: now, messages: [] }]);
+            setActiveChatId(id);
+            chatId = id;
         }
 
         const userMsg: ChatMessage = { id: tmpId(), role: "user", text: trimmed };
@@ -289,25 +322,27 @@ export default function AiPage() {
             })
         );
 
-        // сохраняем сообщение пользователя в БД
-        try {
-            const saved = await apiFetch(`/api/chats/${encodeURIComponent(chatId)}/messages`, {
-                method: "POST",
-                body: JSON.stringify({ role: "user", text: trimmed }),
-            });
-            if (saved.ok) {
-                const data = (await saved.json()) as { message?: { id: string } };
-                if (data.message?.id) {
-                    setChats((prev) =>
-                        prev.map((c) =>
-                            c.id === chatId
-                                ? { ...c, messages: c.messages.map((m) => (m.id === userMsg.id ? { ...m, id: data.message!.id } : m)) }
-                                : c
-                        )
-                    );
+        if (!isGuest) {
+            // сохраняем сообщение пользователя в БД
+            try {
+                const saved = await apiFetch(`/api/chats/${encodeURIComponent(chatId)}/messages`, {
+                    method: "POST",
+                    body: JSON.stringify({ role: "user", text: trimmed }),
+                });
+                if (saved.ok) {
+                    const data = (await saved.json()) as { message?: { id: string } };
+                    if (data.message?.id) {
+                        setChats((prev) =>
+                            prev.map((c) =>
+                                c.id === chatId
+                                    ? { ...c, messages: c.messages.map((m) => (m.id === userMsg.id ? { ...m, id: data.message!.id } : m)) }
+                                    : c
+                            )
+                        );
+                    }
                 }
-            }
-        } catch {}
+            } catch {}
+        }
 
         // если это первое сообщение — попросим бек сгенерировать нормальное название
         if (wasFirstMessage) {
@@ -320,18 +355,22 @@ export default function AiPage() {
                             c.id === chatId ? { ...c, title } : c
                         )
                     );
-                    void apiFetch(`/api/chats/${encodeURIComponent(chatId)}`, {
-                        method: "PATCH",
-                        body: JSON.stringify({ title }),
-                    }).catch(() => {});
+                    if (!isGuest) {
+                        void apiFetch(`/api/chats/${encodeURIComponent(chatId)}`, {
+                            method: "PATCH",
+                            body: JSON.stringify({ title }),
+                        }).catch(() => {});
+                    }
                 })
                 .catch(() => {});
 
             // fallback title тоже фиксируем в БД
-            void apiFetch(`/api/chats/${encodeURIComponent(chatId)}`, {
-                method: "PATCH",
-                body: JSON.stringify({ title: makeTitleFromQuestion(trimmed) }),
-            }).catch(() => {});
+            if (!isGuest) {
+                void apiFetch(`/api/chats/${encodeURIComponent(chatId)}`, {
+                    method: "PATCH",
+                    body: JSON.stringify({ title: makeTitleFromQuestion(trimmed) }),
+                }).catch(() => {});
+            }
         }
 
         setInput("");
@@ -387,25 +426,27 @@ export default function AiPage() {
                 prev.map((c) => (c.id === chatId ? { ...c, messages: [...c.messages, assistantMsg] } : c))
             );
 
-            // сохраняем ответ ассистента в БД
-            try {
-                const saved = await apiFetch(`/api/chats/${encodeURIComponent(chatId)}/messages`, {
-                    method: "POST",
-                    body: JSON.stringify({ role: "assistant", text: assistantMsg.text }),
-                });
-                if (saved.ok) {
-                    const data = (await saved.json()) as { message?: { id: string } };
-                    if (data.message?.id) {
-                        setChats((prev) =>
-                            prev.map((c) =>
-                                c.id === chatId
-                                    ? { ...c, messages: c.messages.map((m) => (m.id === assistantMsg.id ? { ...m, id: data.message!.id } : m)) }
-                                    : c
-                            )
-                        );
+            if (!isGuest) {
+                // сохраняем ответ ассистента в БД
+                try {
+                    const saved = await apiFetch(`/api/chats/${encodeURIComponent(chatId)}/messages`, {
+                        method: "POST",
+                        body: JSON.stringify({ role: "assistant", text: assistantMsg.text }),
+                    });
+                    if (saved.ok) {
+                        const data = (await saved.json()) as { message?: { id: string } };
+                        if (data.message?.id) {
+                            setChats((prev) =>
+                                prev.map((c) =>
+                                    c.id === chatId
+                                        ? { ...c, messages: c.messages.map((m) => (m.id === assistantMsg.id ? { ...m, id: data.message!.id } : m)) }
+                                        : c
+                                )
+                            );
+                        }
                     }
-                }
-            } catch {}
+                } catch {}
+            }
 
             requestAnimationFrame(() => scrollToBottom(true));
         } catch {
@@ -463,6 +504,16 @@ export default function AiPage() {
 
     const startNewChat = () => {
         void (async () => {
+            if (isGuest) {
+                const id = tmpId();
+                const now = new Date().toISOString();
+                setChats((prev) => [{ id, title: "Гостевой чат", createdAt: now, messages: [] }, ...prev]);
+                setActiveChatId(id);
+                setSidebarOpen(true);
+                setMenuForChatId(null);
+                requestAnimationFrame(() => scrollToBottom(false));
+                return;
+            }
             try {
                 const res = await apiFetch("/api/chats", {
                     method: "POST",
@@ -478,7 +529,12 @@ export default function AiPage() {
                 setMenuForChatId(null);
                 requestAnimationFrame(() => scrollToBottom(false));
             } catch {
-                setAuthError("Нужно войти в аккаунт, чтобы создавать чаты.");
+                setIsGuest(true);
+                setAuthError("Гостевой режим: чаты не сохраняются. Для сохранения войдите в аккаунт.");
+                const id = tmpId();
+                const now = new Date().toISOString();
+                setChats([{ id, title: "Гостевой чат", createdAt: now, messages: [] }]);
+                setActiveChatId(id);
             }
         })();
     };

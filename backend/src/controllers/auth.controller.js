@@ -99,6 +99,7 @@ async function sendVerificationEmail(email, code) {
             user: cfg.smtpUser,
         });
         console.log("sendMail start", email);
+
         await transporter.sendMail({
             from: `Wellness <${cfg.smtpFrom}>`,
             to: email,
@@ -128,10 +129,10 @@ async function sendVerificationEmail(email, code) {
 }
 
 async function sendPasswordResetEmail(email, code) {
-    const cfg = getSmtpConfig();
-    const transporter = createTransporter();
-
     try {
+        const cfg = getSmtpConfig();
+        const transporter = createTransporter();
+
         await transporter.sendMail({
             from: `Wellness <${cfg.smtpFrom}>`,
             to: email,
@@ -149,6 +150,7 @@ async function sendPasswordResetEmail(email, code) {
     `,
         });
     } catch (error) {
+        const cfg = getSmtpConfig();
         const msg = mapSmtpErrorToPublicMessage(error, cfg.smtpHost, cfg.smtpUser);
         if (msg) {
             const wrapped = new Error(msg);
