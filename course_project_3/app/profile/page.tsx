@@ -866,16 +866,10 @@ export default function ProfilePage() {
                                         />
                                     ))}
 
-<<<<<<< HEAD
-                                <button className={styles.addArticleCard} onClick={() => setCreateModalOpen(true)}>
-                                    <PlusIcon />
-=======
                                     <button
                                         className={styles.addArticleCard}
                                         type="button"
-                                        onClick={() =>
-                                            window.location.assign("/profile/create-article")
-                                        }
+                                        onClick={() => setCreateModalOpen(true)}
                                     >
                                         <PlusIcon />
                                     </button>
@@ -894,12 +888,9 @@ export default function ProfilePage() {
                                 <button
                                     className={styles.primaryWideBtn}
                                     type="button"
-                                    onClick={() =>
-                                        window.location.assign("/profile/create-article")
-                                    }
+                                    onClick={() => setCreateModalOpen(true)}
                                 >
                                     Создать статью
->>>>>>> 98a894d3033e5451ec28d50c36e42c8cfc0f7ec5
                                 </button>
                             </section>
                         )}
@@ -935,7 +926,6 @@ export default function ProfilePage() {
                 )}
             </main>
 
-<<<<<<< HEAD
             {createModalOpen && (
                 <div className={styles.modalOverlay} onClick={closeCreateModal}>
                     <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
@@ -1032,7 +1022,12 @@ export default function ProfilePage() {
                                 disabled={publishLoading}
                             >
                                 {publishLoading ? "Публикация..." : "Опубликовать"}
-=======
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {articleToDelete ? (
                 <div className={styles.modalOverlay} onClick={() => setArticleToDelete(null)}>
                     <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
@@ -1058,16 +1053,11 @@ export default function ProfilePage() {
                                 disabled={isDeletingArticle}
                             >
                                 {isDeletingArticle ? "Удаляем..." : "Удалить"}
->>>>>>> 98a894d3033e5451ec28d50c36e42c8cfc0f7ec5
                             </button>
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
-            )}
-=======
             ) : null}
->>>>>>> 98a894d3033e5451ec28d50c36e42c8cfc0f7ec5
         </div>
     );
 }
