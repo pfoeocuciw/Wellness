@@ -157,10 +157,14 @@ def ask_groq_structured(history: List[ChatMessage]) -> dict:
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     messages += [{"role": m.role, "content": m.content} for m in history]
 
-    resp = client.chat.completions.create(
-        model="groq/compound",
-        messages=messages,
-    )
+    try:
+        resp = client.chat.completions.create(
+            model="groq/compound",
+            messages=messages,
+        )
+    except Exception as e:
+        # Groq SDK кидает исключения при 4xx/5xx. Даем читабельную причину в ответ.
+        raise HTTPException(status_code=502, detail=f"Ошибка Groq API: {str(e)}")
 
     msg = resp.choices[0].message
     answer = (msg.content or "").strip()
@@ -195,14 +199,17 @@ def generate_title(body: TitleIn):
         "Он должен отражать тему, а не копировать текст дословно."
     )
 
-    resp = client.chat.completions.create(
-        model="groq/compound",
-        messages=[
-            {"role": "system", "content": title_system},
-            {"role": "user", "content": body.text},
-        ],
-        temperature=0.2,
-    )
+    try:
+        resp = client.chat.completions.create(
+            model="groq/compound",
+            messages=[
+                {"role": "system", "content": title_system},
+                {"role": "user", "content": body.text},
+            ],
+            temperature=0.2,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Ошибка Groq API: {str(e)}")
 
     title = (resp.choices[0].message.content or "").strip()
     title = title.strip('*"“”«» ')
