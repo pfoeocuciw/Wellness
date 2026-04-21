@@ -1,5 +1,5 @@
 -- DropIndex
-DROP INDEX "Article_sourceSite_idx";
+DROP INDEX IF EXISTS "Article_sourceSite_idx";
 
 -- AlterTable
 ALTER TABLE "Article" ALTER COLUMN "updatedAt" DROP DEFAULT;
