@@ -77,6 +77,13 @@ export default function LoginPage() {
                         />
                         <span className={styles.label}>Пароль</span>
                     </label>
+                    <button
+                        type="button"
+                        className={styles.forgotButton}
+                        onClick={() => router.push('/forgot-password')}
+                    >
+                        Забыли пароль?
+                    </button>
 
                     {error && <p className={styles.error}>{error}</p>}
 

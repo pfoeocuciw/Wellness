@@ -16,6 +16,7 @@ const MOCK_ARTICLES: FeedArticle[] = [
         tags: ["йога", "гибкость", "бодрость", "утренняя зарядка"],
         authorName: "Мария Петрова",
         publishedAt: "2024-01-13",
+        coauthors: "",
     },
 ];
 
@@ -49,6 +50,19 @@ export default function FeedClient() {
 
     const [articles, setArticles] = useState<FeedArticle[]>(MOCK_ARTICLES);
     const [loading, setLoading] = useState(true);
+
+    const backendBase = useMemo(
+        () => (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001").replace(/\/+$/, ""),
+        []
+    );
+
+    const coverSrc = (url: string) => {
+        const raw = (url || "").trim();
+        if (!raw) return "/articles/yoga.svg";
+        if (raw.startsWith("http://") || raw.startsWith("https://")) return raw;
+        if (raw.startsWith("/")) return `${backendBase}${raw}`;
+        return `${backendBase}/${raw}`;
+    };
 
     useEffect(() => {
         let alive = true;
@@ -193,7 +207,17 @@ export default function FeedClient() {
                                 <article className={styles.card}>
                                     <div className={styles.coverWrap}>
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img className={styles.cover} src={a.coverUrl} alt="" />
+                                        <img
+                                            className={styles.cover}
+                                            src={coverSrc(a.coverUrl)}
+                                            alt=""
+                                            onError={(e) => {
+                                                const img = e.currentTarget;
+                                                if (img.dataset.fallbackApplied === "1") return;
+                                                img.dataset.fallbackApplied = "1";
+                                                img.src = "/articles/yoga.svg";
+                                            }}
+                                        />
                                     </div>
 
                                     <h3 className={styles.title}>{a.title}</h3>
@@ -215,6 +239,11 @@ export default function FeedClient() {
                                         <span className={styles.dot} aria-hidden />
                                         <span className={styles.date}>{formatRuDate(a.publishedAt)}</span>
                                     </div>
+                                    {a.coauthors ? (
+                                        <div className={styles.coauthorsLine}>
+                                            Соавторы: {a.coauthors}
+                                        </div>
+                                    ) : null}
                                 </article>
                             </Link>
                         ))}

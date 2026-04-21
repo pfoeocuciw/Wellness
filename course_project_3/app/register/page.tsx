@@ -52,6 +52,10 @@ export default function RegisterPage() {
 
             const data = await res.json();
 
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+            }
+
             if (!res.ok) {
                 showToast(data.message || 'Не удалось восстановить аккаунт');
                 return;

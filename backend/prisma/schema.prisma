@@ -21,11 +21,20 @@ model User {
   created_at        DateTime  @default(now())
   deleted_flag      String?
 
+  expert_document_url      String?
+  expert_document_name     String?
+  expert_verification_note String?
+
+
   is_email_verified Boolean   @default(false)
   email_verified_at DateTime?
 
   verification_codes EmailVerificationCode[]
+  password_reset_codes PasswordResetCode[]
   interesting_categories UserInterestingCategory[]
+  articles Article[]
+  savedArticles SavedArticle[]
+  chats Chat[]
 }
 
 model EmailVerificationCode {
@@ -41,6 +50,21 @@ model EmailVerificationCode {
 
   @@index([email])
   @@map("email_verification_codes")
+}
+
+model PasswordResetCode {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  email      String
+  code       String
+  expires_at DateTime
+  used       Boolean  @default(false)
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@map("password_reset_codes")
 }
 
 model UserInterestingCategory {
@@ -62,6 +86,11 @@ model Category {
   interested_users UserInterestingCategory[]
 
   @@map("categories")
+}
+
+enum ArticleStatus {
+  draft
+  published
 }
 
 model Article {
@@ -91,6 +120,30 @@ model Article {
   rawHtml      String?
   importedAt   DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  status       ArticleStatus @default(published)
+  authorId     Int?
+  authorUser   User?         @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  savedBy      SavedArticle[]
+
+  coauthors    String?
+  tagsJson     Json?
+  publishedAt  DateTime?
+
+  @@index([authorId, status])
+}
+
+model SavedArticle {
+  id        String   @id @default(uuid())
+  userId    Int
+  articleId String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+  @@index([userId, createdAt])
 }
 
 model ImportRun {
@@ -104,4 +157,29 @@ model ImportRun {
   createdAt  DateTime @default(now())
 
   @@index([jobName, status, startedAt])
+}
+
+model Chat {
+  id        String   @id @default(uuid())
+  userId    Int
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ChatMessage[]
+
+  @@index([userId, updatedAt])
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  chatId    String
+  role      String
+  text      String   @db.Text
+  createdAt DateTime @default(now())
+
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  @@index([chatId, createdAt])
 }

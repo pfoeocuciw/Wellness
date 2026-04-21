@@ -169,7 +169,6 @@
     height: calc(100% - 56px - 56px); /* header + top */
 }
 
-
 .chatItem {
     width: 100%;
     border: none;
@@ -180,9 +179,12 @@
     cursor: pointer;
     font-size: 14px;
 
-    display: flex;              /* ✅ */
-    align-items: center;        /* ✅ */
-    gap: 10px;                  /* ✅ */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 🔥 ВАЖНО */
+    gap: 10px;
+
+    overflow: hidden; /* 🔥 */
 }
 
 .chatItemActive {
@@ -498,6 +500,9 @@
 
 .chatRow {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .chatMenuBtn {
@@ -511,6 +516,13 @@
     cursor: pointer;
     border-radius: 10px;
     flex: 0 0 auto;
+}
+
+.chatItem {
+    flex: 1 1 auto;
+    min-width: 0; /* важно для ellipsis во flex */
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .chatMenuBtn:hover {

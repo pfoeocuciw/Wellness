@@ -13,6 +13,7 @@ type SavedArticleApi = {
     category?: string;
     authorName?: string;
     createdAt?: string;
+    slug?: string;
 };
 
 type ProfileArticle = {
@@ -24,6 +25,9 @@ type ProfileArticle = {
     date?: string;
     views?: number;
     updatedText?: string;
+    status?: "draft" | "published";
+    slug?: string;
+    coauthors?: string;
 };
 
 type Interest = {
@@ -44,6 +48,23 @@ type ProfileData = {
     bio: string | null;
     avatarUrl?: string | null;
     interests: Interest[];
+    documents?: string[];
+};
+
+type CreatedArticleApi = {
+    id: string;
+    title?: string;
+    imageUrl?: string;
+    tags?: string[];
+    createdAt?: string;
+    status?: string;
+    slug?: string;
+    coauthors?: string;
+};
+
+type CreatedArticlesResponse = {
+    articles?: CreatedArticleApi[];
+    message?: string;
 };
 
 type ModerationData = {
@@ -59,6 +80,62 @@ function toMediaUrl(url?: string | null) {
     return `${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`;
 }
 
+function normalizeProfile(data: unknown): ProfileData | null {
+    if (!data || typeof data !== "object") return null;
+    const raw = data as Record<string, unknown>;
+
+    return {
+        id: Number(raw.id ?? 0),
+        email: typeof raw.email === "string" ? raw.email : "",
+        first_name:
+            typeof raw.first_name === "string"
+                ? raw.first_name
+                : typeof raw.firstName === "string"
+                    ? raw.firstName
+                    : "",
+        last_name:
+            typeof raw.last_name === "string"
+                ? raw.last_name
+                : typeof raw.lastName === "string"
+                    ? raw.lastName
+                    : "",
+        role: raw.role === "expert" ? "expert" : "user",
+        is_verified:
+            typeof raw.is_verified === "boolean"
+                ? raw.is_verified
+                : typeof raw.isVerified === "boolean"
+                    ? raw.isVerified
+                    : false,
+        is_email_verified:
+            typeof raw.is_email_verified === "boolean" ? raw.is_email_verified : true,
+        diploma_info:
+            typeof raw.diploma_info === "string"
+                ? raw.diploma_info
+                : typeof raw.diplomaInfo === "string"
+                    ? raw.diplomaInfo
+                    : null,
+        bio: typeof raw.bio === "string" ? raw.bio : null,
+        avatarUrl:
+            typeof raw.avatarUrl === "string"
+                ? raw.avatarUrl
+                : typeof raw.avatar_url === "string"
+                    ? raw.avatar_url
+                    : null,
+        interests: Array.isArray(raw.interests)
+            ? (raw.interests as unknown[]).filter(
+                (item): item is Interest =>
+                    !!item &&
+                    typeof item === "object" &&
+                    typeof (item as Interest).id === "number" &&
+                    typeof (item as Interest).name === "string"
+            )
+            : [],
+        documents: Array.isArray(raw.documents)
+            ? raw.documents.filter((item): item is string => typeof item === "string")
+            : [],
+    };
+}
+
 function formatRuDate(dateStr?: string) {
     if (!dateStr) return "";
     const d = new Date(dateStr);
@@ -71,12 +148,12 @@ function formatRuDate(dateStr?: string) {
     });
 }
 
-async function readJsonSafe(res: Response): Promise<unknown> {
+async function readJsonSafe<T>(res: Response): Promise<T> {
     const text = await res.text();
-    if (!text) return {};
+    if (!text) return {} as T;
 
     try {
-        return JSON.parse(text) as unknown;
+        return JSON.parse(text) as T;
     } catch {
         throw new Error(`Сервер вернул не JSON: ${text.slice(0, 120)}`);
     }
@@ -113,46 +190,114 @@ function PlusIcon() {
     return <span className={styles.plusIcon}>+</span>;
 }
 
+function TrashIcon() {
+    return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 7H20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            <path d="M10 11V17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            <path d="M14 11V17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            <path
+                d="M6 7L7 19C7.05 19.6 7.55 20 8.15 20H15.85C16.45 20 16.95 19.6 17 19L18 7"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+            />
+            <path
+                d="M9 7V4.8C9 4.36 9.36 4 9.8 4H14.2C14.64 4 15 4.36 15 4.8V7"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+            />
+        </svg>
+    );
+}
+
 function StatArticleCard({
                              article,
                              compact = false,
                              activeTag,
+                             onDelete,
                          }: {
     article: ProfileArticle;
     compact?: boolean;
     activeTag: string;
+    onDelete?: (article: ProfileArticle) => void;
 }) {
+    const href =
+        article.status === "draft"
+            ? `/profile/create-article?draftId=${article.id}`
+            : `/feed/${article.id}`;
+
     return (
-        <article className={`${styles.articleCard} ${compact ? styles.articleCardCompact : ""}`}>
-            <div className={styles.articleImageWrap}>
-                <img src={article.image} alt={article.title} className={styles.articleImage} />
-            </div>
+        <div className={styles.articleCardWrap}>
+            <Link href={href} className={styles.articleCardLink}>
+                <article className={`${styles.articleCard} ${compact ? styles.articleCardCompact : ""}`}>
+                    <div className={styles.articleImageWrap}>
+                        <img
+                            src={article.image}
+                            alt={article.title}
+                            className={styles.articleImage}
+                            onError={(e) => {
+                                const img = e.currentTarget;
+                                if (img.dataset.fallbackApplied === "1") return;
+                                img.dataset.fallbackApplied = "1";
+                                img.src = "/articles/yoga.svg";
+                            }}
+                        />
+                    </div>
 
-            <h3 className={styles.articleTitle}>{article.title}</h3>
+                    <h3 className={styles.articleTitle}>{article.title}</h3>
 
-            <div className={styles.cardTagsPills}>
-                {article.tags.map((tag) => {
-                    const isActive =
-                        activeTag !== "все" &&
-                        tag.toLowerCase() === activeTag.toLowerCase();
+                    <div className={styles.cardTagsPills}>
+                        {article.tags.map((tag) => {
+                            const isActive =
+                                activeTag !== "все" &&
+                                tag.toLowerCase() === activeTag.toLowerCase();
 
-                    return (
-                        <span
-                            key={tag}
-                            className={`${styles.cardTagPill} ${isActive ? styles.cardTagPillActive : ""}`}
-                        >
-                            {tag}
-                        </span>
-                    );
-                })}
-            </div>
+                            return (
+                                <span
+                                    key={tag}
+                                    className={`${styles.cardTagPill} ${
+                                        isActive ? styles.cardTagPillActive : ""
+                                    }`}
+                                >
+                                    {tag}
+                                </span>
+                            );
+                        })}
+                    </div>
 
-            <div className={styles.articleMetaInline}>
-                <span>{article.author ?? "Е.В. Царева"}</span>
-                <span className={styles.metaDot}>•</span>
-                <span>{article.date ?? "14 марта 2026 г."}</span>
-            </div>
-        </article>
+                    <div className={styles.articleMetaInline}>
+                        <span>{article.author ?? "Е.В. Царева"}</span>
+                        <span className={styles.metaDot}>•</span>
+                        <span>{article.date ?? "14 марта 2026 г."}</span>
+                    </div>
+
+                    {article.coauthors ? (
+                        <div className={styles.articleMetaInline}>
+                            <span>Соавторы: {article.coauthors}</span>
+                        </div>
+                    ) : null}
+
+                    {article.updatedText ? (
+                        <div className={styles.articleMetaInline}>
+                            <span>{article.updatedText}</span>
+                        </div>
+                    ) : null}
+                </article>
+            </Link>
+
+            {onDelete ? (
+                <button
+                    type="button"
+                    className={styles.articleDeleteBtn}
+                    onClick={() => onDelete(article)}
+                    aria-label="Удалить статью"
+                >
+                    <TrashIcon />
+                </button>
+            ) : null}
+        </div>
     );
 }
 
@@ -171,34 +316,30 @@ export default function ProfilePage() {
     const [newContent, setNewContent] = useState("");
     const moderationRef = useRef<HTMLDivElement | null>(null);
 
+    const [createdArticles, setCreatedArticles] = useState<ProfileArticle[]>([]);
+    const [createdLoading, setCreatedLoading] = useState(false);
+
+    const [articleToDelete, setArticleToDelete] = useState<ProfileArticle | null>(null);
+    const [isDeletingArticle, setIsDeletingArticle] = useState(false);
+
     const [tab, setTab] = useState<"saved" | "created">("saved");
     const [search, setSearch] = useState("");
     const [activeTag, setActiveTag] = useState("все");
 
     const filterTags = ["все", "гибкость", "бодрость", "витамины", "ментальное здоровье"];
 
-    const createdArticles: ProfileArticle[] = [
-        {
-            id: "c1",
-            title: "ВСЕ СТАТЬИ",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["йога", "гибкость", "бодрость", "утренняя зарядка"],
-            date: "14 августа 2024",
-        },
-        {
-            id: "c2",
-            title: "ПРАВИЛЬНЫЙ СОН",
-            image: "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-            tags: ["сон", "мелатонин", "бодрость", "спокойствие"],
-            date: "14 августа 2024",
-        },
-    ];
+    const role = profile?.role ?? "user";
+    const canPublish = profile?.role === "expert" && profile?.is_verified;
+    const displayName = profile
+        ? `${profile.first_name} ${profile.last_name}`.trim()
+        : "Пользователь";
+    const favoriteTopics = profile?.interests?.map((item) => item.name) ?? [];
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
         const loadProfile = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profile/me`, {
                     headers: {
@@ -207,7 +348,7 @@ export default function ProfilePage() {
                     cache: "no-store",
                 });
 
-                const data = await readJsonSafe(res);
+                const data = await readJsonSafe<unknown>(res);
 
                 if (!res.ok) {
                     const message =
@@ -221,7 +362,12 @@ export default function ProfilePage() {
                     throw new Error(message);
                 }
 
-                setProfile(data as ProfileData);
+                const normalized = normalizeProfile(data);
+                if (!normalized) {
+                    throw new Error("Не удалось прочитать профиль");
+                }
+
+                setProfile(normalized);
             } catch (error) {
                 console.error("Ошибка загрузки профиля", error);
             }
@@ -232,68 +378,48 @@ export default function ProfilePage() {
 
     useEffect(() => {
         const loadSavedArticles = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                setSavedArticles([]);
+                return;
+            }
+
             try {
                 setSavedLoading(true);
-
-                const raw = localStorage.getItem("savedArticleIds");
-                if (!raw) {
-                    setSavedArticles([]);
-                    return;
-                }
-
-                let ids: string[] = [];
-
-                try {
-                    const parsed = JSON.parse(raw) as unknown;
-                    if (Array.isArray(parsed)) {
-                        ids = parsed.filter((item): item is string => typeof item === "string");
-                    }
-                } catch {
-                    setSavedArticles([]);
-                    return;
-                }
-
-                if (ids.length === 0) {
-                    setSavedArticles([]);
-                    return;
-                }
-
                 const base = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
 
-                const results = await Promise.all(
-                    ids.map(async (id) => {
-                        try {
-                            const res = await fetch(
-                                `${base}/api/articles/id/${encodeURIComponent(id)}`,
-                                { cache: "no-store" }
-                            );
+                const res = await fetch(`${base}/api/articles/saved`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    cache: "no-store",
+                });
 
-                            if (!res.ok) return null;
+                if (!res.ok) {
+                    setSavedArticles([]);
+                    return;
+                }
 
-                            const article = (await res.json()) as SavedArticleApi;
+                const data = await readJsonSafe<{ articles?: SavedArticleApi[] }>(res);
+                const list = Array.isArray(data.articles) ? data.articles : [];
 
-                            const mapped: ProfileArticle = {
-                                id: article.id,
-                                title: article.title,
-                                image:
-                                    article.imageUrl && article.imageUrl.startsWith("http")
-                                        ? article.imageUrl
-                                        : article.imageUrl
-                                            ? `${base}${article.imageUrl}`
-                                            : "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
-                                tags: article.category ? [article.category.toLowerCase()] : [],
-                                author: article.authorName || "Автор",
-                                date: formatRuDate(article.createdAt),
-                            };
-
-                            return mapped;
-                        } catch {
-                            return null;
-                        }
-                    })
+                setSavedArticles(
+                    list.map((article) => ({
+                        id: article.id,
+                        title: article.title,
+                        image:
+                            article.imageUrl && article.imageUrl.startsWith("http")
+                                ? article.imageUrl
+                                : article.imageUrl
+                                    ? `${base}${article.imageUrl}`
+                                    : "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
+                        tags: article.category ? [article.category.toLowerCase()] : [],
+                        author: article.authorName || "Автор",
+                        date: formatRuDate(article.createdAt),
+                        status: "published",
+                        slug: article.slug,
+                    }))
                 );
-
-                setSavedArticles(results.filter((item): item is ProfileArticle => item !== null));
             } finally {
                 setSavedLoading(false);
             }
@@ -312,6 +438,96 @@ export default function ProfilePage() {
         };
     }, []);
 
+    useEffect(() => {
+        const loadCreatedArticles = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
+            try {
+                setCreatedLoading(true);
+
+                const res = await fetch(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/my`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        cache: "no-store",
+                    }
+                );
+
+                const data = await readJsonSafe<CreatedArticlesResponse>(res);
+
+                if (!res.ok) {
+                    console.error("Не удалось загрузить статьи автора", data);
+                    setCreatedArticles([]);
+                    return;
+                }
+
+                const mapped: ProfileArticle[] = (data.articles || []).map((article) => ({
+                    id: article.id,
+                    title: article.title || "Без названия",
+                    image: article.imageUrl
+                        ? toMediaUrl(article.imageUrl)
+                        : "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png",
+                    tags: Array.isArray(article.tags) ? article.tags : [],
+                    author: displayName,
+                    date: formatRuDate(article.createdAt),
+                    updatedText: article.status === "draft" ? "Черновик" : "Опубликовано",
+                    status: article.status === "draft" ? "draft" : "published",
+                    slug: typeof article.slug === "string" ? article.slug : undefined,
+                    coauthors:
+                        typeof article.coauthors === "string" ? article.coauthors : "",
+                }));
+
+                setCreatedArticles(mapped);
+            } catch (error) {
+                console.error("Ошибка загрузки созданных статей", error);
+                setCreatedArticles([]);
+            } finally {
+                setCreatedLoading(false);
+            }
+        };
+
+        if (profile) {
+            void loadCreatedArticles();
+        }
+    }, [displayName, profile]);
+
+    const handleDeleteArticle = async () => {
+        if (!articleToDelete) return;
+
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        try {
+            setIsDeletingArticle(true);
+
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/my/${articleToDelete.id}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const data = await readJsonSafe<{ message?: string }>(res);
+
+            if (!res.ok) {
+                throw new Error(data.message || "Не удалось удалить статью");
+            }
+
+            setCreatedArticles((prev) => prev.filter((item) => item.id !== articleToDelete.id));
+            setArticleToDelete(null);
+        } catch (error) {
+            console.error("Ошибка удаления статьи", error);
+        } finally {
+            setIsDeletingArticle(false);
+        }
+    };
+
     const filterArticles = (articles: ProfileArticle[]) => {
         return articles.filter((article) => {
             const matchesSearch =
@@ -329,13 +545,6 @@ export default function ProfilePage() {
 
     const filteredSavedArticles = filterArticles(savedArticles);
     const filteredCreatedArticles = filterArticles(createdArticles);
-
-    const role = profile?.role ?? "user";
-    const canPublish = profile?.role === "expert" && profile?.is_verified;
-    const displayName = profile
-        ? `${profile.first_name} ${profile.last_name}`.trim()
-        : "Пользователь";
-    const favoriteTopics = profile?.interests?.map((item) => item.name) ?? [];
 
     const createdActionText = canPublish ? "МОИ СТАТЬИ" : "";
 
@@ -452,8 +661,12 @@ export default function ProfilePage() {
             <header className={styles.topbar}>
                 <div className={styles.topbarLeft}>
                     <nav className={styles.tabs}>
-                        <Link href="/feed" className={styles.tab}>Feed</Link>
-                        <Link href="/ai" className={styles.tab}>Chat</Link>
+                        <Link href="/feed" className={styles.tab}>
+                            Feed
+                        </Link>
+                        <Link href="/ai" className={styles.tab}>
+                            Chat
+                        </Link>
                     </nav>
 
                     <Link href="/" className={styles.backBtn} aria-label="Назад">
@@ -462,7 +675,11 @@ export default function ProfilePage() {
                 </div>
 
                 <div className={styles.topActions}>
-                    <Link href="/profile/settings" className={styles.settingsBtn} aria-label="Настройки">
+                    <Link
+                        href="/profile/settings"
+                        className={styles.settingsBtn}
+                        aria-label="Настройки"
+                    >
                         <GearIcon />
                     </Link>
                 </div>
@@ -486,11 +703,14 @@ export default function ProfilePage() {
 
                     {role === "expert" ? (
                         <span className={styles.roleBadge}>
-                            {profile.is_verified ? "Подтверждённый эксперт" : "Эксперт · на проверке"}
+                            {profile.is_verified
+                                ? "Подтверждённый эксперт"
+                                : "Эксперт · на проверке"}
                         </span>
                     ) : (
                         <span className={styles.userRole}>Пользователь</span>
                     )}
+
                 </section>
 
                 <section className={styles.topicsSection}>
@@ -507,7 +727,9 @@ export default function ProfilePage() {
                 <section className={styles.switchRow}>
                     <button
                         type="button"
-                        className={`${styles.switchBtn} ${tab === "saved" ? styles.switchBtnActive : ""}`}
+                        className={`${styles.switchBtn} ${
+                            tab === "saved" ? styles.switchBtnActive : ""
+                        }`}
                         onClick={() => setTab("saved")}
                     >
                         Сохраненные
@@ -515,7 +737,9 @@ export default function ProfilePage() {
 
                     <button
                         type="button"
-                        className={`${styles.switchBtn} ${tab === "created" ? styles.switchBtnActive : ""}`}
+                        className={`${styles.switchBtn} ${
+                            tab === "created" ? styles.switchBtnActive : ""
+                        }`}
                         onClick={() => setTab("created")}
                     >
                         Созданные
@@ -551,7 +775,9 @@ export default function ProfilePage() {
                                                 key={tag}
                                                 type="button"
                                                 onClick={() => setActiveTag(tag)}
-                                                className={`${styles.tag} ${isActive ? styles.tagActive : ""}`}
+                                                className={`${styles.tag} ${
+                                                    isActive ? styles.tagActive : ""
+                                                }`}
                                             >
                                                 {tag}
                                             </button>
@@ -562,7 +788,9 @@ export default function ProfilePage() {
 
                             <div className={styles.savedGrid}>
                                 {savedLoading ? (
-                                    <div className={styles.noResults}>Загрузка сохранённых статей...</div>
+                                    <div className={styles.noResults}>
+                                        Загрузка сохранённых статей...
+                                    </div>
                                 ) : filteredSavedArticles.length > 0 ? (
                                     filteredSavedArticles.map((article) => (
                                         <StatArticleCard
@@ -573,7 +801,9 @@ export default function ProfilePage() {
                                         />
                                     ))
                                 ) : (
-                                    <div className={styles.noResults}>У вас пока нет сохранённых статей</div>
+                                    <div className={styles.noResults}>
+                                        У вас пока нет сохранённых статей
+                                    </div>
                                 )}
                             </div>
                         </section>
@@ -584,59 +814,95 @@ export default function ProfilePage() {
                     <>
                         <h2 className={styles.contentTitle}>{createdActionText}</h2>
 
-                        <section className={styles.contentArea}>
-                            <aside className={styles.filters}>
-                                <div className={styles.searchRow}>
-                                    <span className={styles.searchIcon}>
-                                        <SearchIcon />
-                                    </span>
+                        {createdLoading ? (
+                            <section className={styles.emptyState}>
+                                <p className={styles.emptyText}>Загрузка ваших статей...</p>
+                            </section>
+                        ) : filteredCreatedArticles.length > 0 ? (
+                            <section className={styles.contentArea}>
+                                <aside className={styles.filters}>
+                                    <div className={styles.searchRow}>
+                                        <span className={styles.searchIcon}>
+                                            <SearchIcon />
+                                        </span>
 
-                                    <input
-                                        type="text"
-                                        value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
-                                        placeholder=""
-                                        className={styles.searchInput}
-                                    />
-                                </div>
+                                        <input
+                                            type="text"
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                            placeholder=""
+                                            className={styles.searchInput}
+                                        />
+                                    </div>
 
-                                <div className={styles.tags}>
-                                    {filterTags.map((tag) => {
-                                        const isActive = activeTag === tag;
+                                    <div className={styles.tags}>
+                                        {filterTags.map((tag) => {
+                                            const isActive = activeTag === tag;
 
-                                        return (
-                                            <button
-                                                key={tag}
-                                                type="button"
-                                                onClick={() => setActiveTag(tag)}
-                                                className={`${styles.tag} ${isActive ? styles.tagActive : ""}`}
-                                            >
-                                                {tag}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </aside>
+                                            return (
+                                                <button
+                                                    key={tag}
+                                                    type="button"
+                                                    onClick={() => setActiveTag(tag)}
+                                                    className={`${styles.tag} ${
+                                                        isActive ? styles.tagActive : ""
+                                                    }`}
+                                                >
+                                                    {tag}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </aside>
 
-                            <div className={styles.createdGrid}>
-                                {filteredCreatedArticles.length > 0 ? (
-                                    filteredCreatedArticles.map((article) => (
+                                <div className={styles.createdGrid}>
+                                    {filteredCreatedArticles.map((article) => (
                                         <StatArticleCard
                                             key={article.id}
                                             article={article}
                                             compact
                                             activeTag={activeTag}
+                                            onDelete={setArticleToDelete}
                                         />
-                                    ))
-                                ) : (
-                                    <div className={styles.noResults}>Ничего не найдено</div>
-                                )}
+                                    ))}
 
+<<<<<<< HEAD
                                 <button className={styles.addArticleCard} onClick={() => setCreateModalOpen(true)}>
                                     <PlusIcon />
+=======
+                                    <button
+                                        className={styles.addArticleCard}
+                                        type="button"
+                                        onClick={() =>
+                                            window.location.assign("/profile/create-article")
+                                        }
+                                    >
+                                        <PlusIcon />
+                                    </button>
+                                </div>
+                            </section>
+                        ) : (
+                            <section className={styles.emptyState}>
+                                <h2 className={styles.emptyTitle}>
+                                    У вас пока нет опубликованных статей
+                                </h2>
+
+                                <p className={styles.emptyText}>
+                                    Создайте свою первую статью и отправьте её на публикацию.
+                                </p>
+
+                                <button
+                                    className={styles.primaryWideBtn}
+                                    type="button"
+                                    onClick={() =>
+                                        window.location.assign("/profile/create-article")
+                                    }
+                                >
+                                    Создать статью
+>>>>>>> 98a894d3033e5451ec28d50c36e42c8cfc0f7ec5
                                 </button>
-                            </div>
-                        </section>
+                            </section>
+                        )}
                     </>
                 )}
 
@@ -654,18 +920,22 @@ export default function ProfilePage() {
                                 : "Как только проверка завершится, вы сможете публиковать свои статьи."}
                         </p>
 
-                        <button className={styles.primaryWideBtn} type="button">
-                            Подтвердить экспертность
+                        <button
+                            className={styles.primaryWideBtn}
+                            type="button"
+                            onClick={() => window.location.assign("/profile/settings")}
+                        >
+                            Перейти к загрузке документов
                         </button>
 
                         <button className={styles.linkBtn} type="button">
                             Может быть в другой раз
                         </button>
                     </section>
-
                 )}
             </main>
 
+<<<<<<< HEAD
             {createModalOpen && (
                 <div className={styles.modalOverlay} onClick={closeCreateModal}>
                     <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
@@ -762,11 +1032,42 @@ export default function ProfilePage() {
                                 disabled={publishLoading}
                             >
                                 {publishLoading ? "Публикация..." : "Опубликовать"}
+=======
+            {articleToDelete ? (
+                <div className={styles.modalOverlay} onClick={() => setArticleToDelete(null)}>
+                    <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
+                        <h3 className={styles.modalTitle}>Удалить статью?</h3>
+                        <p className={styles.modalText}>
+                            Вы уверены, что хотите удалить статью «{articleToDelete.title}»?
+                        </p>
+
+                        <div className={styles.modalRowActions}>
+                            <button
+                                type="button"
+                                className={styles.modalHalfButton}
+                                onClick={() => setArticleToDelete(null)}
+                                disabled={isDeletingArticle}
+                            >
+                                Отмена
+                            </button>
+
+                            <button
+                                type="button"
+                                className={styles.modalHalfButton}
+                                onClick={() => void handleDeleteArticle()}
+                                disabled={isDeletingArticle}
+                            >
+                                {isDeletingArticle ? "Удаляем..." : "Удалить"}
+>>>>>>> 98a894d3033e5451ec28d50c36e42c8cfc0f7ec5
                             </button>
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
             )}
+=======
+            ) : null}
+>>>>>>> 98a894d3033e5451ec28d50c36e42c8cfc0f7ec5
         </div>
     );
 }

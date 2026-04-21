@@ -317,6 +317,48 @@
     will-change: top;
 }
 
+.htmlContent p {
+    margin: 10px 0;
+}
+
+.htmlContent ul,
+.htmlContent ol {
+    margin: 10px 0 10px 18px;
+}
+
+.htmlContent li {
+    margin: 6px 0;
+}
+
+.htmlContent h1 {
+    font-size: 34px;
+    margin: 24px 0 12px;
+}
+
+.htmlContent h2 {
+    font-size: 24px;
+    margin: 24px 0 10px;
+}
+
+.htmlContent h3 {
+    font-size: 18px;
+    margin: 18px 0 8px;
+}
+
+.htmlContent blockquote {
+    margin: 14px 0;
+    padding-left: 14px;
+    border-left: 3px solid #cfcfcf;
+    color: #666;
+}
+
+.coauthorsLine {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #8f949d;
+}
+
 /* ---------- MOBILE / TABLET FIX ---------- */
 @media (max-width: 1020px) {
     .main {

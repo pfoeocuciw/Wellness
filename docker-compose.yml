@@ -37,9 +37,45 @@ services:
         RSS_PG_LOCK_KEY: 84512001
       ports:
         - "3001:3001"
+      volumes:
+        # Persist user uploads (avatars, article covers, documents) across restarts
+        - wellness_uploads:/app/public/uploads
+        # Persist RSS/article images across restarts
+        - wellness_images:/app/public/images
       depends_on:
         db:
           condition: service_healthy
+      healthcheck:
+        test:
+          [
+            "CMD",
+            "node",
+            "-e",
+            "require('http').get('http://localhost:3001/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+          ]
+        interval: 10s
+        timeout: 3s
+        retries: 12
       restart: unless-stopped
+
+  chat:
+    build:
+      context: ./backend/chatbot
+      dockerfile: Dockerfile
+    container_name: wellness_chat
+    env_file:
+      - ./backend/.env
+    environment:
+      # optional; for production you should use explicit origins instead of "*"
+      CHAT_CORS_ORIGINS: ${CHAT_CORS_ORIGINS:-*}
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist uploaded expert docs (optional, but useful for debugging)
+      - wellness_chat_uploads:/app/uploads
+    restart: unless-stopped
 volumes:
   wellness_pgdata:
+  wellness_uploads:
+  wellness_images:
+  wellness_chat_uploads:

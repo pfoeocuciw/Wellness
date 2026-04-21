@@ -29,3 +29,22 @@ backend/.env
 
 # Logs
 *.log
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Node / Next
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# OS / editors
+.DS_Store
+.vscode/
+
+backend/chatbot/uploads/

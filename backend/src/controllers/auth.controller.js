@@ -127,6 +127,38 @@ async function sendVerificationEmail(email, code) {
     console.log("SMTP verify ok");
 }
 
+async function sendPasswordResetEmail(email, code) {
+    const cfg = getSmtpConfig();
+    const transporter = createTransporter();
+
+    try {
+        await transporter.sendMail({
+            from: `Wellness <${cfg.smtpFrom}>`,
+            to: email,
+            subject: "Восстановление пароля Wellness",
+            text: `Ваш код для восстановления пароля: ${code}. Код действует 10 минут.`,
+            html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+        <h2>Восстановление пароля</h2>
+        <p>Ваш код для смены пароля:</p>
+        <div style="font-size: 28px; font-weight: 700; letter-spacing: 4px; margin: 12px 0;">
+          ${code}
+        </div>
+        <p>Код действует 10 минут.</p>
+      </div>
+    `,
+        });
+    } catch (error) {
+        const msg = mapSmtpErrorToPublicMessage(error, cfg.smtpHost, cfg.smtpUser);
+        if (msg) {
+            const wrapped = new Error(msg);
+            wrapped.code = error.code;
+            throw wrapped;
+        }
+        throw error;
+    }
+}
+
 async function register(req, res) {
     try {
         const { email, password, firstName, lastName } = req.body;
@@ -328,7 +360,7 @@ async function verifyEmail(req, res) {
             data: { used: true },
         });
 
-        await prisma.user.update({
+        const updatedUser = await prisma.user.update({
             where: { id: user.id },
             data: {
                 is_email_verified: true,
@@ -336,7 +368,30 @@ async function verifyEmail(req, res) {
             },
         });
 
-        return res.json({ message: "Почта подтверждена" });
+        const token = jwt.sign(
+            {
+                userId: updatedUser.id,
+                email: updatedUser.email,
+                role: updatedUser.role,
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        return res.json({
+            message: "Почта подтверждена",
+            token,
+            user: {
+                id: updatedUser.id,
+                email: updatedUser.email,
+                first_name: updatedUser.first_name,
+                last_name: updatedUser.last_name,
+                role: updatedUser.role,
+                is_verified: updatedUser.is_verified,
+                is_email_verified: updatedUser.is_email_verified,
+                avatarUrl: updatedUser.avatarUrl || null,
+            },
+        });
     } catch (error) {
         console.error("verifyEmail error:", error);
         return res.status(500).json({
@@ -445,6 +500,7 @@ async function login(req, res) {
                 first_name: user.first_name,
                 last_name: user.last_name,
                 role: user.role,
+                avatarUrl: user.avatarUrl || null,
             },
         });
     } catch (error) {
@@ -456,10 +512,118 @@ async function login(req, res) {
     }
 }
 
+async function requestPasswordReset(req, res) {
+    try {
+        const { email } = req.body;
+        const normalizedEmail = String(email || "").trim().toLowerCase();
+
+        if (!normalizedEmail) {
+            return res.status(400).json({ message: "Email обязателен" });
+        }
+
+        const user = await prisma.user.findUnique({
+            where: { email: normalizedEmail },
+        });
+
+        // Не раскрываем, существует ли пользователь.
+        if (!user || user.deleted_flag === "true") {
+            return res.json({
+                message: "Если аккаунт существует, код восстановления отправлен на почту",
+            });
+        }
+
+        const code = generateCode();
+
+        await prisma.passwordResetCode.create({
+            data: {
+                user_id: user.id,
+                email: user.email,
+                code,
+                expires_at: new Date(Date.now() + 10 * 60 * 1000),
+                used: false,
+            },
+        });
+
+        await sendPasswordResetEmail(user.email, code);
+
+        return res.json({
+            message: "Если аккаунт существует, код восстановления отправлен на почту",
+        });
+    } catch (error) {
+        console.error("requestPasswordReset error:", error);
+        return res.status(500).json({
+            message: "Ошибка отправки кода восстановления",
+            error: error.message || "Неизвестная ошибка",
+        });
+    }
+}
+
+async function confirmPasswordReset(req, res) {
+    try {
+        const { email, code, newPassword } = req.body;
+
+        const normalizedEmail = String(email || "").trim().toLowerCase();
+        const normalizedCode = String(code || "").trim();
+        const nextPassword = String(newPassword || "");
+
+        if (!normalizedEmail || !normalizedCode || !nextPassword) {
+            return res.status(400).json({ message: "Email, код и новый пароль обязательны" });
+        }
+
+        if (nextPassword.length < 6) {
+            return res.status(400).json({ message: "Новый пароль должен быть не короче 6 символов" });
+        }
+
+        const user = await prisma.user.findUnique({
+            where: { email: normalizedEmail },
+        });
+
+        if (!user || user.deleted_flag === "true") {
+            return res.status(400).json({ message: "Неверный код или email" });
+        }
+
+        const resetCode = await prisma.passwordResetCode.findFirst({
+            where: {
+                email: normalizedEmail,
+                code: normalizedCode,
+                used: false,
+            },
+            orderBy: { created_at: "desc" },
+        });
+
+        if (!resetCode || resetCode.expires_at < new Date()) {
+            return res.status(400).json({ message: "Неверный или просроченный код" });
+        }
+
+        const passwordHash = await bcrypt.hash(nextPassword, 10);
+
+        await prisma.$transaction([
+            prisma.user.update({
+                where: { id: user.id },
+                data: { password: passwordHash },
+            }),
+            prisma.passwordResetCode.update({
+                where: { id: resetCode.id },
+                data: { used: true },
+            }),
+        ]);
+
+        return res.json({ message: "Пароль успешно обновлён" });
+    } catch (error) {
+        console.error("confirmPasswordReset error:", error);
+        return res.status(500).json({
+            message: "Ошибка смены пароля",
+            error: error.message || "Неизвестная ошибка",
+        });
+    }
+}
+
 module.exports = {
     register,
     restoreAccount,
     verifyEmail,
     resendVerificationCode,
     login,
+    requestPasswordReset,
+    confirmPasswordReset,
 };

@@ -22,9 +22,12 @@ load_dotenv()
 app = FastAPI()
 
 # Разрешаем запросы с фронта (Next.js)
+cors_raw = os.environ.get("CHAT_CORS_ORIGINS", "*").strip()
+cors_origins = [o.strip() for o in cors_raw.split(",") if o.strip()] if cors_raw else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -32,17 +35,15 @@ app.add_middleware(
 
 # --------- CLIENTS ---------
 
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
-if not GROQ_API_KEY:
-    raise RuntimeError("Не найден GROQ_API_KEY в .env")
+GROQ_API_KEY = (os.environ.get("GROQ_API_KEY") or "").strip()
 
-# Оставляем текущий клиент для чата
-client = Groq(api_key=GROQ_API_KEY)
-
-# Отдельно OpenAI-compatible client для vision / responses API Groq
-vision_client = OpenAI(
-    api_key=GROQ_API_KEY,
-    base_url="https://api.groq.com/openai/v1",
+# Клиенты инициализируем только если ключ задан, чтобы сервис мог стартовать
+# (в dev/preview окружениях ключ может быть не задан).
+client = Groq(api_key=GROQ_API_KEY) if GROQ_API_KEY else None
+vision_client = (
+    OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
+    if GROQ_API_KEY
+    else None
 )
 
 # --------- SYSTEM PROMPT FOR CHAT ---------
@@ -148,6 +149,8 @@ class ChatIn(BaseModel):
 
 
 def ask_groq_structured(history: List[ChatMessage]) -> dict:
+    if not client:
+        raise HTTPException(status_code=500, detail="GROQ_API_KEY не задан")
     history = history[-5:]
 
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
@@ -183,10 +186,12 @@ class TitleIn(BaseModel):
 
 @app.post("/generate-title")
 def generate_title(body: TitleIn):
+    if not client:
+        raise HTTPException(status_code=500, detail="GROQ_API_KEY не задан")
     title_system = (
-        "Ты генерируешь краткие названия чатов на русском. "
-        "Дай заголовок 3–6 слов, без кавычек, без точки в конце. "
-        "Он должен обобщать тему, а не копировать текст дословно."
+        "Ты генерируешь очень короткие названия чатов на русском. "
+        "Дай заголовок 1–2 слова, без кавычек, без точки в конце. "
+        "Он должен отражать тему, а не копировать текст дословно."
     )
 
     resp = client.chat.completions.create(
@@ -201,8 +206,8 @@ def generate_title(body: TitleIn):
     title = (resp.choices[0].message.content or "").strip()
     title = title.strip('*"“”«» ')
 
-    if len(title) > 20:
-        title = title[:20].rstrip()
+    if len(title) > 18:
+        title = title[:18].rstrip()
 
     return {"title": title}
 
@@ -539,6 +544,8 @@ def call_vision_verification(
     extracted_text: str,
     image_data_urls: List[str],
 ) -> DiplomaAnalysis:
+    if not vision_client:
+        raise HTTPException(status_code=500, detail="GROQ_API_KEY не задан")
     input_payload = build_verification_input(
         education_description=education_description,
         extracted_text=extracted_text,

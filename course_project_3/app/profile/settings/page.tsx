@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import styles from "../profile.module.css";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type Role = "user" | "expert";
@@ -69,6 +69,54 @@ function toMediaUrl(url?: string | null) {
     return `${process.env.NEXT_PUBLIC_BACKEND_URL}${url}`;
 }
 
+function normalizeProfile(data: unknown): ProfileData | null {
+    if (!data || typeof data !== "object") return null;
+    const raw = data as Record<string, unknown>;
+
+    const documents = Array.isArray(raw.documents)
+        ? raw.documents.filter((item): item is string => typeof item === "string")
+        : Array.isArray(raw.documentUrls)
+            ? (raw.documentUrls as unknown[]).filter((item): item is string => typeof item === "string")
+            : [];
+
+    return {
+        id: Number(raw.id ?? 0),
+        email: typeof raw.email === "string" ? raw.email : "",
+        first_name: typeof raw.first_name === "string" ? raw.first_name : typeof raw.firstName === "string" ? raw.firstName : "",
+        last_name: typeof raw.last_name === "string" ? raw.last_name : typeof raw.lastName === "string" ? raw.lastName : "",
+        role: raw.role === "expert" ? "expert" : "user",
+        is_verified:
+            typeof raw.is_verified === "boolean"
+                ? raw.is_verified
+                : typeof raw.isVerified === "boolean"
+                    ? raw.isVerified
+                    : false,
+        is_email_verified:
+            typeof raw.is_email_verified === "boolean"
+                ? raw.is_email_verified
+                : typeof raw.isEmailVerified === "boolean"
+                    ? raw.isEmailVerified
+                    : false,
+        diploma_info:
+            typeof raw.diploma_info === "string"
+                ? raw.diploma_info
+                : typeof raw.diplomaInfo === "string"
+                    ? raw.diplomaInfo
+                    : null,
+        bio: typeof raw.bio === "string" ? raw.bio : null,
+        avatarUrl:
+            typeof raw.avatarUrl === "string"
+                ? raw.avatarUrl
+                : typeof raw.avatar_url === "string"
+                    ? raw.avatar_url
+                    : null,
+        interests: Array.isArray(raw.interests)
+            ? (raw.interests as unknown[]).filter((item): item is Interest => !!item && typeof item === "object" && typeof (item as Interest).id === "number" && typeof (item as Interest).name === "string")
+            : [],
+        documents,
+    };
+}
+
 async function readJsonSafe(res: Response) {
     const text = await res.text();
     if (!text) return {};
@@ -82,7 +130,8 @@ async function readJsonSafe(res: Response) {
 
 export default function ProfileSettingsPage() {
     const router = useRouter();
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const avatarInputRef = useRef<HTMLInputElement | null>(null);
+    const documentInputRef = useRef<HTMLInputElement | null>(null);
 
     const [profile, setProfile] = useState<ProfileData | null>(null);
     const [firstName, setFirstName] = useState("");
@@ -142,7 +191,9 @@ export default function ProfileSettingsPage() {
                     );
                 }
 
-                const typed = data as ProfileData;
+
+                const typed = normalizeProfile(data);
+                if (!typed) throw new Error("Не удалось прочитать профиль");
                 setProfile(typed);
                 setFirstName(typed.first_name || "");
                 setLastName(typed.last_name || "");
@@ -159,12 +210,13 @@ export default function ProfileSettingsPage() {
     }, [router]);
 
     const handleAvatarClick = () => {
-        fileInputRef.current?.click();
+        avatarInputRef.current?.click();
     };
 
     const handleDocumentUpload = async (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
+
         setDocumentName(file.name);
 
         const token = localStorage.getItem("token");
@@ -175,31 +227,77 @@ export default function ProfileSettingsPage() {
 
         try {
             setError(null);
+            setSuccessMessage("Проверяем диплом...");
 
             const formData = new FormData();
-            formData.append("document", file);
+            formData.append("education_description", profile?.diploma_info || "Медицинское образование");
+            formData.append("file", file);
 
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profile/upload-document`,
+            const aiRes = await fetch("/api/expert-verify", {
+                method: "POST",
+                body: formData,
+            });
+
+            const aiText = await aiRes.text();
+
+            let aiData;
+            try {
+                aiData = aiText ? JSON.parse(aiText) : {};
+            } catch {
+                throw new Error("AI вернул не JSON");
+            }
+
+            if (!aiRes.ok) {
+                throw new Error(aiData.detail || aiData.message || "Ошибка проверки диплома");
+            }
+
+            // ❌ ЕСЛИ НЕ ПРОШЁЛ
+            if (!aiData.verified) {
+                setError(aiData.message || "Диплом не прошёл проверку");
+                setSuccessMessage("");
+                return;
+            }
+
+            // ✅ ЕСЛИ ПРОШЁЛ → сохраняем в backend
+            const saveRes = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profile/apply-expert-verification`,
                 {
                     method: "POST",
                     headers: {
+                        "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
                     },
-                    body: formData,
+                    body: JSON.stringify({
+                        educationDescription: profile?.diploma_info || "",
+                        verified: aiData.verified,
+                        message: aiData.message,
+                        savedPath: aiData.saved_path,
+                        fileName: file.name,
+                    }),
                 }
             );
 
-            const data = await readJsonSafe(res);
+            const saveText = await saveRes.text();
+            let saveData;
 
-            if (!res.ok) {
-                throw new Error(data.message || "Ошибка загрузки документа");
+            try {
+                saveData = saveText ? JSON.parse(saveText) : {};
+            } catch {
+                throw new Error("Backend вернул не JSON");
             }
 
-            setSuccessMessage("Документ загружен");
+            if (!saveRes.ok) {
+                throw new Error(saveData.message || "Ошибка сохранения результата");
+            }
+
+            // 🔥 ОБНОВЛЯЕМ ПРОФИЛЬ
+            setProfile(saveData.profile);
+
+            setSuccessMessage("Диплом подтверждён! Теперь вы эксперт 🎉");
 
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Ошибка загрузки");
+            setError(err instanceof Error ? err.message : "Ошибка");
+            setSuccessMessage("");
         }
     };
 
@@ -213,6 +311,7 @@ export default function ProfileSettingsPage() {
             return;
         }
 
+        const previousAvatarPreview = avatarPreview;
         const localPreview = URL.createObjectURL(file);
         setAvatarPreview(localPreview);
 
@@ -258,7 +357,12 @@ export default function ProfileSettingsPage() {
             );
 
             setAvatarPreview(nextAvatar);
+            if (nextAvatar !== localPreview) {
+                URL.revokeObjectURL(localPreview);
+            }
         } catch (err) {
+            URL.revokeObjectURL(localPreview);
+            setAvatarPreview(previousAvatarPreview);
             setError(err instanceof Error ? err.message : "Ошибка загрузки фото");
         }
     };
@@ -345,12 +449,14 @@ export default function ProfileSettingsPage() {
                 );
             }
 
-            const typed = data as ProfileData;
+            const typed = normalizeProfile(data);
+            if (!typed) throw new Error("Не удалось прочитать профиль");
             setProfile(typed);
             setFirstName(typed.first_name || "");
             setLastName(typed.last_name || "");
             setEmail(typed.email || "");
             setAvatarPreview(toMediaUrl(typed.avatarUrl) || null);
+            setDocumentName(typed.diploma_info || "");
 
             setSuccessMessage("Изменения сохранены");
 
@@ -364,6 +470,15 @@ export default function ProfileSettingsPage() {
             setSaving(false);
         }
     };
+
+    const uploadedDocumentLabel = useMemo(() => {
+        if (documentName) return documentName;
+        if (profile?.documents && profile.documents.length > 0) {
+            const rawName = profile.documents[0].split("/").pop();
+            return rawName || profile.documents[0];
+        }
+        return "";
+    }, [documentName, profile]);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -422,7 +537,7 @@ export default function ProfileSettingsPage() {
                     />
 
                     <input
-                        ref={fileInputRef}
+                        ref={avatarInputRef}
                         type="file"
                         accept="image/*"
                         hidden
@@ -507,14 +622,14 @@ export default function ProfileSettingsPage() {
                 </section>
 
                 <section className={styles.verifyBlock}>
-
                     <h2 className={styles.verifyTitle}>
                         Сейчас вы — {profile.role === "expert" ? "эксперт платформы." : "пользователь платформы."}
                     </h2>
+
                     <input
                         type="file"
                         accept=".pdf,image/*"
-                        ref={fileInputRef}
+                        ref={documentInputRef}
                         hidden
                         onChange={handleDocumentUpload}
                     />
@@ -536,28 +651,54 @@ export default function ProfileSettingsPage() {
         </span>
                     </div>
 
+                    {/* ❌ ЕСЛИ НЕ ЭКСПЕРТ */}
                     {profile.role !== "expert" || !profile.is_verified ? (
                         <>
                             <p className={styles.verifyText}>
-                                Чтобы публиковать собственные статьи, нужно прикрепить несколько документов на
-                                проверку.
+                                Чтобы публиковать собственные статьи, нужно прикрепить документ об образовании.
                             </p>
 
                             <div
                                 className={styles.uploadStub}
-                                onClick={() => fileInputRef.current?.click()}
+                                onClick={() => documentInputRef.current?.click()}
                             >
-                                {documentName || "Прикрепите копию вашего диплома или других документов, подтверждающих, что вам можно доверять"}
+                                {documentName
+                                    ? `Документ: ${documentName}`
+                                    : "Прикрепите диплом или сертификат"}
                             </div>
 
-                            <button className={styles.primaryWideBtn} type="button">
+                            <button
+                                className={styles.primaryWideBtn}
+                                type="button"
+                                onClick={() => documentInputRef.current?.click()}
+                            >
                                 Подтвердить экспертность
                             </button>
+
+                            {/* ❌ ошибка */}
+                            {error && (
+                                <p className={styles.verifyTextError}>
+                                    {error}
+                                </p>
+                            )}
                         </>
                     ) : (
-                        <p className={styles.verifyText}>
-                            Ваш профиль эксперта подтверждён. Вы можете публиковать собственные статьи.
-                        </p>
+                        /* ✅ ЕСЛИ УЖЕ ЭКСПЕРТ */
+                        <>
+                            <p className={styles.verifyText}>
+                                Ваш профиль эксперта подтверждён. Вы можете публиковать статьи.
+                            </p>
+
+                            <p className={styles.verifyTextSuccess}>
+                                ✔ Диплом подтверждён
+                            </p>
+
+                            {documentName && (
+                                <p className={styles.verifyText}>
+                                    Документ: {documentName}
+                                </p>
+                            )}
+                        </>
                     )}
                 </section>
 

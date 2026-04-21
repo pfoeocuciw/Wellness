@@ -12,6 +12,10 @@ export default function ExpertVerifyPage() {
 
     const [education, setEducation] = useState('');
     const [file, setFile] = useState<File | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [rejectionReasons, setRejectionReasons] = useState<string[]>([]);
 
     const fileLabel = useMemo(() => {
         if (!file) return '';
@@ -26,6 +30,9 @@ export default function ExpertVerifyPage() {
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const f = e.target.files?.[0] ?? null;
         setFile(f);
+        setError("");
+        setSuccess("");
+        setRejectionReasons([]);
     };
 
     const removeFile = () => {
@@ -34,38 +41,82 @@ export default function ExpertVerifyPage() {
     };
 
     const onNext = async () => {
-        if (!canGoNext) return;
+        if (!canGoNext || !file) return;
+
+        setRejectionReasons([]);
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            setError("Не найден токен пользователя");
+            return;
+        }
+
+        setIsSubmitting(true);
+        setError("");
+        setSuccess("");
 
         try {
-            const token = localStorage.getItem('token');
+            const formData = new FormData();
+            formData.append("education_description", education.trim());
+            formData.append("file", file);
 
-            if (!token) {
-                router.push('/login');
-                return;
-            }
-
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profile/me`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    role: 'expert',
-                    diplomaInfo: education.trim(),
-                }),
+            const aiRes = await fetch("/api/expert-verify", {
+                method: "POST",
+                body: formData,
             });
 
-            const data = await res.json();
+            const text = await aiRes.text();
+            let aiData;
 
-            if (!res.ok) {
-                console.error(data.message || 'Не удалось сохранить данные эксперта');
+            try {
+                aiData = text ? JSON.parse(text) : {};
+            } catch {
+                throw new Error("AI вернул не JSON");
+            }
+
+            if (!aiRes.ok) {
+                throw new Error(aiData.detail || aiData.message || "Ошибка AI-проверки");
+            }
+
+            if (!aiData.verified) {
+                setError(aiData.message || "Диплом не прошёл проверку");
+
+                // 🔥 сохраняем причины
+                setRejectionReasons(aiData.reasons || []);
+
                 return;
             }
 
-            router.push('/register/tags');
-        } catch (error) {
-            console.error('Ошибка при сохранении экспертности', error);
+            const saveRes = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profile/apply-expert-verification`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        educationDescription: education.trim(),
+                        verified: aiData.verified,
+                        message: aiData.message,
+                        savedPath: aiData.saved_path,
+                        fileName: file.name,
+                    }),
+                }
+            );
+
+            const saveData = await saveRes.json();
+
+            if (!saveRes.ok) {
+                throw new Error(saveData.message || "Не удалось сохранить результат");
+            }
+
+            setSuccess("Диплом подтверждён");
+            router.push("/register/tags");
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Ошибка проверки диплома");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -115,8 +166,27 @@ export default function ExpertVerifyPage() {
                         />
                     </div>
 
-                    <button className={styles.button} onClick={onNext} disabled={!canGoNext}>
-                        Дальше
+                    <div className={styles.feedbackWrap}>
+                        {error ? <p className={styles.error}>{error}</p> : null}
+
+                        {rejectionReasons.length > 0 && (
+                            <div className={styles.reasonsCard}>
+                                <div className={styles.reasonsHeader}>Почему документ не прошёл</div>
+                                <ul className={styles.reasonsList}>
+                                    {rejectionReasons.map((reason, index) => (
+                                        <li key={index} className={styles.reasonItem}>
+                                            {reason}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {success ? <p className={styles.success}>{success}</p> : null}
+                    </div>
+
+                    <button className={styles.button} onClick={onNext} disabled={!canGoNext || isSubmitting}>
+                        {isSubmitting ? "Проверяем..." : "Дальше"}
                     </button>
                 </div>
             </div>

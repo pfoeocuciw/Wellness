@@ -17,14 +17,12 @@ type ChatItem = {
     id: string;
     title: string;
     messages: ChatMessage[];
-    createdAt: number;
+    createdAt: string;
 };
 
-function uid() {
-    return Math.random().toString(36).slice(2);
+function tmpId() {
+    return `tmp-${Math.random().toString(36).slice(2)}`;
 }
-
-const STORAGE_KEY = "wellness_chats_v1";
 
 function makeTitleFromQuestion(q: string) {
     const cleaned = q.replace(/\s+/g, " ").trim();
@@ -77,6 +75,7 @@ export default function AiPage() {
 
     const [chats, setChats] = useState<ChatItem[]>([]);
     const [activeChatId, setActiveChatId] = useState<string | null>(null);
+    const [authError, setAuthError] = useState("");
 
 
     const activeChat = useMemo(() => {
@@ -127,25 +126,43 @@ export default function AiPage() {
         return () => window.removeEventListener("keydown", onKeyDown);
     }, [sidebarOpen]);
 
-    // загрузка из localStorage
-    useEffect(() => {
-        try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (!raw) return;
-            const parsed = JSON.parse(raw) as ChatItem[];
-            if (Array.isArray(parsed)) {
-                setChats(parsed);
-                if (parsed.length > 0) setActiveChatId(parsed[0].id);
-            }
-        } catch {}
-    }, []);
+    const apiBase = useMemo(() => process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001", []);
 
-// сохранение в localStorage
-    useEffect(() => {
+    const apiFetch = async (path: string, init?: RequestInit) => {
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("NO_TOKEN");
+
+        const headers = new Headers(init?.headers);
+        headers.set("Authorization", `Bearer ${token}`);
+        if (init?.body && !(init.body instanceof FormData)) {
+            if (!headers.get("Content-Type")) headers.set("Content-Type", "application/json");
+        }
+
+        return await fetch(`${apiBase}${path}`, { ...init, headers, cache: "no-store" });
+    };
+
+    const loadChats = async () => {
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
-        } catch {}
-    }, [chats]);
+            setAuthError("");
+            const res = await apiFetch("/api/chats");
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = (await res.json()) as { chats?: { id: string; title: string; createdAt: string }[] };
+            const list = Array.isArray(data.chats) ? data.chats : [];
+            setChats(list.map((c) => ({ id: c.id, title: c.title, createdAt: c.createdAt, messages: [] })));
+            if (list.length > 0) setActiveChatId(list[0].id);
+        } catch (e) {
+            if (e instanceof Error && e.message === "NO_TOKEN") {
+                setAuthError("Чтобы сохранять чаты в базе, нужно войти в аккаунт.");
+            } else {
+                setAuthError("Не удалось загрузить чаты. Проверьте backend и токен.");
+            }
+        }
+    };
+
+    useEffect(() => {
+        void loadChats();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (!menuForChatId) return;
@@ -154,26 +171,24 @@ export default function AiPage() {
         return () => document.removeEventListener("click", onDoc);
     }, [menuForChatId]);
 
-    const ensureChatExists = () => {
-        if (activeChatId) return activeChatId;
-
-        const id = uid();
-        const newChat: ChatItem = { id, title: "Новый чат", messages: [], createdAt: Date.now() };
-        setChats((prev) => [newChat, ...prev]);
-        setActiveChatId(id);
-        return id;
-    };
-
     const renameChat = (id: string) => {
         const current = chats.find((c) => c.id === id);
         const next = prompt("Новое название чата:", current?.title ?? "");
         if (!next) return;
-        setChats((prev) => prev.map((c) => (c.id === id ? { ...c, title: next.trim() } : c)));
+        const trimmed = next.trim();
+        if (!trimmed) return;
+        setChats((prev) => prev.map((c) => (c.id === id ? { ...c, title: trimmed } : c)));
+        void apiFetch(`/api/chats/${encodeURIComponent(id)}`, {
+            method: "PATCH",
+            body: JSON.stringify({ title: trimmed }),
+        }).catch(() => {});
     };
 
     const deleteChat = (id: string) => {
         const ok = confirm("Удалить этот чат?");
         if (!ok) return;
+
+        void apiFetch(`/api/chats/${encodeURIComponent(id)}`, { method: "DELETE" }).catch(() => {});
 
         setChats((prev) => {
             const next = prev.filter((c) => c.id !== id);
@@ -199,54 +214,125 @@ export default function AiPage() {
         return data.title?.trim() || null;
     };
 
+    const loadChatMessages = async (chatId: string) => {
+        try {
+            const res = await apiFetch(`/api/chats/${encodeURIComponent(chatId)}`);
+            if (!res.ok) return;
+            const data = (await res.json()) as {
+                chat?: {
+                    id: string;
+                    title: string;
+                    createdAt: string;
+                    messages?: { id: string; role: string; text: string }[];
+                };
+            };
+            if (!data.chat) return;
 
+            const msgs = Array.isArray(data.chat.messages) ? data.chat.messages : [];
+            setChats((prev) =>
+                prev.map((c) =>
+                    c.id === chatId
+                        ? {
+                            ...c,
+                            title: data.chat!.title,
+                            messages: msgs
+                                .filter((m) => (m.role === "user" || m.role === "assistant") && typeof m.text === "string")
+                                .map((m) => ({ id: m.id, role: m.role as "user" | "assistant", text: m.text })),
+                        }
+                        : c
+                )
+            );
+        } catch {
+            // ignore
+        }
+    };
+
+    const ensureChatExists = async () => {
+        if (activeChatId) return activeChatId;
+
+        const res = await apiFetch("/api/chats", {
+            method: "POST",
+            body: JSON.stringify({ title: "Новый чат" }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = (await res.json()) as { chat?: { id: string; title: string; createdAt: string } };
+        if (!data.chat) throw new Error("Bad response");
+
+        setChats((prev) => [{ id: data.chat!.id, title: data.chat!.title, createdAt: data.chat!.createdAt, messages: [] }, ...prev]);
+        setActiveChatId(data.chat.id);
+        return data.chat.id;
+    };
 
     const send = async (text: string) => {
         const trimmed = text.trim();
         if (!trimmed || isLoading) return;
 
-        const userMsg: ChatMessage = { id: uid(), role: "user", text: trimmed };
+        let chatId: string;
+        try {
+            chatId = await ensureChatExists();
+        } catch {
+            setAuthError("Нужно войти в аккаунт, чтобы сохранять чат в базе.");
+            return;
+        }
 
-        const chatId = ensureChatExists();
+        const userMsg: ChatMessage = { id: tmpId(), role: "user", text: trimmed };
 
-        const current = chats.find((c) => c.id === activeChatId);
-        const isFirstMessage = !current || current.messages.length === 0;
-
+        // Добавляем сообщение и, если это первое — сразу ставим временный заголовок
+        // (чтобы никогда не оставалось "Новый чат" после вопроса).
+        let wasFirstMessage = false;
         setChats((prev) =>
-            prev.map((c) => (c.id === chatId ? { ...c, messages: [...c.messages, userMsg] } : c))
+            prev.map((c) => {
+                if (c.id !== chatId) return c;
+                wasFirstMessage = c.messages.length === 0;
+                const nextTitle = wasFirstMessage ? makeTitleFromQuestion(trimmed) : c.title;
+                return { ...c, title: nextTitle, messages: [...c.messages, userMsg] };
+            })
         );
 
-        // если это первое сообщение — попросим бек сгенерировать нормальное название
-        if (isFirstMessage) {
-            // можно сразу поставить временный заголовок, чтобы не было "Новый чат"
-            setChats((prev) =>
-                prev.map((c) =>
-                    c.id === activeChatId ? { ...c, title: trimmed.slice(0, 24) } : c
-                )
-            );
+        // сохраняем сообщение пользователя в БД
+        try {
+            const saved = await apiFetch(`/api/chats/${encodeURIComponent(chatId)}/messages`, {
+                method: "POST",
+                body: JSON.stringify({ role: "user", text: trimmed }),
+            });
+            if (saved.ok) {
+                const data = (await saved.json()) as { message?: { id: string } };
+                if (data.message?.id) {
+                    setChats((prev) =>
+                        prev.map((c) =>
+                            c.id === chatId
+                                ? { ...c, messages: c.messages.map((m) => (m.id === userMsg.id ? { ...m, id: data.message!.id } : m)) }
+                                : c
+                        )
+                    );
+                }
+            }
+        } catch {}
 
+        // если это первое сообщение — попросим бек сгенерировать нормальное название
+        if (wasFirstMessage) {
             // затем заменим на красивый заголовок от Groq
             generateTitle(trimmed)
                 .then((title) => {
                     if (!title) return;
                     setChats((prev) =>
                         prev.map((c) =>
-                            c.id === activeChatId ? { ...c, title } : c
+                            c.id === chatId ? { ...c, title } : c
                         )
                     );
+                    void apiFetch(`/api/chats/${encodeURIComponent(chatId)}`, {
+                        method: "PATCH",
+                        body: JSON.stringify({ title }),
+                    }).catch(() => {});
                 })
                 .catch(() => {});
+
+            // fallback title тоже фиксируем в БД
+            void apiFetch(`/api/chats/${encodeURIComponent(chatId)}`, {
+                method: "PATCH",
+                body: JSON.stringify({ title: makeTitleFromQuestion(trimmed) }),
+            }).catch(() => {});
         }
-
-
-// если первое сообщение — ставим заголовок
-        setChats((prev) =>
-            prev.map((c) => {
-                if (c.id !== chatId) return c;
-                if (c.messages.length === 0) return { ...c, title: makeTitleFromQuestion(trimmed) };
-                return c;
-            })
-        );
 
         setInput("");
         setIsLoading(true);
@@ -262,7 +348,8 @@ export default function AiPage() {
             //     body: JSON.stringify({ messages: apiMessages }),
             // });
 
-            const history = (activeChat?.messages ?? []).slice(-5); // последние 12
+            const currentChat = chats.find((c) => c.id === chatId);
+            const history = (currentChat?.messages ?? []).slice(-5);
 
             const payload = {
                 messages: [
@@ -291,7 +378,7 @@ export default function AiPage() {
             const data: { answer?: string } = await res.json();
 
             const assistantMsg: ChatMessage = {
-                id: uid(),
+                id: tmpId(),
                 role: "assistant",
                 text: data.answer?.trim() || "Пустой ответ от ИИ",
             };
@@ -300,10 +387,30 @@ export default function AiPage() {
                 prev.map((c) => (c.id === chatId ? { ...c, messages: [...c.messages, assistantMsg] } : c))
             );
 
+            // сохраняем ответ ассистента в БД
+            try {
+                const saved = await apiFetch(`/api/chats/${encodeURIComponent(chatId)}/messages`, {
+                    method: "POST",
+                    body: JSON.stringify({ role: "assistant", text: assistantMsg.text }),
+                });
+                if (saved.ok) {
+                    const data = (await saved.json()) as { message?: { id: string } };
+                    if (data.message?.id) {
+                        setChats((prev) =>
+                            prev.map((c) =>
+                                c.id === chatId
+                                    ? { ...c, messages: c.messages.map((m) => (m.id === assistantMsg.id ? { ...m, id: data.message!.id } : m)) }
+                                    : c
+                            )
+                        );
+                    }
+                }
+            } catch {}
+
             requestAnimationFrame(() => scrollToBottom(true));
         } catch {
             const assistantMsg: ChatMessage = {
-                id: uid(),
+                id: tmpId(),
                 role: "assistant",
                 text: "Не получилось получить ответ от ИИ. Проверь, что бэкенд запущен и ключ GROQ_API_KEY задан.",
             };
@@ -355,14 +462,25 @@ export default function AiPage() {
     };
 
     const startNewChat = () => {
-        const id = uid();
-        const newChat: ChatItem = { id, title: "Новый чат", messages: [], createdAt: Date.now() };
-        setChats((prev) => [newChat, ...prev]);
-        setActiveChatId(id);
-        setSidebarOpen(true);
-        setMenuForChatId(null);
+        void (async () => {
+            try {
+                const res = await apiFetch("/api/chats", {
+                    method: "POST",
+                    body: JSON.stringify({ title: "Новый чат" }),
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = (await res.json()) as { chat?: { id: string; title: string; createdAt: string } };
+                if (!data.chat) throw new Error("Bad response");
 
-        requestAnimationFrame(() => scrollToBottom(false));
+                setChats((prev) => [{ id: data.chat!.id, title: data.chat!.title, createdAt: data.chat!.createdAt, messages: [] }, ...prev]);
+                setActiveChatId(data.chat.id);
+                setSidebarOpen(true);
+                setMenuForChatId(null);
+                requestAnimationFrame(() => scrollToBottom(false));
+            } catch {
+                setAuthError("Нужно войти в аккаунт, чтобы создавать чаты.");
+            }
+        })();
     };
 
 
@@ -381,6 +499,11 @@ export default function AiPage() {
 
             <div className={styles.shell}>
                 <main className={styles.main}>
+                    {authError ? (
+                        <div style={{ padding: 12, color: "var(--danger, #d33)" }}>
+                            {authError} <Link href="/login">Войти</Link>
+                        </div>
+                    ) : null}
                     {!sidebarOpen && (
                         <button
                             type="button"
@@ -424,7 +547,10 @@ export default function AiPage() {
                                             <button
                                                 type="button"
                                                 className={`${styles.chatItem} ${active ? styles.chatItemActive : ""}`}
-                                                onClick={() => setActiveChatId(c.id)}
+                                                onClick={() => {
+                                                    setActiveChatId(c.id);
+                                                    if (c.messages.length === 0) void loadChatMessages(c.id);
+                                                }}
                                             >
                                                 {c.title}
                                             </button>

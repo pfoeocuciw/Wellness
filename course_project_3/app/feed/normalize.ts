@@ -5,6 +5,7 @@ export type FeedArticle = {
     tags: string[];
     authorName: string;
     publishedAt: string;
+    coauthors?: string;
 };
 
 function asRecord(v: unknown): Record<string, unknown> {
@@ -47,6 +48,9 @@ export function normalizeArticle(raw: unknown): FeedArticle | null {
     const id = pickFirstString(obj.id, obj._id, obj.slug);
     const title = pickFirstString(obj.title, obj.name);
 
+    const coauthors =
+        typeof obj.coauthors === "string" ? obj.coauthors : "";
+
     // твой бэк отдаёт imageUrl
     const coverUrl = pickFirstString(
         obj.coverUrl,
@@ -83,9 +87,10 @@ export function normalizeArticle(raw: unknown): FeedArticle | null {
     return {
         id,
         title,
-        coverUrl: coverUrl || "/articles/placeholder.jpg",
+        coverUrl: coverUrl || "/articles/yoga.svg",
         tags,
         authorName,
         publishedAt: publishedAt || new Date().toISOString(),
+        coauthors,
     };
 }

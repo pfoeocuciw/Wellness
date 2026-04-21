@@ -1,0 +1,555 @@
+.page {
+    min-height: 100dvh;
+    background: #eef0f3;
+    color: #333333;
+    overflow-x: hidden;
+}
+
+/* topbar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 28px 36px 0;
+}
+
+.topbarLeft {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.tabs {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.tab {
+    color: #b7bcc6;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.backBtn {
+    color: #aeb4bf;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 58px;
+    height: 24px;
+    margin-left: -10px;
+}
+
+.avatarStub {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #1f1f1f;
+    flex-shrink: 0;
+}
+
+/* layout */
+.layout {
+    display: grid;
+    grid-template-columns: 380px 42px minmax(0, 1fr);
+    gap: 26px;
+    align-items: start;
+    padding: 20px 36px 56px;
+}
+
+.leftColumn,
+.rightColumn {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* left */
+.imageDrop {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: none;
+    background: #dde0e5;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 18px;
+}
+
+.imageDropText {
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.35;
+    color: #3a3a3a;
+}
+
+.fileName {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #6d727c;
+    word-break: break-word;
+}
+
+.fieldBlock {
+    margin-top: 28px;
+}
+
+.blockLabel {
+    display: block;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #333333;
+    margin-bottom: 12px;
+}
+
+.largeTextarea,
+.articleTextarea,
+.sourcesTextarea,
+.inlineInput {
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    background: #f0f1f3;
+    box-shadow: 0 8px 24px rgba(60, 66, 87, 0.08);
+    border-radius: 18px;
+    font-size: 16px;
+    color: #444;
+    min-width: 0;
+}
+
+.largeTextarea,
+.articleTextarea,
+.sourcesTextarea {
+    padding: 18px;
+}
+
+.inlineInput {
+    height: 52px;
+    padding: 0 18px;
+}
+
+.largeTextarea {
+    min-height: 180px;
+}
+
+.articleTextarea {
+    min-height: 320px;
+}
+
+.sourcesTextarea {
+    min-height: 150px;
+}
+
+.largeTextarea::placeholder,
+.articleTextarea::placeholder,
+.sourcesTextarea::placeholder,
+.inlineInput::placeholder {
+    color: #c1c5cc;
+}
+
+/* divider */
+.centerDivider {
+    position: relative;
+    align-self: stretch;
+    min-height: 100%;
+    border-left: 3px solid #cfcfcf;
+    justify-self: center;
+}
+
+.scrollDot {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: #efe2a0;
+    border: 2px solid #cfcfcf;
+    transform: translateX(-50%);
+    will-change: top;
+}
+
+/* right */
+.inlineFieldRow {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.inlineLabel {
+    font-size: 16px;
+    line-height: 1.2;
+    color: #333333;
+}
+
+.tagsWrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tagPill {
+    border: none;
+    border-radius: 999px;
+    background: #d9dce0;
+    color: #505050;
+    font-size: 16px;
+    line-height: 1;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+.tagPillActive {
+    background: #232323;
+    color: #fff;
+}
+
+.addTagBtn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 999px;
+    background: #2d2d2d;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+.primaryBtn,
+.secondaryBtn {
+    min-width: 240px;
+    height: 52px;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 17px;
+    box-shadow: 0 8px 24px rgba(60, 66, 87, 0.08);
+    padding: 0 22px;
+}
+
+.primaryBtn {
+    background: #ffffff;
+    color: #404040;
+}
+
+.secondaryBtn {
+    background: #dfe2e7;
+    color: #404040;
+}
+
+.addTagInline {
+    display: flex;
+    align-items: center;
+}
+
+.addTagInput {
+    height: 42px;
+    min-width: 120px;
+    max-width: 180px;
+    border: none;
+    outline: none;
+    border-radius: 999px;
+    background: #f0f1f3;
+    box-shadow: 0 8px 24px rgba(60, 66, 87, 0.08);
+    padding: 0 16px;
+    font-size: 15px;
+    color: #444;
+}
+
+.addTagInput::placeholder {
+    color: #b7bcc6;
+}
+
+.richEditorWrap {
+    width: 100%;
+    background: #f0f1f3;
+    box-shadow: 0 8px 24px rgba(60, 66, 87, 0.08);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.richToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 14px;
+    border-bottom: 1px solid #dde1e7;
+    background: #eceef2;
+}
+
+.toolBtn {
+    min-width: 44px;
+    height: 36px;
+    border: none;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #444;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.toolBtnActive {
+    background: #2f2f31;
+    color: #fff;
+}
+
+.richEditor {
+    min-height: 320px;
+    padding: 18px;
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+}
+
+.richEditor :global(.ProseMirror) {
+    min-height: 280px;
+    outline: none;
+}
+
+.richEditor :global(.ProseMirror p) {
+    margin: 0 0 12px;
+}
+
+.richEditor :global(.ProseMirror ul),
+.richEditor :global(.ProseMirror ol) {
+    padding-left: 22px;
+    margin: 0 0 12px;
+}
+
+.richEditor :global(.ProseMirror h2) {
+    font-size: 22px;
+    margin: 0 0 12px;
+}
+
+.richEditor :global(.ProseMirror blockquote) {
+    border-left: 3px solid #c8ccd3;
+    margin: 0 0 12px;
+    padding-left: 12px;
+    color: #666;
+}
+
+@media (max-width: 640px) {
+    .richEditor {
+        min-height: 220px;
+        padding: 16px;
+        font-size: 15px;
+    }
+
+    .richEditor :global(.ProseMirror) {
+        min-height: 180px;
+    }
+
+    .toolBtn {
+        height: 34px;
+        font-size: 13px;
+    }
+}
+
+.addTagInline {
+    display: flex;
+    align-items: center;
+}
+
+.addTagInput {
+    height: 42px;
+    min-width: 120px;
+    max-width: 180px;
+    border: none;
+    outline: none;
+    border-radius: 999px;
+    background: #f0f1f3;
+    box-shadow: 0 8px 24px rgba(60, 66, 87, 0.08);
+    padding: 0 16px;
+    font-size: 15px;
+    color: #444;
+}
+
+.addTagInput::placeholder {
+    color: #b7bcc6;
+}
+
+.statusText,
+.successText,
+.errorText {
+    margin-top: 14px;
+    font-size: 15px;
+    line-height: 1.35;
+}
+
+.statusText {
+    color: #7a7f88;
+}
+
+.successText {
+    color: #2f7a47;
+}
+
+.errorText {
+    color: #b44a4a;
+}
+
+/* -------- large tablet -------- */
+@media (max-width: 1180px) {
+    .layout {
+        grid-template-columns: 320px 34px 1fr;
+        gap: 20px;
+        padding: 20px 24px 44px;
+    }
+
+    .topbar {
+        padding: 24px 24px 0;
+    }
+
+    .inlineFieldRow {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        align-items: start;
+    }
+}
+
+/* -------- tablet -------- */
+@media (max-width: 920px) {
+    .layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .centerDivider {
+        display: none;
+    }
+
+    .leftColumn {
+        order: 1;
+    }
+
+    .rightColumn {
+        order: 2;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .primaryBtn,
+    .secondaryBtn {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* -------- mobile -------- */
+@media (max-width: 640px) {
+    .topbar {
+        padding: 18px 16px 0;
+    }
+
+    .topbarLeft {
+        gap: 8px;
+    }
+
+    .tabs {
+        gap: 12px;
+    }
+
+    .tab {
+        font-size: 18px;
+    }
+
+    .backBtn svg {
+        width: 46px;
+        height: 18px;
+    }
+
+    .avatarStub {
+        width: 40px;
+        height: 40px;
+    }
+
+    .layout {
+        padding: 16px 16px 32px;
+        gap: 24px;
+    }
+
+    .imageDropText {
+        font-size: 16px;
+    }
+
+    .blockLabel,
+    .inlineLabel {
+        font-size: 15px;
+    }
+
+    .addTagInput {
+        height: 40px;
+        min-width: 110px;
+        font-size: 14px;
+    }
+
+    .largeTextarea,
+    .articleTextarea,
+    .sourcesTextarea,
+    .inlineInput,
+    .tagPill {
+        font-size: 15px;
+    }
+
+    .largeTextarea,
+    .articleTextarea,
+    .sourcesTextarea {
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .inlineInput {
+        height: 48px;
+        padding: 0 16px;
+        border-radius: 18px;
+    }
+
+    .largeTextarea {
+        min-height: 150px;
+    }
+
+    .articleTextarea {
+        min-height: 220px;
+    }
+
+    .sourcesTextarea {
+        min-height: 120px;
+    }
+
+    .tagPill {
+        padding: 9px 14px;
+    }
+
+    .addTagBtn {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+    }
+
+    .primaryBtn,
+    .secondaryBtn {
+        height: 50px;
+        font-size: 16px;
+        padding: 0 18px;
+    }
+}

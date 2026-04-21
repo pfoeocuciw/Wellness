@@ -1235,6 +1235,48 @@
     font-size: 16px;
 }
 
+.verifyTextSuccess {
+    color: #4CAF50;
+    margin-top: 10px;
+}
+
+.verifyTextError {
+    color: #FF4D4F;
+    margin-top: 10px;
+}
+
+.articleCardLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.articleCardWrap {
+    position: relative;
+}
+
+.articleCardLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.articleDeleteBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 8px 24px rgba(60, 66, 87, 0.08);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: #666;
+}
+
 @media (max-width: 1100px) {
     .savedGrid,
     .createdGrid {

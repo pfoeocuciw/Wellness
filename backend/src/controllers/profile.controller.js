@@ -8,6 +8,12 @@ const prisma = new PrismaClient();
 
 const AVATAR_DIR = path.join(__dirname, "../../public/uploads/avatars");
 
+const DOCUMENTS_DIR = path.join(__dirname, "../../public/uploads/verification-documents");
+
+if (!fs.existsSync(DOCUMENTS_DIR)) {
+    fs.mkdirSync(DOCUMENTS_DIR, { recursive: true });
+}
+
 if (!fs.existsSync(AVATAR_DIR)) {
     fs.mkdirSync(AVATAR_DIR, { recursive: true });
 }
@@ -35,6 +41,69 @@ const upload = multer({
     },
 });
 
+const documentStorage = multer.diskStorage({
+    destination: (_req, _file, cb) => {
+        cb(null, DOCUMENTS_DIR);
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname || "").toLowerCase() || ".pdf";
+        const safeExt = [".pdf", ".jpg", ".jpeg", ".png", ".webp"].includes(ext) ? ext : ".pdf";
+        cb(null, `verification_${req.user.userId}_${Date.now()}${safeExt}`);
+    },
+});
+
+async function uploadVerificationDocument(req, res) {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "Файл не загружен" });
+        }
+
+        const fileUrl = `/uploads/verification-documents/${req.file.filename}`;
+
+        await prisma.user.update({
+            where: { id: req.user.userId },
+            data: {
+                role: "expert",
+                is_verified: false,
+                diploma_info: fileUrl,
+            },
+        });
+
+        return res.json({
+            message: "Документ успешно загружен",
+            fileUrl,
+            fileName: req.file.originalname,
+        });
+    } catch (error) {
+        console.error("uploadVerificationDocument error:", error);
+        return res.status(500).json({
+            message: "Ошибка загрузки документа",
+            error: error.message,
+        });
+    }
+}
+
+const documentUpload = multer({
+    storage: documentStorage,
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter: (_req, file, cb) => {
+        const allowedMimeTypes = [
+            "application/pdf",
+            "image/jpeg",
+            "image/jpg",
+            "image/png",
+            "image/webp",
+        ];
+
+        if (allowedMimeTypes.includes(file.mimetype)) {
+            cb(null, true);
+            return;
+        }
+
+        cb(new Error("Можно загружать только PDF или изображения"));
+    },
+});
+
 function formatProfileResponse(user) {
     return {
         id: user.id,
@@ -49,7 +118,64 @@ function formatProfileResponse(user) {
         created_at: user.created_at,
         avatarUrl: user.avatarUrl || null,
         interests: (user.interesting_categories || []).map((item) => item.category),
+        expert_document_url: user.expert_document_url || null,
+        expert_document_name: user.expert_document_name || null,
+        expert_verification_note: user.expert_verification_note || null,
     };
+}
+
+async function applyExpertVerification(req, res) {
+    try {
+        const userId = req.user.userId;
+        const {
+            educationDescription,
+            verified,
+            message,
+            savedPath,
+            fileName,
+        } = req.body;
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                interesting_categories: {
+                    include: { category: true },
+                },
+            },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "Пользователь не найден" });
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: { id: userId },
+            data: {
+                role: verified ? "expert" : "user",
+                is_verified: Boolean(verified),
+                diploma_info: educationDescription ? String(educationDescription).trim() : user.diploma_info,
+                expert_document_url: savedPath || null,
+                expert_document_name: fileName || null,
+                expert_verification_note: message || null,
+            },
+            include: {
+                interesting_categories: {
+                    include: { category: true },
+                },
+            },
+        });
+
+        return res.json({
+            message: verified ? "Диплом подтверждён" : "Диплом не подошёл",
+            profile: formatProfileResponse(updatedUser),
+        });
+    } catch (error) {
+        console.error("applyExpertVerification error:", error);
+        return res.status(500).json({
+            message: "Ошибка применения результата проверки",
+            error: error.message,
+        });
+    }
 }
 
 async function getMe(req, res) {
@@ -344,7 +470,10 @@ module.exports = {
     updateMe,
     updateInterests,
     uploadAvatar,
+    uploadVerificationDocument,
+    applyExpertVerification,
     changePassword,
     deleteMe,
     upload,
+    documentUpload,
 };

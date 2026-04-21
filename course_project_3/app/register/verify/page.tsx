@@ -132,13 +132,26 @@ export default function VerifyCodePage() {
                 }),
             });
 
+            const data = await res.json();
+
             if (!res.ok) {
-                throw new Error("Неверный код");
+                throw new Error(data.message || "Неверный код");
+            }
+
+// ❗ СОХРАНЯЕМ ТОКЕН
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+            }
+
+// ❗ СОХРАНЯЕМ ПОЛЬЗОВАТЕЛЯ (не обязательно, но лучше)
+            if (data.user) {
+                localStorage.setItem("profile", JSON.stringify(data.user));
             }
 
             setSuccess("Профиль успешно подтвержден");
+
             setTimeout(() => {
-                router.push("/register/role");;
+                router.push("/register/role");
             }, 700);
         } catch {
             setError("Неверный или просроченный код");

@@ -13,6 +13,25 @@
     max-width: 770px;
 }
 
+.reasonsBox {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255, 77, 79, 0.08);
+}
+
+.reasonsTitle {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #ff4d4f;
+}
+
+.reasonsList {
+    padding-left: 18px;
+    color: #ff4d4f;
+    font-size: 14px;
+}
+
 .title {
     margin: 0 0 64px;
     font-size: 40px;
@@ -185,4 +204,59 @@
 
 .hiddenFile {
     display: none;
+}
+.feedbackWrap {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: -118px 0 20px;
+}
+
+.reasonsCard {
+    width: 100%;
+    max-width: 590px;
+    padding: 18px 22px;
+    border-radius: 20px;
+    background: rgba(255, 99, 99, 0.08);
+    border: 1px solid rgba(255, 99, 99, 0.16);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    animation: fadeUpIn 0.35s ease;
+}
+
+.reasonsHeader {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #e25757;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.reasonsList {
+    margin: 0;
+    padding-left: 22px;
+}
+
+.reasonItem {
+    color: #e25757;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 6px;
+}
+
+.reasonItem:last-child {
+    margin-bottom: 0;
+}
+
+@keyframes fadeUpIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

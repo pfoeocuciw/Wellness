@@ -42,9 +42,8 @@ function formatRuDate(dateStr?: string) {
 }
 
 function absAssetUrl(apiBase: string, url?: string) {
-    if (!url) return "";
+    if (!url) return "/articles/yoga.svg";
     if (url.startsWith("http://") || url.startsWith("https://")) return url;
-    if (url.startsWith("/images/")) return url;
     if (url.startsWith("/")) return `${apiBase}${url}`;
     return `${apiBase}/${url}`;
 }

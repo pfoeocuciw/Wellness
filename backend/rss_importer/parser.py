@@ -1,7 +1,6 @@
-﻿import os
+import os
 import re
 import json
-import random
 import mimetypes
 from urllib.parse import urljoin, urlparse
 
@@ -18,9 +17,6 @@ HEADERS = {
     "Accept-Language": "ru,en;q=0.9",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
 }
-
-SUPPORTED_LOCAL_IMAGE_EXT = {".jpg", ".jpeg", ".png", ".webp"}
-
 
 def normalize_text(text: str) -> str:
     if not text:
@@ -210,26 +206,6 @@ def download_image(image_url: str, article_slug: str) -> str:
     return f"/images/articles/{file_name}"
 
 
-def pick_random_local_image() -> str:
-    """
-    Возвращает случайную картинку из IMAGE_DIR как публичный путь Next.js.
-    Если в папке нет изображений, возвращает пустую строку.
-    """
-    if not os.path.isdir(IMAGE_DIR):
-        return ""
-
-    files = []
-    for name in os.listdir(IMAGE_DIR):
-        ext = os.path.splitext(name)[1].lower()
-        if ext in SUPPORTED_LOCAL_IMAGE_EXT:
-            files.append(name)
-
-    if not files:
-        return ""
-
-    return f"/images/articles/{random.choice(files)}"
-
-
 def parse_generic_article(entry, feed_config: dict) -> dict | None:
     article_url = getattr(entry, "link", None)
     if not article_url:
@@ -259,21 +235,17 @@ def parse_generic_article(entry, feed_config: dict) -> dict | None:
 
     image_url = guess_image_url(soup, article_url, entry)
 
-    # Для RSS статей всегда стараемся сохранить валидную картинку:
-    # 1) скачиваем с сайта-источника, 2) при любой ошибке берём случайную локальную.
+    # Для RSS статей:
+    # 1) если в источнике есть картинка — используем её (предпочтительно скачиваем локально),
+    # 2) если картинки в источнике нет — fallback выберем позже на уровне БД.
     local_image = ""
     if image_url:
         try:
             local_image = download_image(image_url, article_slug)
         except Exception as e:
             print(f"⚠ failed to download image for '{title}': {e}")
-
-    if not local_image:
-        local_image = pick_random_local_image()
-
-    # Последний fallback для совместимости со старым поведением.
-    if not local_image:
-        local_image = f"/images/articles/{article_slug}.jpg"
+            # Если скачать не получилось, оставляем исходный URL источника.
+            local_image = image_url
 
     author_name = extract_author(soup, feed_config.get("author_name", "Редакция"))
     category = extract_category(soup, feed_config.get("default_category", "Здоровье"))

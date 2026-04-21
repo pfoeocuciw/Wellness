@@ -5,9 +5,12 @@ const {
     updateMe,
     updateInterests,
     uploadAvatar,
+    uploadVerificationDocument,
     changePassword,
     deleteMe,
     upload,
+    documentUpload,
+    applyExpertVerification,
 } = require("../controllers/profile.controller");
 
 const router = express.Router();
@@ -18,5 +21,12 @@ router.patch("/me", authMiddleware, updateMe);
 router.put("/interests", authMiddleware, updateInterests);
 router.post("/avatar", authMiddleware, upload.single("avatar"), uploadAvatar);
 router.post("/change-password", authMiddleware, changePassword);
+router.post(
+    "/upload-document",
+    authMiddleware,
+    documentUpload.single("document"),
+    uploadVerificationDocument
+);
+router.post("/apply-expert-verification", authMiddleware, applyExpertVerification);
 
 module.exports = router;

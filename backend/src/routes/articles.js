@@ -1,8 +1,35 @@
-﻿const express = require("express");
+const express = require("express");
 const prisma = require("../prisma");
 const authMiddleware = require("../middleware/auth");
 
 const router = express.Router();
+const DEFAULT_ARTICLE_IMAGE = "/images/articles/img_нарушения-сна-у-жителей-мегаполиса_65237053.png";
+
+async function pickRandomArticleImageUrl() {
+    const total = await prisma.article.count({
+        where: {
+            imageUrl: {
+                not: "",
+            },
+        },
+    });
+
+    if (!total) return DEFAULT_ARTICLE_IMAGE;
+
+    const randomOffset = Math.floor(Math.random() * total);
+    const [randomArticle] = await prisma.article.findMany({
+        where: {
+            imageUrl: {
+                not: "",
+            },
+        },
+        select: { imageUrl: true },
+        skip: randomOffset,
+        take: 1,
+    });
+
+    return randomArticle?.imageUrl || DEFAULT_ARTICLE_IMAGE;
+}
 
 function extractArticleText(content) {
     if (typeof content === "string") return content;
@@ -51,10 +78,49 @@ async function moderateArticleOrThrow(payload) {
  * GET /api/articles
  * Список статей (анонс)
  */
+const authMiddleware = require("../middleware/auth");
+const {
+    getMyArticles,
+    getMyArticleById,
+    saveDraftArticle,
+    updateDraftArticle,
+    publishArticle,
+    deleteMyArticle,
+    uploadArticleCover,
+    uploadArticleCoverFile,
+    getSavedArticleIds,
+    toggleSavedArticle,
+    getSavedArticles,
+} = require("../controllers/articles.controller");
+
+
+router.post(
+    "/cover",
+    authMiddleware,
+    uploadArticleCover.single("cover"),
+    uploadArticleCoverFile
+);
+router.get("/my", authMiddleware, getMyArticles);
+router.get("/my/:id", authMiddleware, getMyArticleById);
+router.delete("/my/:id", authMiddleware, deleteMyArticle);
+router.post("/draft", authMiddleware, saveDraftArticle);
+router.patch("/draft/:id", authMiddleware, updateDraftArticle);
+router.post("/publish", authMiddleware, publishArticle);
+router.get("/saved", authMiddleware, getSavedArticles);
+router.get("/saved/ids", authMiddleware, getSavedArticleIds);
+router.post("/saved/toggle", authMiddleware, toggleSavedArticle);
+
 router.get("/", async (req, res) => {
     try {
         const articles = await prisma.article.findMany({
+<<<<<<< HEAD
             where: { published: true },
+=======
+            where: {
+                status: "published",
+                published: true,
+            },
+>>>>>>> 98a894d3033e5451ec28d50c36e42c8cfc0f7ec5
             orderBy: { createdAt: "desc" },
             select: {
                 id: true,
@@ -65,7 +131,8 @@ router.get("/", async (req, res) => {
                 annotation: true,
                 imageUrl: true,
                 imageAlt: true,
-                createdAt: true
+                createdAt: true,
+                coauthors: true,
             }
         });
 
@@ -81,8 +148,17 @@ router.get("/", async (req, res) => {
  */
 router.get("/id/:id", async (req, res) => {
     try {
+<<<<<<< HEAD
         const article = await prisma.article.findUnique({
             where: { id: req.params.id },
+=======
+        const article = await prisma.article.findFirst({
+            where: {
+                id: req.params.id,
+                status: "published",
+                published: true,
+            },
+>>>>>>> 98a894d3033e5451ec28d50c36e42c8cfc0f7ec5
         });
 
         if (!article || !article.published) return res.status(404).json({ error: "Article not found" });
@@ -94,15 +170,14 @@ router.get("/id/:id", async (req, res) => {
     }
 });
 
-/**
- * GET /api/articles/:slug
- */
 router.get("/:slug", async (req, res) => {
     try {
-        const { slug } = req.params;
-
-        const article = await prisma.article.findUnique({
-            where: { slug }
+        const article = await prisma.article.findFirst({
+            where: {
+                slug: req.params.slug,
+                status: "published",
+                published: true,
+            },
         });
 
         if (!article || !article.published) return res.status(404).json({ error: "Article not found" });
@@ -179,7 +254,9 @@ router.post("/", authMiddleware, async (req, res) => {
             authorBio: payload.authorBio || currentUser.bio || null,
             category: payload.category || "Новости",
             annotation: payload.annotation || "",
-            imageUrl: payload.imageUrl || "/images/articles/placeholder.png",
+            imageUrl: typeof payload.imageUrl === "string" && payload.imageUrl.trim()
+                ? payload.imageUrl.trim()
+                : await pickRandomArticleImageUrl(),
             imageAlt: payload.imageAlt || title,
             content: Array.isArray(payload.content) ? payload.content : [],
             sources: Array.isArray(payload.sources) ? payload.sources : [],
@@ -198,5 +275,6 @@ router.post("/", authMiddleware, async (req, res) => {
         res.status(500).json({ error: "Failed to create article" });
     }
 });
+
 
 module.exports = router;
