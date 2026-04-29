@@ -105,6 +105,24 @@ router.get("/saved", authMiddleware, getSavedArticles);
 router.get("/saved/ids", authMiddleware, getSavedArticleIds);
 router.post("/saved/toggle", authMiddleware, toggleSavedArticle);
 
+router.post("/moderate", authMiddleware, async (req, res) => {
+    try {
+        const moderation = await moderateArticleOrThrow(req.body || {});
+
+        return res.json({
+            status: moderation?.decision || "rejected",
+            reasons: Array.isArray(moderation?.reasons) ? moderation.reasons : [],
+            red_flags: Array.isArray(moderation?.red_flags) ? moderation.red_flags : [],
+            confidence_score: moderation?.confidence_score ?? null,
+        });
+    } catch (e) {
+        console.error("article moderation error:", e);
+        return res.status(e.statusCode || 500).json({
+            message: e.message || "Ошибка автоматической проверки",
+        });
+    }
+});
+
 router.get("/", async (req, res) => {
     try {
         const articles = await prisma.article.findMany({
