@@ -5,7 +5,6 @@
     overflow-x: hidden;
 }
 
-/* topbar */
 .topbar {
     display: flex;
     justify-content: space-between;
@@ -53,7 +52,6 @@
     flex-shrink: 0;
 }
 
-/* layout */
 .layout {
     display: grid;
     grid-template-columns: 380px 42px minmax(0, 1fr);
@@ -69,7 +67,6 @@
     min-width: 0;
 }
 
-/* left */
 .imageDrop {
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -155,7 +152,6 @@
     color: #c1c5cc;
 }
 
-/* divider */
 .centerDivider {
     position: relative;
     align-self: stretch;
@@ -177,7 +173,6 @@
     will-change: top;
 }
 
-/* right */
 .inlineFieldRow {
     display: grid;
     grid-template-columns: 160px 1fr;

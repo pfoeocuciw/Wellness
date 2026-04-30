@@ -226,7 +226,6 @@ export default function FeedClient() {
 
                                     <h3 className={styles.title}>{a.title}</h3>
 
-                                    {/* ✅ ТЕГИ ПОД КАРТОЧКОЙ */}
                                     <div className={styles.cardTags}>
                                         {a.tags.map((t) => {
                                             const highlight = selectedWithoutAll.length > 0 && selectedWithoutAll.includes(t);

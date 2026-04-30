@@ -1,8 +1,8 @@
 .page {
-    min-height: 100dvh; /* важно для iOS */
+    min-height: 100dvh;
     background: #efefef;
     color: #111;
-    overflow-x: hidden; /* чтобы не было горизонтального обрезания */
+    overflow-x: hidden;
 }
 
 .topbar {
@@ -35,7 +35,7 @@
     background-image: linear-gradient(#efe2a0, #efe2a0);
     background-repeat: no-repeat;
     background-size: calc(100% + 6px) 1em;
-    background-position: center 30%; /* <-- меняй число, чтобы "поднять" */
+    background-position: center 30%;
 }
 
 .profileDot {
@@ -212,7 +212,7 @@
 }
 
 .sourcesSummary {
-    list-style: none;           /* убираем дефолтный маркер */
+    list-style: none;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -240,12 +240,12 @@
     height: 10px;
     border-right: 2px solid #222;
     border-bottom: 2px solid #222;
-    transform: rotate(45deg); /* вниз */
+    transform: rotate(45deg);
     transition: transform 160ms ease;
 }
 
 .sourcesDetails[open] .sourcesChevron {
-    transform: rotate(-135deg); /* вверх */
+    transform: rotate(-135deg);
 }
 
 .sourcesDetails > .ol {
@@ -353,12 +353,12 @@
 @media (max-width: 1020px) {
     .main {
         grid-template-columns: 1fr;
-        padding: 14px 16px 28px; /* меньше паддинги */
+        padding: 14px 16px 28px;
         gap: 18px;
     }
 
     .divider {
-        display: none; /* на мобилках лучше скрыть */
+        display: none;
     }
 
     .left {

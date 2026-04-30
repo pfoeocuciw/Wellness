@@ -125,7 +125,6 @@ export default function ExpertVerifyPage() {
                 <h1 className={styles.title}>Подтверждение экспертизы</h1>
 
                 <div className={styles.form}>
-                    {/* поле образования с исчезающим лейблом */}
                     <div className={styles.field}>
                         <input
                             className={styles.input}
@@ -137,7 +136,6 @@ export default function ExpertVerifyPage() {
                         <label className={styles.label}>Какое у вас образование?</label>
                     </div>
 
-                    {/* upload card */}
                     <div className={styles.uploadCard} onClick={openPicker} role="button" tabIndex={0}>
                         <div className={styles.uploadText}>
                             Прикрепите копию вашего диплома или других документов,

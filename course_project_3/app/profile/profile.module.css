@@ -76,7 +76,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
-    width: 58px; /* ровно ширина слова Feed по макету приблизительно */
+    width: 58px;
     height: 24px;
     margin-left: -10px;
 }
